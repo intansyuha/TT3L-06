@@ -3,14 +3,14 @@ from flask_wtf import FlaskForm
 from wtforms import FileField,  SubmitField
 from werkzeug.utils import secure_filename
 import os
-from wtforms.validators import InputRequired
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clothesuploadkey'
 app.config['UPLOAD_FOLDER'] = 'static/files'
 
 class UploadClothesForm(FlaskForm):
-    file = FileField("File", validators=[InputRequired()])
+    file = FileField("File")
     submit = SubmitField("Upload File")
 
 @app.route('/', methods=['GET', "POST"])
