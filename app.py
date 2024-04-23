@@ -1,33 +1,35 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
+<<<<<<< HEAD
 # Dummy user database (replace this with your actual user database)
 users = {
     "ali2": "pass123",
     "user2": "password2",
     "user3": "password3"
 }
+=======
+app = Flask(__name__, static_folder='static')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+>>>>>>> main
 
 @app.route('/')
-def home():
+def login():
     return render_template('login.html')
 
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
-    
-    if username in users and users[username] == password:
-        # Successful login, redirect to the dashboard or any other page
-        return redirect(url_for('dashboard'))
-    else:
-        # Failed login, redirect back to the login page with an error message
-        return render_template('login.html', error='Invalid username or password')
+@app.route('/signup.html')
+def signup():
+    return render_template('signup.html')
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
+@app.route('/login.html')
+def login_redirect():
+    return redirect('/')
+
+@app.route('/login-email.html')
+def login_email():
+    return render_template('login-email.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
