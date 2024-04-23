@@ -34,7 +34,6 @@ def home():
 
         img = Img(data=img_data, mimetype=mimetype, name=filename)
         db.session.add(img)
-        db.session.commit()
         return "File has been uploaded"
     
     return render_template('index.html', form=form)
