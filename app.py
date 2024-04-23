@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # Dummy user database (replace this with your actual user database)
 users = {
-    "user1": "password1",
+    "ali2": "pass123",
     "user2": "password2",
     "user3": "password3"
 }
