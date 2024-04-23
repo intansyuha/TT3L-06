@@ -32,7 +32,7 @@ def home():
         with open(file_path, 'rb') as f:
             img_data = f.read()
         
-        img = Img(data=img_data(), mimetype=mimetype, name=filename)
+        img = Img(data=img_data, mimetype=mimetype, name=filename)
         db.session.add(img)
         db.session.commit()
         return "File has been uploaded"
