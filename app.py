@@ -22,5 +22,9 @@ def login_redirect():
 def login_email():
     return render_template('login-email.html')
 
+@app.route('/forgot-password.html')
+def forgot_password():
+    return render_template('forgot-password.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
