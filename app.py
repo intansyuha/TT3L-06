@@ -63,9 +63,17 @@ def signup():
 @app.route('/login-email.html', methods=['GET', 'POST'])
 def login_email():
     if request.method == 'POST':
-        # handle request
-        pass
+        email = request.form['email']
+        password = request.form['password']
 
+        user_email = User.query.filter_by(email=email).first()
+
+        if user_email and user_email.check_password(password):
+            session['email'] = user_email.email
+            session['password'] = user_email.password
+            return redirect('/community-page')
+        else:
+            return render_template('login.html', error='Invalid email')
     return render_template('login-email.html')
 
 @app.route('/forgot-password')
