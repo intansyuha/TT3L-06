@@ -1,37 +1,54 @@
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: "Poppins", sans-serif;
 }
-.header{
-    min-height: 100vh;
-    width: 100%;
-    background-color: white;
+
+.header {
+    background-color: #D9D9D9;
     background-position: center;
     background-size: cover;
+    padding: 10px 15px;
+    height: 57px;
     position: relative;
-}
-nav{
     display: flex;
-    padding: 2% 6%;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
-.nav-links{
-    flex: 1;
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-links {
     text-align: right;
 }
-.nav-links ul li{
+
+.btn {
     list-style: none;
-    display: inline-block;
-    padding: 8px 12px;
-    position: relative;
+    display: flex;
+    align-items: right;
+    margin-left: 900px;
 }
-.nav-links ul li a{
-    color: black;
+
+.btn li {
+    margin-left: 20px;
+}
+
+.btn li:first-child {
+    margin-left: 0;
+}
+
+.btn a {
     text-decoration: none;
-    font-size: 13px;
+    color: white;
+    padding: 5px 10px;
+    background-color: #E4C1C1;
+    border-radius: 5px;
 }
-nav a box-icon {
-    color: gray;
+
+.btn a:hover {
+    background-color: #BF9797;
 }
+
