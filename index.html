@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="with=device-width, initial-scale=1.0">
+    <meta name="viewport" content="with=device-width, initial-scale=1.0" charset="utf-8">
     <title>Outfit Creator</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,16 +11,24 @@
 </head>
 <body>
     <section class="header">
-        <nav>
             <a href="index.html">
                 <i class='bx bx-menu bx-md'></i>
             </a>
-            <ul class="btn">
-                <li><a href="#" class="btn-draft">Draft</a></li>
-                <li><a href="#" class="btn-save">Save</a></li>
-                <li><a href="#" class="btn-post">Post</a></li>
-            </ul>
-        </nav>
+            <div class="wrapper-container">
+                <div class="wrapper">
+                    <div class="input-data">
+                        <input type="text" required name="name" placeholder="Outfit Name" autocomplete="off">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container">
+                <ul class="btn">
+                    <li><a href="#" class="btn-draft">Draft</a></li>
+                    <li><a href="#" class="btn-save">Save</a></li>
+                    <li><a href="#" class="btn-post">Post</a></li>
+                </ul>
+            </div>
     </section>
 </body>
 </html>

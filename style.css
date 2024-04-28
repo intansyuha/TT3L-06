@@ -1,6 +1,8 @@
 * {
     margin: 0;
     padding: 0;
+    outline: none;
+    box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
 
@@ -16,20 +18,91 @@
     justify-content: space-between;
 }
 
-nav {
+.wrapper-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    margin-left: 380px;
+    background: transparent;
 }
-.nav-links {
-    text-align: right;
+
+.wrapper {
+    width: 300px;
+    padding: 10px;
+}
+
+.wrapper .input-data {
+    height: 40px;
+    width: 100%;
+    position: relative;
+}
+
+.wrapper .input-data input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 17px;
+    border-bottom: 2px solid silver;
+    padding-left: 15px;
+    background-color: transparent;
+}
+
+.input-data input::placeholder {
+    color: gray;
+    opacity: 1;
+    text-indent: 15px;
+}
+.input-data input:focus::placeholder {
+    opacity: 0;
+}
+.input-data input:not(:placeholder-shown) + label {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.wrapper .input-data label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: gray;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    transition: all 0.3s ease;
+}
+
+.input-data .underline {
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    bottom: 0;
+}
+
+.input-data .underline:before {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: pink;
+    transform:scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.input-data input:focus ~ .underline:before,
+.input-data input:valid ~ .underline:before {
+    transform: scaleX(1);
+}
+
+.btn-container {
+    margin-left: auto; 
 }
 
 .btn {
     list-style: none;
     display: flex;
-    align-items: right;
-    margin-left: 900px;
+    align-items: center;
 }
 
 .btn li {
