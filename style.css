@@ -21,7 +21,7 @@
 .wrapper-container {
     display: flex;
     align-items: center;
-    margin-left: 380px;
+    margin-left: 500px;
     background: transparent;
 }
 
@@ -128,4 +128,55 @@
 
 .bx-menu{
     color: white;
+}
+
+.box{
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.box1, .box2, .box3, .box4, .box5{
+    width: 71px;
+    height: 71px;
+    background-color: #EBDDDD;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+
+.box1, .box2, .box3{
+    margin-right: auto;
+    margin-left: 35px;
+    margin-bottom: 50px;
+    margin-top: 35px;
+}
+
+.box4{
+    margin-right: auto;
+    margin-left: 150px;
+    margin-bottom: -50px;
+    margin-top: -184px;
+}
+
+.box5{
+    margin-right: auto;
+    margin-left: 150px;
+    margin-bottom: -48px;
+    margin-top: -190px;
+}
+
+.footer{
+    background-color: #F6F3F3;
+    background-position: center;
+    background-size: cover;
+    bottom: 0;
+    left: 0;
+    padding: 20px 15px;
+    height: 300px;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
