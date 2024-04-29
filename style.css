@@ -21,12 +21,12 @@
 .wrapper-container {
     display: flex;
     align-items: center;
-    margin-left: 500px;
+    margin-left: 40%; 
     background: transparent;
 }
 
 .wrapper {
-    width: 300px;
+    width: 100%; 
     padding: 10px;
 }
 
@@ -34,7 +34,6 @@
     height: 40px;
     width: 100%;
     position: relative;
-    
 }
 
 .wrapper .input-data input {
@@ -52,14 +51,15 @@
     opacity: 1;
     text-indent: 15px;
 }
+
 .input-data input:focus::placeholder {
     opacity: 0;
 }
+
 .input-data input:not(:placeholder-shown) + label {
     opacity: 0;
     pointer-events: none;
 }
-
 
 .wrapper .input-data label {
     position: absolute;
@@ -86,7 +86,7 @@
     height: 100%;
     width: 100%;
     background: pink;
-    transform:scaleX(0);
+    transform: scaleX(0);
     transform-origin: center;
     transition: transform 0.3s ease;
 }
@@ -126,18 +126,18 @@
     background-color: #BF9797;
 }
 
-.bx-menu{
+.bx-menu {
     color: white;
 }
 
-.box{
+.box {
     position: absolute;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
 }
 
-.box1, .box2, .box3, .box4, .box5{
+.box1, .box2, .box3, .box4, .box5 {
     width: 71px;
     height: 71px;
     background-color: #EBDDDD;
@@ -145,35 +145,35 @@
     border-radius: 10px;
 }
 
-.box1, .box2, .box3{
+.box1, .box2, .box3 {
     margin-right: auto;
-    margin-left: 35px;
-    margin-bottom: 50px;
-    margin-top: 35px;
+    margin-left: 70%; 
+    margin-bottom: 50%; 
+    margin-top: 50%; 
 }
 
-.box4{
+.box4 {
     margin-right: auto;
-    margin-left: 150px;
-    margin-bottom: -50px;
-    margin-top: -184px;
+    margin-left: 230%; 
+    margin-bottom: 60%; 
+    margin-top: -440%; 
 }
 
-.box5{
+.box5 {
     margin-right: auto;
-    margin-left: 150px;
-    margin-bottom: -48px;
-    margin-top: -190px;
+    margin-left: 230%; 
+    margin-bottom: -10%; 
+    margin-top: 40%; 
 }
 
-.footer{
+.footer {
     background-color: #F6F3F3;
     background-position: center;
     background-size: cover;
     bottom: 0;
     left: 0;
     padding: 20px 15px;
-    height: 300px;
+    height: 30vh; 
     width: 100%;
     position: absolute;
     display: flex;
