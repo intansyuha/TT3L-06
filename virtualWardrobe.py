@@ -1,4 +1,4 @@
-from flask import Flask, render_template #to return actual files
+from flask import Flask, redirect, render_template, send_from_directory, url_for # to return actual files
 from flask_wtf import FlaskForm
 from wtforms import FileField,  SubmitField
 from werkzeug.utils import secure_filename
@@ -24,10 +24,12 @@ class UploadClothesForm(FlaskForm):
 @app.route('/home', methods=['GET', "POST"])
 def home():
     form = UploadClothesForm()
+    file_url = None
     if form.validate_on_submit():
-        file = form.file.data # Grab file
+        file = form.file.data # grab file
         filename = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # Save file
+        file_url = url_for('get_file', filename=filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
         file.save(file_path)
         mimetype = file.content_type
         with open(file_path, 'rb') as f:
@@ -36,9 +38,14 @@ def home():
         img = Img(data=img_data, mimetype=mimetype, name=filename)
         db.session.add(img)
         db.session.commit()
-        return "File has been uploaded"
 
-    return render_template('index.html', form=form)
+        return redirect(url_for('get_file', filename=filename))
+    
+    return render_template('index.html', form=form, file_url=file_url)
+
+@app.route('/uploads/<filename>')
+def get_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 def create_db():
     with app.app_context():
