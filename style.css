@@ -264,7 +264,7 @@
 .small-box{
     width: 93px; 
     height: 86px; 
-    background-color: #F6F3F3;
+    background-color: #F6F3F3;opacity: 0.5;
     margin-right: 120px;
     border-radius: 10px;
     flex: 0 0 auto;
