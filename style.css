@@ -183,6 +183,25 @@
     flex-direction: column;
 }
 
+.undo-redo-btns {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    margin-bottom: 10px;
+    margin-right: 40px;
+}
+
+.undo-redo-btns button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.undo-redo-btns i {
+    font-size: 28px; 
+    color: #000; 
+}
+
 .footer .dropdown-row {
     max-width: 320px;
     overflow: visible;
@@ -241,8 +260,6 @@
     opacity: 1;
     pointer-events: auto;
 }
-
-
 
 .small-box{
     width: 93px; 
