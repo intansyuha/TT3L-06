@@ -177,14 +177,18 @@
     width: 100%;
     position: absolute;
     display: flex;
-    align-items: center;
+    align-items: left;
     justify-content: space-between;
+    overflow-y: scroll;
+    flex-direction: column;
 }
 
 .footer .dropdown-row {
     max-width: 320px;
     overflow: visible;
     font-weight: 300;
+    position: relative;
+    margin-top: 20px;
 }
 
 .footer .dropdown-row label {
@@ -195,9 +199,9 @@
     background: transparent;
     color: black;
     display: block;
-    top: -130px;
+    top: -90px;
     cursor: pointer;
-    padding: 15px 35px;
+    padding: 60px 30px;
 }
 
 .footer .dropdown-row label:after{
@@ -210,15 +214,26 @@
     font-size: 18px;
     line-height: 1;
 }
-.footer .dropdown-row .dropdown-box1{
+
+.dropdown-box1, .dropdown-box2, .dropdown-box3 {
     overflow: hidden;
     position: absolute;
     display: flex;
     width: 1350px;
     height: 106px;
     background-color: #EBDDDD;
-    top: 55px;
-    left: 35px;
-    padding: 10px 10px;
+    top: 8px;
+    left: 25px;
+    padding: 60px 50px;
     border-radius: 10px;
+    opacity: 1;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.dropdown-row:focus-within .dropdown-box1,
+.dropdown-row:focus-within .dropdown-box2,
+.dropdown-row:focus-within .dropdown-box3 {
+    opacity: 1;
+    pointer-events: auto;
 }
