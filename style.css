@@ -138,6 +138,7 @@
 }
 
 .box1, .box2, .box3, .box4, .box5 {
+    position: absolute;
     width: 71px;
     height: 71px;
     background-color: #EBDDDD;
@@ -145,25 +146,39 @@
     border-radius: 10px;
 }
 
-.box1, .box2, .box3 {
+.box1 {
     margin-right: auto;
-    margin-left: 70%; 
-    margin-bottom: 50%; 
-    margin-top: 50%; 
+    margin-left: 35px;
+    margin-bottom: 50px;
+    margin-top: 35px;
 }
 
-.box4 {
-    margin-right: auto;
-    margin-left: 230%; 
-    margin-bottom: 60%; 
-    margin-top: -440%; 
+.box2 { 
+    margin-right: auto; 
+    margin-left: 35px; 
+    margin-bottom: 50px; 
+    margin-top: 185px;
+} 
+
+.box3 {
+    margin-right: auto; 
+    margin-left: 35px; 
+    margin-bottom: 50px; 
+    margin-top: 330px; 
 }
 
-.box5 {
+.box4{
     margin-right: auto;
-    margin-left: 230%; 
-    margin-bottom: -10%; 
-    margin-top: 40%; 
+    margin-left: 150px;
+    margin-bottom: -50px;
+    margin-top: 115px;
+}
+
+.box5{
+    margin-right: auto;
+    margin-left: 150px;
+    margin-bottom: -48px;
+    margin-top: 258px;
 }
 
 .footer {
