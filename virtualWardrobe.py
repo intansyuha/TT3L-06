@@ -43,9 +43,10 @@ def home():
     
     return render_template('index.html', form=form, file_url=file_url)
 
+
 @app.route('/uploads/<filename>')
 def get_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return render_template('imgwindow.html', filename=filename)
 
 def create_db():
     with app.app_context():

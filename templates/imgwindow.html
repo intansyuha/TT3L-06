@@ -6,11 +6,44 @@
     <title>Document</title>
 </head>
 <body>
-    {% if file_url %}
-    <div class="mt 5">
-        <img src="{{file_url}}" style="width: 300px;">
+    <form>
+    <h1>Image Window</h1>  
+        <div>
+            <img src="{{url_for('get_file', filename=filename) }}" style="width: 400;">
+        </div>
+    </form>
 
-    </div>
-    {% endif %}  
+    <form>
+    <h2>Category</h2>
+    <label for="Choose Category"> Choose Category</label>
+    <select id="Choose category">
+        <option value="category"> Choose category</option>
+        <option value="Tops"> Tops</option>
+        <option value="Bottoms"> Bottoms</option>
+        <option value="Shoes"> Shoes</option>
+        <option value="Accessories"> Accessories</option>
+        <option value="Bags"> Bags</option>
+        <option value="Outerwear"> Outerwear</option>
+    </select>
+</form>
+
+<form>
+    <h2>Link (URL)</h2>
+    <form>
+        <label for="Add link"> Add Link</label>
+        <input type="text" name="Add Link" placeholder="Link URL...">
+        
+        
+    </form>
+    
+    
+</form>
+
+<form>
+    <input type="submit" value="Go Back">
+    <input type="submit" value="Submit">
+</form>   
+        
 </body>
 </html>
+
