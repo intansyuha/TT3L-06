@@ -3,11 +3,11 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
     <title>Outfit Creator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <section class="header">
@@ -50,7 +50,7 @@
             <label>Tops 
                 <i class='bx bx-chevron-right bx-sm'></i>
             </label>
-            <div class="dropdown-box1">
+            <div class="dropdown-box1" id="dropdown-box1">
                 <div class="small-box"></div>
                 <div class="small-box"></div>
                 <div class="small-box"></div>
@@ -72,7 +72,7 @@
             <label>Bottoms 
                 <i class='bx bx-chevron-right bx-sm'></i>
             </label>
-            <div class="dropdown-box2">
+            <div class="dropdown-box2" id="dropdown-box2">
                 <div class="small-box"></div>
                 <div class="small-box"></div>
                 <div class="small-box"></div>
@@ -94,7 +94,7 @@
             <label>Outerwear 
                 <i class='bx bx-chevron-right bx-sm'></i>
             </label>
-            <div class="dropdown-box3">
+            <div class="dropdown-box3" id="dropdown-box3">
                 <div class="small-box"></div>
                 <div class="small-box"></div>
                 <div class="small-box"></div>
@@ -112,5 +112,7 @@
             </div>
         </div>
     </section>
+
+    <script src="script.js"></script>
 </body>
 </html>
