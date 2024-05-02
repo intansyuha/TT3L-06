@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
@@ -7,9 +7,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 app.secret_key = 'secret_key'
 
+app.config['MYSQL_USERNAME'] = ""
+app.config['MYSQL_EMAIL'] = ""
+app.config['MYSQL_PASSWORD'] = ""
+app.config['MYSQL_DB'] = ""
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(8), nullable=False)
+    username = db.Column(db.String(8), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(50))
 
@@ -29,14 +34,14 @@ with app.app_context():
 @app.route('/login.html', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
 
-        user = User.query.filter_by(username=username).first()
+        email = User.query.filter_by(email=email).first()
 
-        if user and user.check_password(password):
-            session['username'] = user.username
-            session['password'] = user.password
+        if email and email.check_password(password):
+            session['email'] = email.email
+            session['password'] = email.password
             return redirect('/community-page')
         else:
             return render_template('login.html', error='Invalid username')
@@ -47,7 +52,6 @@ def login():
 @app.route('/signup.html', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        # handle request
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
@@ -58,28 +62,6 @@ def signup():
         return redirect('/')
 
     return render_template('signup.html')
-
-@app.route('/login-email', methods=['GET', 'POST'])
-@app.route('/login-email.html', methods=['GET', 'POST'])
-def login_email():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-
-        user_email = User.query.filter_by(email=email).first()
-
-        if user_email and user_email.check_password(password):
-            session['email'] = user_email.email
-            session['password'] = user_email.password
-            return redirect('/community-page')
-        else:
-            return render_template('login.html', error='Invalid email')
-    return render_template('login-email.html')
-
-@app.route('/forgot-password')
-@app.route('/forgot-password.html')
-def forgot_password():
-    return render_template('forgot-password.html')
 
 @app.route('/community-page')
 @app.route('/community-page.html')
