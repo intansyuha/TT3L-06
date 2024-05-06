@@ -8,15 +8,28 @@ labels.forEach(label => {
 
 // Add event listener to each label
 labels.forEach(label => {
-  label.addEventListener('click', () => {
-    const accordionContent = label.nextElementSibling;
-    const chevron = label.querySelector('i');
+    label.addEventListener('click', () => {
+        const accordionContent = label.nextElementSibling;
+        const chevron = label.querySelector('i');
 
-    // Toggle the display property of the accordion content
-    accordionContent.style.display = accordionContent.style.display === 'flex'? 'none' : 'flex';
+        // Toggle the display property of the accordion content
+        accordionContent.style.display = accordionContent.style.display === 'flex' ? 'none' : 'flex';
 
-    // Toggle the chevron icon
-    chevron.classList.toggle('bx-chevron-right');
-    chevron.classList.toggle('bx-chevron-down');
-  });
+        // Toggle the chevron icon
+        chevron.classList.toggle('bx-chevron-right');
+        chevron.classList.toggle('bx-chevron-down');
+
+// dynamically generate small boxes inside accordion boxes
+const accordionBoxes = document.querySelectorAll('.accordion-box');
+
+// generate small boxes
+const numSmallBoxes = 20; // adjust the number of small boxes as needed
+accordionBoxes.forEach((accordionBox) => {
+    for (let i = 0; i < numSmallBoxes; i++) {
+        const smallBox = document.createElement('div');
+        smallBox.className = 'small-box';
+        accordionBox.appendChild(smallBox);
+    }
+});
+    });
 });
