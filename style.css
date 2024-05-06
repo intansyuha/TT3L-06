@@ -217,16 +217,17 @@
     color: #000; 
 }
 
-.footer .dropdown-row {
+.accordion-row {
     max-width: 320px;
     overflow: visible;
     font-weight: 300;
     position: relative;
     margin-top: 20px;
     margin-bottom: 20px;
+    background:transparent;
 }
 
-.footer .dropdown-row label {
+.footer .accordion-row label {
     font-size: 18px;
     line-height: 1;
     position: relative;
@@ -239,7 +240,7 @@
     padding: 60px 30px;
 }
 
-.footer .dropdown-row label:after{
+.accordion-row label:after{
     content: "";
     position: absolute;
     right: 15px;
@@ -250,13 +251,32 @@
     line-height: 1;
 }
 
-.dropdown-box1, .dropdown-box2, .dropdown-box3 {
+.accordion-content {
+    max-width: 320px;
+    overflow: visible;
+    font-weight: 300;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: transparent;
+}
+
+.accordion-row .hidden {
+    display: none;
+}
+
+.accordion-row label:focus-within + .accordion-content .hidden,
+.accordion-row label:hover + .accordion-content .hidden {
+    display: flex;
+}
+
+.accordion-box {
     position: absolute;
     display: flex;
     width: 1350px;
     height: 106px;
     background-color: #EBDDDD;
-    top: 8px;
+    top: -140px;
     left: 25px;
     padding: 10px 25px;
     border-radius: 10px;
@@ -269,9 +289,9 @@
     flex-wrap: nowrap;
 }
 
-.dropdown-row:focus-within .dropdown-box1,
-.dropdown-row:focus-within .dropdown-box2,
-.dropdown-row:focus-within .dropdown-box3 {
+.accordion-row:focus-within .accordion-box1,
+.accordion-row:focus-within .accordion-box2,
+.accordion-row:focus-within .accordion-box3 {
     opacity: 1;
     pointer-events: auto;
 }
