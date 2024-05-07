@@ -10,17 +10,33 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+    <nav>
     <section class="header">
         <div class="menu">
-            <i class='bx bx-menu bx-md'></i>
-            
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Portfolio</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+            <i class='bx bx-menu bx-md menu-icon'></i>
+        </div>
+        <div class="sidebar">
+            <div class="menu">
+            <i class='bx bx-menu bx-md menu-icon'></i>
+            </div>
+            <div class="sidebar-content">
+                <ul class="lists">
+                    <li class="list">
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-home-heart icon'></i>
+                            <span class="link">Home</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-chat icon'></i>
+                            <span class="link">Messages</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-heart icon'></i>
+                            <span class="link">Likes</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="wrapper-container">
             <div class="wrapper">
@@ -46,6 +62,9 @@
             <div class="box5"></div>
         </div>
     </section>
+    </nav>
+
+    <section class="overlay"></section>
     <section class="footer">
         
         <div class="undo-redo-btns">
@@ -106,3 +125,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
