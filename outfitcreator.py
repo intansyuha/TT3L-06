@@ -8,5 +8,10 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/outfitgallery.html")
+def outfit_gallery():
+    return render_template("outfitgallery.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

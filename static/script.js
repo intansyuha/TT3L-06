@@ -52,5 +52,3 @@ document.addEventListener("DOMContentLoaded", function() {
     navBar.classList.remove("open");
   });
 });
-
-
