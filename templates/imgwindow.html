@@ -3,47 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Document</title>   
 </head>
 <body>
-    <form>
     <h1>Image Window</h1>  
-        <div>
-            <img src="{{url_for('get_file', filename=filename) }}" style="width: 400;">
-        </div>
-    </form>
+        {% if filename %}
+            <img src="{{ url_for('get_file', filename=filename) }}" alt="Uploaded Image">
+        {% endif %}
 
-    <form>
-    <h2>Category</h2>
-    <label for="Choose Category"> Choose Category</label>
-    <select id="Choose category">
-        <option value="category"> Choose category</option>
-        <option value="Tops"> Tops</option>
-        <option value="Bottoms"> Bottoms</option>
-        <option value="Shoes"> Shoes</option>
-        <option value="Accessories"> Accessories</option>
-        <option value="Bags"> Bags</option>
-        <option value="Outerwear"> Outerwear</option>
-    </select>
-</form>
+        <form method="POST" enctype="multipart/form-data">
+            <h2>Category</h2>
+            <label for="Choose Category"> Choose Category</label>
+            <select id="Choose category">
+                <option value="category"> Choose category</option>
+                <option value="Tops"> Tops</option>
+                <option value="Bottoms"> Bottoms</option>
+                <option value="Shoes"> Shoes</option>
+                <option value="Accessories"> Accessories</option>
+                <option value="Bags"> Bags</option>
+                <option value="Outerwear"> Outerwear</option>
+            </select>
 
-<form>
-    <h2>Link (URL)</h2>
-    <form>
-        <label for="Add link"> Add Link</label>
-        <input type="text" name="Add Link" placeholder="Link URL...">
-        
-        
-    </form>
-    
-    
-</form>
-
-<form>
+            <h2>Link (URL)</h2>
+                <label for="Add link"> Add Link</label>
+                <input type="text" name="Add Link" placeholder="Link URL...">
+                
+            </form>
+            
     <input type="submit" value="Go Back">
-    <input type="submit" value="Submit">
-</form>   
-        
+    <input type="submit" value="Submit"> 
 </body>
 </html>
 
