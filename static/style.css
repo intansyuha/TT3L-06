@@ -6,6 +6,8 @@
     font-family: "Poppins", sans-serif;
 }
 
+/*------Outfit Creator------*/
+
 .header {
     background-color: #D9D9D9;
     background-position: center;
@@ -377,3 +379,10 @@ nav.open ~ .overlay {
     flex: 0 0 auto;
 }
 
+/*------Outfit Gallery------*/
+
+.Gallery h2 {
+    display: flex;
+    align-items: center;
+    margin-right: 630px;
+}
