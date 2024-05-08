@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/*--------------- NAVBAR -------------------*/
+
+nav {
+    width: 100%;
+    background: #d9a7a4;
+    padding: 0.7rem 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}
+
+nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav .search-bar {
+    background: rgb(229, 227, 227);
+    border-radius: var(--border-radius);
+    padding: var(--search-padding);
+}
+
+nav .search-bar input[type="search"] {
+    background: transparent;
+    width: 30vw;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    color: rgb(0, 0, 0);
+}
+
+nav .saerch-bar input[type="search"]::placeholder {
+    color: gray;
+}
+
+nav .create {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.log {
+    color: white;
+}
+
+/*--------------- CLOTHESUPLOAD -------------------*/
+
+#clothesupload {
+    font-family: "Poppins", sans-serif;
+    margin-top: 70px;
+    margin-left: 15px;
+}
+
+form {
+    margin-left: 15px;
+    
+}
+
+input[type="file"] {
+    background-color: #F8EDEB; 
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer; 
+}
+
+
+
+input[type="submit"] {
+    background-color: #F8EDEB; 
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer; 
+}
+
+
+/*--------------- IMAGEWINDOW -------------------*/
+
+#imagewindow {
+    font-family: "Poppins", sans-serif;
+    margin-top: 70px;
+    margin-left: 15px;
+}   
+
+
+
+
+
+
+
+/*--------------- CATEGORYTAB -------------------*/
+
+
+[data-tab-content] {
+    display: none;
+}
+
+.active[data-tab-content] {
+    display: block;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid black;
+}
+
+.tab {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.tab.active {
+    background-color: #CCC;
+}
+
+.tab:hover {
+    background-color: #AAA;
+}
+
+.tab-content {
+    margin-left: 20px;
+    margin-right: 20px;
+}

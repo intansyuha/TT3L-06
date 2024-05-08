@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>Document</title>   
 </head>
 <body>
-    <h1>Image Window</h1>  
-        {% if filename %}
-            <img src="{{ url_for('get_file', filename=filename) }}" alt="Uploaded Image">
+    <h1 id="imagewindow">Image Window</h1>  
+        {% if file_url %}
+            <div>
+                <img src="{{file_url}}" alt="Uploaded Image" style="width: 400px;">                
+            </div>
         {% endif %}
 
         <form method="POST" enctype="multipart/form-data">

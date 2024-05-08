@@ -4,14 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>Home</title>
 </head>
 <body>
-    <h1>Clothes Upload</h1>
+    <nav>
+        <div class="container">
+            <h2 class="log">
+                RevêLuxe
+            </h2>
+            <div class="search-bar">
+                <i class='bx bx-search'></i>
+                <input type="search" placeholder="Search for creators, inspirations and projects">
+            </div>
+            <div class="create">
+                <label class="btn btn-primary" for="create-post">Create</label>
+                <div class="profile-photo">
+                    <img src="static/pic.jpg">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h1 id="clothesupload">Clothes Upload</h1>
 
     <form method='POST' enctype="multipart/form-data">
         {{form.hidden_tag()}}
+        
         {{form.file()}}
+        
         {{form.submit()}}
 
     </form>

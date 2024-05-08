@@ -9,7 +9,7 @@ from models import Img
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'clothesuploadkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///img.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -39,7 +39,7 @@ def home():
         db.session.add(img)
         db.session.commit()
 
-        return redirect(url_for('get_file', filename=filename))
+        return redirect(url_for('imgwindow', filename=filename))
     
     return render_template('index.html', form=form, file_url=file_url)
 
@@ -50,7 +50,8 @@ def get_file(filename):
 
 @app.route('/imgwindow/<filename>')
 def imgwindow(filename):
-    return render_template('imgwindow.html', filename=filename)
+    file_url = url_for('get_file',filename=filename)
+    return render_template('imgwindow.html', file_url=file_url)
 
 def create_db():
     with app.app_context():
