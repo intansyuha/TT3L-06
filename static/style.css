@@ -86,12 +86,47 @@ input[type="submit"] {
 #imagewindow {
     font-family: "Poppins", sans-serif;
     margin-top: 70px;
-    margin-left: 15px;
+    margin-left: 30px;
+    font-size: 40px;
 }   
 
+#imgupload {
+    margin-left: 30px;
+    margin-top: 10PX;
+    margin-bottom: 20px;
+}
 
+#categorytxt {
+    margin-left: 30px;
+    margin-top: 10PX; 
+    font-size: 30px; 
+}
 
+#choosecat {
+    margin-left: 30px;
+}
 
+#linkimg {
+    margin-left: 30px;
+    margin-top: 20PX;
+    font-size: 30px; 
+}
+
+#addlink {
+    margin-left: 30px; 
+}
+
+#gobackbttn {
+    margin-left: 40px;
+    margin-top: 40PX;
+    margin-bottom: 20px;
+}
+
+#submitbttn {
+    margin-left: 5px;
+    margin-top: 40PX;
+    margin-bottom: 20px;
+}
 
 
 

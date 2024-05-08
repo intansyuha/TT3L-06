@@ -13,15 +13,15 @@
     <h1 id="imagewindow">Image Window</h1>  
         {% if file_url %}
             <div>
-                <img src="{{file_url}}" alt="Uploaded Image" style="width: 400px;">                
+                <img src="{{file_url}}" alt="Uploaded Image" style="width: 400px;" id="imgupload">                
             </div>
         {% endif %}
 
         <form method="POST" enctype="multipart/form-data">
-            <h2>Category</h2>
-            <label for="Choose Category"> Choose Category</label>
+            <h2 id="categorytxt">Category</h2>
+            <label for="Choose Category" id="choosecat"> Select your category</label>
             <select id="Choose category">
-                <option value="category"> Choose category</option>
+                <option value="category"> ...</option>
                 <option value="Tops"> Tops</option>
                 <option value="Bottoms"> Bottoms</option>
                 <option value="Shoes"> Shoes</option>
@@ -30,14 +30,14 @@
                 <option value="Outerwear"> Outerwear</option>
             </select>
 
-            <h2>Link (URL)</h2>
-                <label for="Add link"> Add Link</label>
-                <input type="text" name="Add Link" placeholder="Link URL...">
+            <h2 id="linkimg">Link (URL)</h2>
+                <label for="Add link" id="addlink"> Add Link</label>
+                <input type="text" name="Add Link" placeholder=" Add link URL here...">
                 
             </form>
             
-    <input type="submit" value="Go Back">
-    <input type="submit" value="Submit"> 
+    <input type="submit" value="Go Back" id="gobackbttn">
+    <input type="submit" value="Submit" id="submitbttn"> 
 </body>
 </html>
 
