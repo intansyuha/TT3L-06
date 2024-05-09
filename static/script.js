@@ -18,19 +18,6 @@ labels.forEach(label => {
         // Toggle the chevron icon
         chevron.classList.toggle('bx-chevron-right');
         chevron.classList.toggle('bx-chevron-down');
-
-// dynamically generate small boxes inside accordion boxes
-const accordionBoxes = document.querySelectorAll('.accordion-box');
-
-// generate small boxes
-const numSmallBoxes = 20; // adjust the number of small boxes as needed
-accordionBoxes.forEach((accordionBox) => {
-    for (let i = 0; i < numSmallBoxes; i++) {
-        const smallBox = document.createElement('div');
-        smallBox.className = 'small-box';
-        accordionBox.appendChild(smallBox);
-    }
-});
     });
 });
 
@@ -51,4 +38,22 @@ document.addEventListener("DOMContentLoaded", function() {
     navBar.classList.remove("nav");
     navBar.classList.remove("open");
   });
+});
+
+const smallBoxes = document.querySelectorAll('.small-box');
+const fullSizedImage = document.querySelector('.full-sized-image');
+const fullSizedImageImg = document.querySelector('.full-sized-image img');
+
+smallBoxes.forEach((smallBox) => {
+  smallBox.addEventListener('click', () => {
+    const imgSrc = smallBox.querySelector('img').src;
+    fullSizedImageImg.src = imgSrc;
+    fullSizedImage.style.display = 'flex';
+  });
+});
+
+document.addEventListener('click', (event) => {
+  if (!event.target.closest('.small-box')) {
+    fullSizedImage.style.display = 'none';
+  }
 });
