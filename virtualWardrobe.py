@@ -19,6 +19,7 @@ db_init(app)
 class UploadClothesForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     submit = SubmitField("Upload File")
+    
 
 @app.route('/', methods=['GET', "POST"])
 @app.route('/home', methods=['GET', "POST"])
@@ -37,7 +38,6 @@ def home():
 
         img = Img(data=img_data, mimetype=mimetype, name=filename)
         db.session.add(img)
-        db.session.commit()
 
         return redirect(url_for('imgwindow', filename=filename))
     
@@ -52,9 +52,14 @@ def imgwindow(filename):
     file_url = url_for('get_file',filename=filename)
     return render_template('imgwindow.html', file_url=file_url)
 
-@app.route('/wardrobecategory/category')
+@app.route('/wardrobecategory', methods=['GET', 'POST'])
 def wardrobecategory():
-    return render_template('wardrobecategory.html')
+    if request.method == 'POST':
+        category = request.form['Choose category']
+        file_url = request.form['file_url']
+        images = Img.query.filter_by(category=category).all()
+        return render_template('wardrobecategory.html', category=category, file_url=file_url, images=images)
+
 
 def create_db():
     with app.app_context():

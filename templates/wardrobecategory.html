@@ -14,7 +14,7 @@
         <li data-tab-target="#tops" class="tab"> Tops</li>
         <li data-tab-target="#bottoms" class="tab"> Bottoms</li>
         <li data-tab-target="#shoes" class="tab"> Shoes</li>
-        <li data-tab-target="#accessories" class="tab"> Acessories</li>
+        <li data-tab-target="#accessories" class="tab"> Accessories</li>
         <li data-tab-target="#bags" class="tab"> Bags</li>
         <li data-tab-target="#outerwear" class="tab"> Outerwear</li>
     </ul>
@@ -22,12 +22,13 @@
     <div class="tab-content">
         <div id="tops" data-tab-content>
             {% for img in images %}
-            {% if img.category == 'Shoes' %}
+            {% if img.category == 'category' %}
                 <div class="image">
-                    <img src="{{ url_for('imgwindow', filename=img.name) }}" alt="{{ img.name }}">
+                    <img src="{{ url_fo('get_file', filename=img.filename)}}" alt="Uploaded Image" style="width: 400px;">
                 </div>
             {% endif %}
         {% endfor %}
+    </div>
         </div>
         <div id="bottoms" data-tab-content>
             <h1>Bottoms section</h1>

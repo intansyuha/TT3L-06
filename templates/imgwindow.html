@@ -32,14 +32,19 @@
             <h2 id="linkimg">Link (URL)</h2>
                 <label for="Add link" id="addlink"> Add Link</label>
                 <input type="url" name="Add Link" placeholder=" Add link URL here...">  
-                
+            </form>
+        
+            <form method="POST" action="/wardrobecategory" enctype="multipart/form-data">
+                <input type="hidden" name="file_url" value="{{ file_url }}">
+                <div class="buttoncontainer">
+                    <ul class="button">
+                        <li>
+                            <button type="submit" class="submitbttn">Submit</button>
+                        </li>
+                    </ul>
+                </div>
             </form>
             
-            <div class="buttoncontainer">
-                <ul class="button">
-                        <li><button type="submit" name="submit" class="submitbttn">Submit</button></li>
-                </ul>
-            </div>
 
 </body>
 </html>
