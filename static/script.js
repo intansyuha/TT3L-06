@@ -39,33 +39,93 @@ document.addEventListener("DOMContentLoaded", function() {
     navBar.classList.remove("open");
   });
 });
-document.addEventListener("DOMContentLoaded", function() {
-  const smallBoxes = document.querySelectorAll('.small-box');
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const topSmallBoxes = document.querySelectorAll('#tops-accordion .small-box');
   const topContainer = document.querySelector('.top-container');
   const topContainerImg = document.querySelector('.top-container img');
-      
 
-      smallBoxes.forEach((smallBox) => {
-          smallBox.addEventListener('click', () => {
-              const imgSrc = smallBox.querySelector('img').src;
-            topContainerImg.src = imgSrc;
-            topContainer.style.display = 'flex';
-          });
-      });
+  const bottomSmallBoxes = document.querySelectorAll('#bottoms-accordion .small-box');
+  const bottomContainer = document.querySelector('.bottom-container');
+  const bottomContainerImg = document.querySelector('.bottom-container img');
 
-  document.addEventListener('click', (event) => {
-    if (!event.target.closest('.small-box')) {
-      topContainer.style.display = 'none'
-    }
+  const outerSmallBoxes = document.querySelectorAll('#outerwear-accordion .small-box');
+  const outerContainer = document.querySelector('.outerwear-container');
+  const outerContainerImg = document.querySelector('.outerwear-container img');
+
+  const shoeSmallBoxes = document.querySelectorAll('#shoes-accordion .small-box');
+  const shoeContainer = document.querySelector('.shoes-container');
+  const shoeContainerImg = document.querySelector('.shoes-container img');
+
+  const bagSmallBoxes = document.querySelectorAll('#bags-accordion .small-box');
+  const bagContainer = document.querySelector('.bags-container');
+  const bagContainerImg = document.querySelector('.bags-container img');
+
+  const accSmallBoxes = document.querySelectorAll('#accessories-accordion .small-box');
+  const accContainer = document.querySelector('.accessories-container');
+  const accContainerImg = document.querySelector('.accessories-container img');
+
+  
+
+  topSmallBoxes.forEach((smallBox) => {
+    smallBox.addEventListener('click', () => {
+      const imgSrc = smallBox.querySelector('img').src;
+      topContainerImg.src = imgSrc;
+      topContainer.style.display = 'flex';
+    });
+  });
+
+    bottomSmallBoxes.forEach((smallBox) => {
+    smallBox.addEventListener('click', () => {
+      const imgSrc = smallBox.querySelector('img').src;
+      bottomContainerImg.src = imgSrc;
+      bottomContainer.style.display = 'flex';
+    });
+    });
+  
+    outerSmallBoxes.forEach((smallBox) => {
+    smallBox.addEventListener('click', () => {
+      const imgSrc = smallBox.querySelector('img').src;
+      outerContainerImg.src = imgSrc;
+      outerContainer.style.display = 'flex';
+    });
+    });
+  
+    shoeSmallBoxes.forEach((smallBox) => {
+    smallBox.addEventListener('click', () => {
+      const imgSrc = smallBox.querySelector('img').src;
+      shoeContainerImg.src = imgSrc;
+      shoeContainer.style.display = 'flex';
+    });
+    });
+  
+    bagSmallBoxes.forEach((smallBox) => {
+    smallBox.addEventListener('click', () => {
+      const imgSrc = smallBox.querySelector('img').src;
+      bagContainerImg.src = imgSrc;
+      bagContainer.style.display = 'flex';
+    });
+  });
+  accSmallBoxes.forEach((smallBox) => {
+    smallBox.addEventListener('click', () => {
+      const imgSrc = smallBox.querySelector('img').src;
+      accContainerImg.src = imgSrc;
+      accContainer.style.display = 'flex';
+    });
   });
 });
+  
+
 
 // Gallery Outfit //
 
-const toggleSwitches = document.querySelectorAll('.toogle-switch');
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleSwitches = document.querySelectorAll('.toggle-switch');
 
-toggleSwitches.forEach(switchElem => {
-    switchElem.addEventListener("click", () => {
+    toggleSwitches.forEach(switchElem => {
+      switchElem.addEventListener("click", () => {
         switchElem.classList.toggle('active');
+      });
     });
-});
+  });
