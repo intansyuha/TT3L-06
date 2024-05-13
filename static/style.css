@@ -292,24 +292,24 @@ nav.open ~ .overlay {
 }
 
 .top-container{
-    height: 150px;
+    height: 138px;
     width: 160px;
     margin-left: 630px;
-    margin-top: 200px;
+    margin-top: 180px;
 }
 
 .bottom-container{
     height: 190px;
     width: 160px;
     margin-left: 630px;
-    margin-top: 570px;
+    margin-top: 520px;
 }
 
 .shoes-container{
-    height: 50px;
+    height: 90px;
     width: 160px;
     margin-left: 630px;
-    margin-top: 850px;
+    margin-top: 812px;
 }
 
 .outerwear-container{
