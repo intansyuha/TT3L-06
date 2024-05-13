@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
-*{
+* {
     margin: 0;
     padding: 0;
     outline: 0;
@@ -16,7 +16,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url('coq.png') no-repeat;
+    background: #f8edeb;
     background-size: cover;
     background-position: center;
 }
@@ -24,10 +24,10 @@ body {
 .wrapper {
     width: 420px;
     background: transparent;
-    border: 2px solid #debfbd;
+    border: 2px solid #d9a7a4;
     backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-    color: white;
+    color: #d9a7a4;
     border-radius: 10px;
     padding: 30px 40px;
 }
@@ -50,15 +50,15 @@ body {
     background: transparent;
     border: none;
     outline: none;
-    border: 2px solid #fff;
+    border: 2px solid #d9a7a4;
     border-radius: 40px;
     font-size: 16px;
-    color: #fff;
+    color: #d9a7a4;
     padding: 20px 45px 20px 20px;
 }
 
 .input-box input::placeholder {
-    color: #fff;
+    color: #d9a7a4;
 }
 
 .input-box i {
@@ -90,7 +90,7 @@ body {
 }
 
 .register-link p a {
-    color: white;
+    color: #d9a7a4;
     text-decoration: none;
     font-weight: 600;
 }
@@ -153,7 +153,7 @@ img {
 }
 
 .btn-primary {
-    background: #d9a7a4;
+    background: #edcfd3;
     color: white;
 }
 
@@ -184,7 +184,7 @@ nav .container {
 }
 
 nav .search-bar {
-    background: rgb(229, 227, 227);
+    background: #e0dede;
     border-radius: var(--border-radius);
     padding: var(--search-padding);
 }
