@@ -8,6 +8,8 @@
 
 /*------Outfit Creator------*/
 
+
+    /*-nav/header-*/
 .header {
     background-color: #D9D9D9;
     background-position: center;
@@ -200,6 +202,8 @@ nav.open ~ .overlay {
     background-color: #BF9797;
 }
 
+    /*-Details/Display-*/
+
 .box {
     position: absolute;
     display: flex;
@@ -257,6 +261,80 @@ nav.open ~ .overlay {
     margin-bottom: -48px;
     margin-top: 330px;
 }
+
+.full-sized-image {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.full-sized-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.img-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.top-container, .bottom-container, .outerwear-container, .shoes-container, .bags-container, .accessories-container {
+    position: absolute;
+    background-color: #707070;
+    padding: 10px 10px;
+}
+
+.top-container{
+    height: 150px;
+    width: 160px;
+    margin-left: 630px;
+    margin-top: 200px;
+}
+
+.bottom-container{
+    height: 190px;
+    width: 160px;
+    margin-left: 630px;
+    margin-top: 570px;
+}
+
+.shoes-container{
+    height: 50px;
+    width: 160px;
+    margin-left: 630px;
+    margin-top: 850px;
+}
+
+.outerwear-container{
+    height: 158px;
+    width: 160px;
+    margin-left: 820px;
+    margin-top: 300px;
+}
+
+.accessories-container{
+    height: 80px;
+    width: 160px;
+    margin-left: 820px;
+    margin-top: 600px;
+}
+
+.bags-container{
+    height: 120px;
+    width: 160px;
+    margin-left: 440px;
+    margin-top: 500px;
+}
+
+
+    /*-Footer-*/
 
 .footer {
     background-color: #F6F3F3;
