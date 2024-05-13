@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
@@ -56,17 +56,21 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
-        new_user = User(username=username, email=email, password=password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect('/')
-
+        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+        if existing_user:
+            return jsonify({'error': 'Username or email already exists'}), 400
+        else:
+            new_user = User(username=username, email=email, password=password)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect('/login.html')
+    
     return render_template('signup.html')
 
 @app.route('/community-page')
 @app.route('/community-page.html')
 def community_page():
-    if session['username']:
+    if session['email']:
         return render_template('community-page.html')
     
     return redirect('/login')
