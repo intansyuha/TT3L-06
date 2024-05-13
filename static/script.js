@@ -57,3 +57,11 @@ document.addEventListener('click', (event) => {
     fullSizedImage.style.display = 'none';
   }
 });
+
+const toggleSwitches = document.querySelectorAll('.toogle-switch');
+
+toggleSwitches.forEach(switchElem => {
+    switchElem.addEventListener("click", () => {
+        switchElem.classList.toggle('active');
+    });
+});

@@ -54,10 +54,11 @@
         <div class="btn-container">
                 <ul class="btn">
                     <li><a href="outfitgallery.html" class="btn-save">Save</a></li>
-                    <li><a href="#" class="btn-post">Post</a></li>
                 </ul>
         </div>
     </section>
+    </nav>
+
     <section class="details">
         <div class="box">
             <div class="box1"></div>
@@ -66,10 +67,13 @@
             <div class="box4"></div>
             <div class="box5"></div>
         </div>
-    </section>
-    </nav>
 
-    <section class="overlay"></section>
+        <!-- Add the full-sized image container -->
+        <div class="full-sized-image">
+            <img src="" alt="Full-sized Image">
+        </div>
+    </section>
+
     <section class="footer">
         
         <div class="undo-redo-btns">
@@ -143,10 +147,8 @@
         </div>
     </section>
 
-    <!-- Add the full-sized image container -->
-    <div class="full-sized-image">
-        <img src="" alt="Full-sized Image">
-    </div>
+    <section class="overlay"></section>
+
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

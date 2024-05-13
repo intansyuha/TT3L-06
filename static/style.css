@@ -35,7 +35,7 @@
     padding: 20px 0;
     background-color: #fff;
     box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     z-index: 100;
 }
 
@@ -86,7 +86,7 @@
   width: 100%;
   opacity: 0;
   pointer-events: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   background: rgba(0, 0, 0, 0.3);
 }
 
@@ -99,7 +99,7 @@ nav.open ~ .overlay {
 .wrapper-container {
     display: flex;
     align-items: center;
-    margin-left: 40%; 
+    margin-left: 450px; 
     background: transparent;
 }
 
@@ -127,7 +127,7 @@ nav.open ~ .overlay {
 .input-data input::placeholder {
     color: gray;
     opacity: 1;
-    text-indent: 15px;
+    text-indent: 5px;
 }
 
 .input-data input:focus::placeholder {
@@ -185,11 +185,7 @@ nav.open ~ .overlay {
 }
 
 .btn li {
-    margin-left: 20px;
-}
-
-.btn li:first-child {
-    margin-left: 0;
+    margin-right: 50px;
 }
 
 .btn a {
@@ -363,9 +359,7 @@ nav.open ~ .overlay {
     flex-wrap: nowrap;
 }
 
-.accordion-row:focus-within .accordion-box1,
-.accordion-row:focus-within .accordion-box2,
-.accordion-row:focus-within .accordion-box3 {
+.accordion-row:focus-within .accordion-box{
     opacity: 1;
     pointer-events: auto;
 }
@@ -427,6 +421,14 @@ nav.open ~ .overlay {
     background-color: #E4C1C1;
     padding: 3px;
     border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: border 0.5s ease;
+}
+
+.card:hover {
+    border: 2px solid #000;
 }
 
 .card img {
@@ -446,3 +448,38 @@ nav.open ~ .overlay {
     color: black;
 }
 
+.cards .card .card_body .mode .toogle-switch{
+    display: flex;
+    height: 30px;
+    width: 55px;
+    margin-left: 200px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.toogle-switch .switch{
+    position: relative;
+    height: 20px;
+    width: 45px;
+    border-radius: 25px;
+    background-color: #707070;
+    transition: all 0.3s ease;
+}
+
+.switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: white;
+    transition: all 0.3 ease;
+}
+
+.toogle-switch.active .switch::before {
+    left: 25px;
+}
