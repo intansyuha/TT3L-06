@@ -1,5 +1,7 @@
 const tabs = document.querySelectorAll('[data-tab-target]')
 const tabContents = document.querySelectorAll('[data-tab-content]')
+const categorySelect = document.getElementById("categoryselect")
+const categoryInput = document.getElementById("categoryinput")
 
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -13,4 +15,8 @@ tabs.forEach(tab => {
     tab.classList.add('active')
     target.classList.add('active')
     })
+})
+
+categorySelect.addEventListener("change", () => {
+    categoryInput.value = categorySelect.value
 })

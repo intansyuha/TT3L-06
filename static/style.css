@@ -6,50 +6,6 @@
     font-family: "Poppins", sans-serif;
 }
 
-/*--------------- NAVBAR -------------------*/
-
-nav {
-    width: 100%;
-    background: #d9a7a4;
-    padding: 0.7rem 0;
-    position: fixed;
-    top: 0;
-    z-index: 10;
-}
-
-nav .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-nav .search-bar {
-    background: rgb(229, 227, 227);
-    border-radius: var(--border-radius);
-    padding: var(--search-padding);
-}
-
-nav .search-bar input[type="search"] {
-    background: transparent;
-    width: 30vw;
-    margin-left: 1rem;
-    font-size: 0.9rem;
-    color: rgb(0, 0, 0);
-}
-
-nav .saerch-bar input[type="search"]::placeholder {
-    color: gray;
-}
-
-nav .create {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.log {
-    color: white;
-}
 
 /*--------------- CLOTHESUPLOAD -------------------*/
 
@@ -73,7 +29,7 @@ input[type="file"] {
 
 
 
-input[type="submit"] {
+form input[type="submit"] {
     background-color: #F8EDEB; 
     padding-left: 5px;
     padding-right: 5px;

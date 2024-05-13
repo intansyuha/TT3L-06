@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="{{url_for('static', filename='script.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}" defer></script>
     <title>My Wardrobe</title>
 </head>
 <body>
@@ -21,7 +21,13 @@
 
     <div class="tab-content">
         <div id="tops" data-tab-content>
-            <h1>Tops section</h1>
+            {% for img in images %}
+            {% if img.category == 'Shoes' %}
+                <div class="image">
+                    <img src="{{ url_for('imgwindow', filename=img.name) }}" alt="{{ img.name }}">
+                </div>
+            {% endif %}
+        {% endfor %}
         </div>
         <div id="bottoms" data-tab-content>
             <h1>Bottoms section</h1>

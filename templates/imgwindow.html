@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -20,7 +19,7 @@
         <form method="POST" enctype="multipart/form-data">
             <h2 id="categorytxt">Category</h2>
             <label for="Choose Category" id="choosecat"> Select your category</label>
-            <select id="Choose category">
+            <select id="Choose category" name="category">
                 <option value="category"> ...</option>
                 <option value="Tops"> Tops</option>
                 <option value="Bottoms"> Bottoms</option>
@@ -32,12 +31,16 @@
 
             <h2 id="linkimg">Link (URL)</h2>
                 <label for="Add link" id="addlink"> Add Link</label>
-                <input type="text" name="Add Link" placeholder=" Add link URL here...">
+                <input type="url" name="Add Link" placeholder=" Add link URL here...">  
                 
             </form>
             
-    <input type="submit" value="Go Back" id="gobackbttn">
-    <input type="submit" value="Submit" id="submitbttn"> 
+            <div class="buttoncontainer">
+                <ul class="button">
+                        <li><button type="submit" name="submit" class="submitbttn">Submit</button></li>
+                </ul>
+            </div>
+
 </body>
 </html>
 
