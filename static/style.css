@@ -75,7 +75,7 @@
 }
 
 .nav-link .link {
-    font-size: 16px;
+    font-size: 14px;
     color: #707070;
     font-weight: 400;
 }
@@ -264,22 +264,6 @@ nav.open ~ .overlay {
     margin-top: 500px;
 }
 
-.full-sized-image {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999;
-    max-width: 80%;
-    max-height: 80%;
-}
-
-.full-sized-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
 
 /*-Footer-*/
 

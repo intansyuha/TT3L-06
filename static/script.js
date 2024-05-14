@@ -76,37 +76,38 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-    bottomSmallBoxes.forEach((smallBox) => {
+  bottomSmallBoxes.forEach((smallBox) => {
     smallBox.addEventListener('click', () => {
       const imgSrc = smallBox.querySelector('img').src;
       bottomContainerImg.src = imgSrc;
       bottomContainer.style.display = 'flex';
     });
-    });
+  });
   
-    outerSmallBoxes.forEach((smallBox) => {
+  outerSmallBoxes.forEach((smallBox) => {
     smallBox.addEventListener('click', () => {
       const imgSrc = smallBox.querySelector('img').src;
       outerContainerImg.src = imgSrc;
       outerContainer.style.display = 'flex';
     });
-    });
+  });
   
-    shoeSmallBoxes.forEach((smallBox) => {
+  shoeSmallBoxes.forEach((smallBox) => {
     smallBox.addEventListener('click', () => {
       const imgSrc = smallBox.querySelector('img').src;
       shoeContainerImg.src = imgSrc;
       shoeContainer.style.display = 'flex';
     });
-    });
+  });
   
-    bagSmallBoxes.forEach((smallBox) => {
+  bagSmallBoxes.forEach((smallBox) => {
     smallBox.addEventListener('click', () => {
       const imgSrc = smallBox.querySelector('img').src;
       bagContainerImg.src = imgSrc;
       bagContainer.style.display = 'flex';
     });
   });
+
   accSmallBoxes.forEach((smallBox) => {
     smallBox.addEventListener('click', () => {
       const imgSrc = smallBox.querySelector('img').src;
