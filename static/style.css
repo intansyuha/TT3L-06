@@ -541,7 +541,7 @@ nav.open ~ .overlay {
     color: black;
 }
 
-.cards .card .card_body .mode .toogle-switch{
+.cards .card .card_body .mode .toggle-switch{
     display: flex;
     height: 30px;
     width: 55px;
@@ -551,7 +551,7 @@ nav.open ~ .overlay {
     cursor: pointer;
 }
 
-.toogle-switch .switch{
+.toggle-switch .switch{
     position: relative;
     height: 20px;
     width: 45px;
@@ -570,9 +570,9 @@ nav.open ~ .overlay {
     left: 5px;
     transform: translateY(-50%);
     background-color: white;
-    transition: all 0.3 ease;
+    transition: all 0.3s ease;
 }
 
-.toogle-switch.active .switch::before {
+.toggle-switch.active .switch::before {
     left: 25px;
 }

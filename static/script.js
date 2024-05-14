@@ -114,9 +114,27 @@ document.addEventListener("DOMContentLoaded", function () {
       accContainer.style.display = 'flex';
     });
   });
-});
-  
 
+
+    topContainer.addEventListener('click', () => {
+    topContainer.style.display = 'none';
+  });
+    bottomContainer.addEventListener('click', () => {
+    bottomContainer.style.display = 'none';
+  });
+    outerContainer.addEventListener('click', () => {
+    outerContainer.style.display = 'none';
+  });
+    shoeContainer.addEventListener('click', () => {
+    shoeContainer.style.display = 'none';
+  });
+    bagContainer.addEventListener('click', () => {
+    bagContainer.style.display = 'none';
+  });
+    accContainer.addEventListener('click', () => {
+    accContainer.style.display = 'none';
+  });
+});
 
 // Gallery Outfit //
 
