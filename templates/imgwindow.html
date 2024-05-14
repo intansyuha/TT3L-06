@@ -16,7 +16,9 @@
             </div>
         {% endif %}
 
-        <form method="POST" enctype="multipart/form-data">
+        <form id="imageForm" method="POST" enctype="multipart/form-data" action="/wardrobecategory">
+            <input type="hidden" name="file_url" value="{{ file_url }}">
+
             <h2 id="categorytxt">Category</h2>
             <label for="category" id="choosecat"> Select your category</label>
             <select id="category" name="category">
@@ -34,15 +36,14 @@
                 <input type="url" name="Add Link" placeholder=" Add link URL here..."> 
 
                 
-                <form method="POST" enctype="multipart/form-data" action="/wardrobecategory.html">
-                    <div class="buttoncontainer">
-                        <ul class="button">
-                            <li>
-                                <button type="submit" class="submitbttn">Submit</button>
-                            </li>
-                        </ul>
-                    </div>
-                </form>        
+                
+            <div class="buttoncontainer">
+                <ul class="button">
+                    <li>
+                        <button type="submit" class="submitbttn">Submit</button>
+                    </li>
+                </ul>
+            </div>            
         </form>
             
 

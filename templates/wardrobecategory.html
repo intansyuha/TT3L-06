@@ -32,18 +32,48 @@
         </div>
         <div id="bottoms" data-tab-content>
             <h1>Bottoms section</h1>
+            {% if category == 'Bottoms' and file_url %}
+            <div>
+                <img src="{{ file_url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+        {% endif %}
+        </div>
         </div>
         <div id="shoes" data-tab-content>
             <h1>Shoes section</h1>
+            {% if category == 'Shoes' and file_url %}
+            <div>
+                <img src="{{ file_url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+        {% endif %}
+        </div>
         </div>
         <div id="accessories" data-tab-content>
             <h1>Accessories section</h1>
+            {% if category == 'Accessories' and file_url %}
+            <div>
+                <img src="{{ file_url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+        {% endif %}
+        </div>
         </div>
         <div id="bags" data-tab-content>
             <h1>Bags section</h1>
+            {% if category == 'Bags' and file_url %}
+            <div>
+                <img src="{{ file_url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+        {% endif %}
+        </div>
         </div>
         <div id="outerwear" data-tab-content>
             <h1>Outerwear section</h1>
+            {% if category == 'Outerwear' and file_url %}
+            <div>
+                <img src="{{ file_url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+        {% endif %}
+        </div>
         </div>
     </div>
 

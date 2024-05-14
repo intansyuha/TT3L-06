@@ -57,11 +57,10 @@ def imgwindow(filename):
     file_url = url_for('get_file', filename=filename)
     return render_template('imgwindow.html', file_url=file_url)
 
-@app.route('/wardrobecategory',  methods=['GET', 'POST'])
+@app.route('/wardrobecategory',  methods=['POST'])
 def wardrobecategory():
-    category = request.args.get('category')
-    filename = request.args.get('filename')
-    file_url = url_for('get_file', filename=filename)
+    category = request.form.get('category')
+    file_url = request.form.get('file_url')
     return render_template('wardrobecategory.html', category=category, file_url=file_url)
 
 
