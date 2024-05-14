@@ -208,12 +208,10 @@ nav.open ~ .overlay {
     position: absolute;
     display: flex;
     align-items: center;
-
 }
 
 .top-container, .bottom-container, .outerwear-container, .shoes-container, .bags-container, .accessories-container {
     position: absolute;
-    z-index: 9999;
 }
 
 .img-container img{
@@ -302,25 +300,6 @@ nav.open ~ .overlay {
     flex-direction: column;
 }
 
-.undo-redo-btns {
-    display: flex;
-    justify-content: right;
-    align-items: right;
-    margin-bottom: 10px;
-    margin-right: 40px;
-}
-
-.undo-redo-btns button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.undo-redo-btns i {
-    font-size: 28px; 
-    color: #000; 
-}
-
 .accordion-row {
     max-width: 320px;
     overflow: visible;
@@ -339,7 +318,7 @@ nav.open ~ .overlay {
     background: transparent;
     color: black;
     display: block;
-    top: -50px;
+    top: -10px;
     cursor: pointer;
     padding: 10px 30px;
     z-index: 1;
@@ -380,7 +359,7 @@ nav.open ~ .overlay {
     width: 1350px;
     height: 106px;
     background-color: #EBDDDD;
-    top: -140px;
+    top: -110px;
     left: 25px;
     padding: 10px 25px;
     border-radius: 10px;
