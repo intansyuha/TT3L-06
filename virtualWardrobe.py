@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request, send_from_directory, url_for # to return actual files
 from flask_wtf import FlaskForm
-from wtforms import FileField,  SubmitField
+from wtforms import FileField, SelectField,  SubmitField
 from werkzeug.utils import secure_filename
 import os
 from wtforms.validators import InputRequired
@@ -19,7 +19,7 @@ db_init(app)
 class UploadClothesForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     submit = SubmitField("Upload File")
-    
+
 
 @app.route('/', methods=['GET', "POST"])
 @app.route('/home', methods=['GET', "POST"])
@@ -47,18 +47,29 @@ def home():
 def get_file(filename):
      return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-@app.route('/imgwindow/<filename>')
+#@app.route('/imgwindow/<filename>')
+#def imgwindow(filename):
+#    file_url = url_for('get_file',filename=filename)
+#    return render_template('imgwindow.html', file_url=file_url)
+
+@app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
 def imgwindow(filename):
-    file_url = url_for('get_file',filename=filename)
+    file_url = url_for('get_file', filename=filename)
     return render_template('imgwindow.html', file_url=file_url)
 
-@app.route('/wardrobecategory', methods=['GET', 'POST'])
+@app.route('/wardrobecategory',  methods=['GET', 'POST'])
 def wardrobecategory():
-    if request.method == 'POST':
-        category = request.form['Choose category']
-        file_url = request.form['file_url']
-        images = Img.query.filter_by(category=category).all()
-        return render_template('wardrobecategory.html', category=category, file_url=file_url, images=images)
+    category = request.args.get('category')
+    filename = request.args.get('filename')
+    file_url = url_for('get_file', filename=filename)
+    return render_template('wardrobecategory.html', category=category, file_url=file_url)
+
+
+
+#@app.route('/wardrobecategory/<category>/<filename>')
+#def wardrobecategory(category, filename):
+#        file_url = url_for('get_file', filename=filename)
+#        return render_template('wardrobecategory.html', file_url=file_url, category=category)
 
 
 def create_db():

@@ -21,13 +21,13 @@
 
     <div class="tab-content">
         <div id="tops" data-tab-content>
-            {% for img in images %}
-            {% if img.category == 'category' %}
-                <div class="image">
-                    <img src="{{ url_fo('get_file', filename=img.filename)}}" alt="Uploaded Image" style="width: 400px;">
-                </div>
-            {% endif %}
-        {% endfor %}
+            <h1>Tops section</h1>
+            {% if category == 'Tops' and file_url %}
+            <div>
+                <img src="{{ file_url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+        {% endif %}
+        </div>
     </div>
         </div>
         <div id="bottoms" data-tab-content>
@@ -46,6 +46,12 @@
             <h1>Outerwear section</h1>
         </div>
     </div>
+
+    <script>
+        const category = "{{ category }}";
+    </script>
+
+
 
 </body>
 </html>

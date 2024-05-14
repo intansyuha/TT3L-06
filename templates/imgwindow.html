@@ -18,8 +18,8 @@
 
         <form method="POST" enctype="multipart/form-data">
             <h2 id="categorytxt">Category</h2>
-            <label for="Choose Category" id="choosecat"> Select your category</label>
-            <select id="Choose category" name="category">
+            <label for="category" id="choosecat"> Select your category</label>
+            <select id="category" name="category">
                 <option value="category"> ...</option>
                 <option value="Tops"> Tops</option>
                 <option value="Bottoms"> Bottoms</option>
@@ -31,19 +31,19 @@
 
             <h2 id="linkimg">Link (URL)</h2>
                 <label for="Add link" id="addlink"> Add Link</label>
-                <input type="url" name="Add Link" placeholder=" Add link URL here...">  
-            </form>
-        
-            <form method="POST" action="/wardrobecategory" enctype="multipart/form-data">
-                <input type="hidden" name="file_url" value="{{ file_url }}">
-                <div class="buttoncontainer">
-                    <ul class="button">
-                        <li>
-                            <button type="submit" class="submitbttn">Submit</button>
-                        </li>
-                    </ul>
-                </div>
-            </form>
+                <input type="url" name="Add Link" placeholder=" Add link URL here..."> 
+
+                
+                <form method="POST" enctype="multipart/form-data" action="/wardrobecategory.html">
+                    <div class="buttoncontainer">
+                        <ul class="button">
+                            <li>
+                                <button type="submit" class="submitbttn">Submit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </form>        
+        </form>
             
 
 </body>
