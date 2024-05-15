@@ -42,27 +42,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  const topSmallBoxes = document.querySelectorAll('#tops-accordion .small-box');
+  const topSmallBoxes = document.querySelectorAll('#tops-accordion .sb-1 .sb');
   const topContainer = document.querySelector('.top-container');
   const topContainerImg = document.querySelector('.top-container img');
 
-  const bottomSmallBoxes = document.querySelectorAll('#bottoms-accordion .small-box');
+  const bottomSmallBoxes = document.querySelectorAll('#bottoms-accordion .sb'); 
   const bottomContainer = document.querySelector('.bottom-container');
   const bottomContainerImg = document.querySelector('.bottom-container img');
 
-  const outerSmallBoxes = document.querySelectorAll('#outerwear-accordion .small-box');
+  const outerSmallBoxes = document.querySelectorAll('#outerwear-accordion .sb');
   const outerContainer = document.querySelector('.outerwear-container');
   const outerContainerImg = document.querySelector('.outerwear-container img');
 
-  const shoeSmallBoxes = document.querySelectorAll('#shoes-accordion .small-box');
+  const shoeSmallBoxes = document.querySelectorAll('#shoes-accordion .sb');
   const shoeContainer = document.querySelector('.shoes-container');
   const shoeContainerImg = document.querySelector('.shoes-container img');
 
-  const bagSmallBoxes = document.querySelectorAll('#bags-accordion .small-box');
+  const bagSmallBoxes = document.querySelectorAll('#bags-accordion .sb');
   const bagContainer = document.querySelector('.bags-container');
   const bagContainerImg = document.querySelector('.bags-container img');
 
-  const accSmallBoxes = document.querySelectorAll('#accessories-accordion .small-box');
+  const accSmallBoxes = document.querySelectorAll('#accessories-accordion .sb');
   const accContainer = document.querySelector('.accessories-container');
   const accContainerImg = document.querySelector('.accessories-container img');
 
