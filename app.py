@@ -63,7 +63,7 @@ def signup():
             new_user = User(username=username, email=email, password=password)
             db.session.add(new_user)
             db.session.commit()
-            return redirect('/login.html')
+            return render_template('/')
     
     return render_template('signup.html')
 
