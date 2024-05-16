@@ -466,3 +466,10 @@ nav.open ~ .overlay {
 .toggle-switch.active .switch::before {
     left: 25px;
 }
+
+.bx-trash {
+    display: flex;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #000;
+}
