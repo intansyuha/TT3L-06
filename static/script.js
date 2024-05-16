@@ -137,6 +137,25 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const saveButton = document.querySelector('.btn-save');
+    saveButton.addEventListener('click', () => {
+        const selectedOutfit = {
+            top: document.querySelector('.top-container img').src,
+            bottom: document.querySelector('.bottom-container img').src,
+            outerwear: document.querySelector('.outerwear-container img').src,
+            shoes: document.querySelector('.shoes-container img').src,
+            bags: document.querySelector('.bags-container img').src,
+            accessories: document.querySelector('.accessories-container img').src
+        };
+
+        let savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
+        savedOutfits.push(selectedOutfit);
+        localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
+    });
+});
+
+
 // Gallery Outfit //
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -148,3 +167,32 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits'));
+    if (savedOutfits) {
+        const cardsContainer = document.querySelector('.cards');
+        savedOutfits.forEach((outfit, index) => {
+            const outfitCard = document.createElement('a');
+            outfitCard.className = 'card';
+            outfitCard.href = '#';
+
+            const outfitImage = document.createElement('img');
+            outfitImage.src = outfit.top; // You can choose any image from the saved outfit
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card_body';
+
+            const cardTitle = document.createElement('h6');
+            cardTitle.className = 'card_title';
+            cardTitle.textContent = `Saved Outfit ${index + 1}`;
+
+            cardBody.appendChild(cardTitle);
+            outfitCard.appendChild(outfitImage);
+            outfitCard.appendChild(cardBody);
+            cardsContainer.appendChild(outfitCard);
+        });
+    }
+});
+

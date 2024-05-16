@@ -38,7 +38,7 @@
                             <i class='bx bx-edit icon'></i>
                             <span class="link">Outfit Creator</span>
                         </a>
-                        <a href="#" class="nav-link">
+                        <a href="outfitgallery.html" class="nav-link">
                             <i class='bx bx-star icon'></i>
                             <span class="link">Outfit Gallery</span>
                         </a>
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="btn-container">
-            <ul class="btn">
+            <ul class="btn" id="saveButton">
                 <li><a href="outfitgallery.html" class="btn-save">Save</a></li>
             </ul>
         </div>
@@ -69,7 +69,7 @@
 
     <section class="details">
         <div class="img-container">
-            <div class="top-container">
+            <div class="top-container" id="topContainer">
                 <img src="" alt="">
             </div>
             <div class="bottom-container">
@@ -238,7 +238,7 @@
         </div>
     </section>
 
-    <section class="overlay"></section>
+    <section class="overlay" id="overlay"></section>
 
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
