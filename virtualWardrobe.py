@@ -57,18 +57,27 @@ def imgwindow(filename):
     file_url = url_for('get_file', filename=filename)
     return render_template('imgwindow.html', file_url=file_url)
 
+
 @app.route('/wardrobecategory',  methods=['POST'])
 def wardrobecategory():
-    category = request.form.get('category')
-    file_url = request.form.get('file_url')
-    return render_template('wardrobecategory.html', category=category, file_url=file_url)
+    file_data = []
+    if request.method == 'POST':
+        category = request.form.get('category')
+        file = request.files.get('file_url')
+        if file and category:
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            file_data.append({'category': category, 'file_url': file_path})
+    return render_template('wardrobecategory.html', category=category, files=file_data)
+
+#@app.route('/wardrobecategory',  methods=['POST'])
+#def wardrobecategory():
+#    category = request.form.get('category')
+#    file_url = request.form.get('file_url')
+#    return render_template('wardrobecategory.html', category=category, file_url=file_url)
 
 
-
-#@app.route('/wardrobecategory/<category>/<filename>')
-#def wardrobecategory(category, filename):
-#        file_url = url_for('get_file', filename=filename)
-#        return render_template('wardrobecategory.html', file_url=file_url, category=category)
 
 
 def create_db():
