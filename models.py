@@ -6,3 +6,4 @@ class Img(db.Model):
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(255), nullable=False)

@@ -1,3 +1,4 @@
+from collections import defaultdict
 from flask import Flask, redirect, render_template, request, send_from_directory, url_for # to return actual files
 from flask_wtf import FlaskForm
 from wtforms import FileField, SelectField,  SubmitField
@@ -68,8 +69,21 @@ def wardrobecategory():
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            file_data.append({'category': category, 'file_url': file_path})
-    return render_template('wardrobecategory.html', category=category, files=file_data)
+
+            img = Img(data=file.read(), name=filename, mimetype=file.content_type, category=category)
+            db.session.add(img)
+            db.session.commit()
+            #file_data.append({'category': category, 'file_url': file_path})
+
+    file_data = Img.query.all()
+
+    categorized_files = defaultdict(list)
+    for file in file_data:
+        categorized_files[file.category].append(file)
+
+    print(categorized_files)
+
+    return render_template('wardrobecategory.html', categorized_files=categorized_files, files=file_data)
 
 #@app.route('/wardrobecategory',  methods=['POST'])
 #def wardrobecategory():
