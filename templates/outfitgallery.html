@@ -6,128 +6,78 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-   <nav>
-    <section class="header">
-        <div class="menu">
-            <i class='bx bx-menu bx-md menu-icon'></i>
-        </div>
-        <div class="sidebar">
+    <nav>
+        <section class="header">
             <div class="menu">
-            <i class='bx bx-menu bx-md menu-icon'></i>
+                <i class='bx bx-menu bx-md menu-icon'></i>
             </div>
-            <div class="sidebar-content">
-                <ul class="lists">
-                    <li class="list">
-                        <a href="#" class="nav-link">
-                            <i class='bx bx-home-heart icon'></i>
-                            <span class="link">Home</span>
-                        </a>
-                        <a href="#" class="nav-link">
-                            <i class='bx bxs-hot icon' ></i>
-                            <span class="link">Trending</span>
-                        </a>
-                        <a href="#" class="nav-link">
-                            <i class='bx bx-closet icon'></i>
-                            <span class="link">Wardrobe</span>
-                        </a>
-                        <a href="#" class="nav-link">
-                            <i class='bx bx-edit icon'></i>
-                            <span class="link">Outfit Creator</span>
-                        </a>
-                        <a href="#" class="nav-link">
-                            <i class='bx bx-star icon'></i>
-                            <span class="link">Outfit Gallery</span>
-                        </a>
-                        <a href="#" class="nav-link">
-                            <i class='bx bx-cog icon'></i>
-                            <span class="link">Settings</span>
-                        </a>
-                    </li>
-                </ul>
+            <div class="sidebar">
+                <div class="menu">
+                    <i class='bx bx-menu bx-md menu-icon'></i>
+                </div>
+                <div class="sidebar-content">
+                    <ul class="lists">
+                        <li class="list">
+                            <a href="#" class="nav-link">
+                                <i class='bx bx-home-heart icon'></i>
+                                <span class="link">Home</span>
+                            </a>
+                            <a href="#" class="nav-link">
+                                <i class='bx bxs-hot icon'></i>
+                                <span class="link">Trending</span>
+                            </a>
+                            <a href="#" class="nav-link">
+                                <i class='bx bx-closet icon'></i>
+                                <span class="link">Wardrobe</span>
+                            </a>
+                            <a href="#" class="nav-link">
+                                <i class='bx bx-edit icon'></i>
+                                <span class="link">Outfit Creator</span>
+                            </a>
+                            <a href="#" class="nav-link">
+                                <i class='bx bx-star icon'></i>
+                                <span class="link">Outfit Gallery</span>
+                            </a>
+                            <a href="#" class="nav-link">
+                                <i class='bx bx-cog icon'></i>
+                                <span class="link">Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="Gallery">
-            <h2> Outfit Gallery</h2>
-        </div>
+            <div class="Gallery">
+                <h2>Outfit Gallery</h2>
+            </div>
+        </section>
     </nav>
 
     <div class="cards" id="cardsContainer">
+        {% for outfit in outfits %}
         <a href="#" class="card">
-            <img src="static/images/outfit1.jpg" alt="" />
+            <img src="{{ url_for('static', filename='images/tops/' + outfit.top_image) }}" alt="Outfit Image" />
             <div class="card_body">
-                <h6 class="card_title">Outfit 1</h6>
+                <h6 class="card_title">{{ outfit.outfit_name }}</h6>
+                <p>Top: {{ outfit.top_color }}, Bottom: {{ outfit.bottom_color }}, Outer: {{ outfit.outer_color }}, Shoes: {{ outfit.shoe_color }}, Accessories: {{ outfit.acc_color }}</p>
                 <div class="mode">
                     <div class="toggle-switch">
                         <span class="switch"></span>
                     </div>
                 </div>
                 <div class="delete">
-                    <i class='bx bx-trash bx-sm' ></i>
+                    <i class='bx bx-trash bx-sm'></i>
                 </div>
             </div>
         </a>
-        <a href="#" class="card">
-            <img src="static/images/outfit2.jpg" alt="" />
-            <div class="card_body">
-                <h6 class="card_title">Outfit 2</h6>
-                <div class="mode">
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </div>
-                <div class="delete">
-                    <i class='bx bx-trash bx-sm' ></i>
-                </div>
-            </div>
-        </a>
-        <a href="#" class="card">
-            <img src="static/images/blue_dress.jpg" alt="" />
-            <div class="card_body">
-                <h6 class="card_title">Outfit 3</h6>
-                <div class="mode">
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </div>
-                <div class="delete">
-                    <i class='bx bx-trash bx-sm' ></i>
-                </div>
-            </div>
-        </a>
-        <a href="#" class="card">
-            <img src="static/images/outfit3.jpg" alt="" />
-            <div class="card_body">
-                <h6 class="card_title">Outfit 4</h6>
-                <div class="mode">
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </div>
-                <div class="delete">
-                    <i class='bx bx-trash bx-sm' ></i>
-                </div>
-            </div>
-        </a>
-        <a href="#" class="card">
-            <img src="static/images/outfit4.jpg" alt="" />
-            <div class="card_body">
-                <h6 class="card_title">Outfit 5</h6>
-                <div class="mode">
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </div>
-                <div class="delete">
-                    <i class='bx bx-trash bx-sm' ></i>
-                </div>
-            </div>
-        </a>
-
+        {% endfor %}
     </div>
+
+    <a href="/">Create a new outfit</a>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+</html>
