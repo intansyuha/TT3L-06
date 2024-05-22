@@ -154,48 +154,6 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
     });
 });
-
-
-// Gallery Outfit //
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const toggleSwitches = document.querySelectorAll('.toggle-switch');
-
-    toggleSwitches.forEach(switchElem => {
-      switchElem.addEventListener("click", () => {
-        switchElem.classList.toggle('active');
-      });
-    });
-  });
-
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits'));
-    if (savedOutfits) {
-        const cardsContainer = document.querySelector('.cards');
-        savedOutfits.forEach((outfit, index) => {
-            const outfitCard = document.createElement('a');
-            outfitCard.className = 'card';
-            outfitCard.href = '#';
-
-            const outfitImage = document.createElement('img');
-            outfitImage.src = outfit.top; // You can choose any image from the saved outfit
-
-            const cardBody = document.createElement('div');
-            cardBody.className = 'card_body';
-
-            const cardTitle = document.createElement('h6');
-            cardTitle.className = 'card_title';
-            cardTitle.textContent = `Saved Outfit ${index + 1}`;
-
-            cardBody.appendChild(cardTitle);
-            outfitCard.appendChild(outfitImage);
-            outfitCard.appendChild(cardBody);
-            cardsContainer.appendChild(outfitCard);
-        });
-    }
-});
-
 document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelectorAll('.menu-icon');
     const sidebar = document.querySelector('.sidebar');
@@ -226,77 +184,105 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Function to create a new outfit card
-    function createOutfitCard(imageUrl, title) {
-        // Create the card container
-        const card = document.createElement('a');
-        card.href = '#';
-        card.className = 'card';
 
-        // Create the image element
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.alt = '';
+// Gallery Outfit //
 
-        // Create the card body
-        const cardBody = document.createElement('div');
-        cardBody.className = 'card_body';
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleSwitches = document.querySelectorAll('.toggle-switch');
 
-        // Create the card title
-        const cardTitle = document.createElement('h6');
-        cardTitle.className = 'card_title';
-        cardTitle.textContent = title;
+    toggleSwitches.forEach(switchElem => {
+      switchElem.addEventListener("click", () => {
+        switchElem.classList.toggle('active');
+      });
+    });
+  });
 
-        // Create the card options container
-        const cardOptions = document.createElement('div');
-        cardOptions.className = 'card_options';
 
-        // Create the toggle switch
-        const toggleSwitch = document.createElement('div');
-        toggleSwitch.className = 'toggle-switch';
-        const switchSpan = document.createElement('span');
-        switchSpan.className = 'switch';
-        toggleSwitch.appendChild(switchSpan);
+document.addEventListener('DOMContentLoaded', () => {
+  const cardsContainer = document.getElementById('cardsContainer');
+  const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
 
-        // Create the delete icon
-        const deleteDiv = document.createElement('div');
-        deleteDiv.className = 'delete';
-        const deleteIcon = document.createElement('i');
-        deleteIcon.className = 'bx bx-trash bx-sm';
-        deleteDiv.appendChild(deleteIcon);
+  // Function to create a new outfit card
+  function createOutfitCard(outfit) {
+    // Create the card container
+    const card = document.createElement('a');
+    card.href = '#';
+    card.className = 'card';
 
-        // Append the toggle switch and delete icon to card options
-        cardOptions.appendChild(toggleSwitch);
-        cardOptions.appendChild(deleteDiv);
+    // Create the image element
+    const img = document.createElement('img');
+    img.src = outfit.top; // Use the top image from the saved outfit
+    img.alt = '';
 
-        // Append the title and options to the card body
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardOptions);
+    // Create the card body
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card_body';
 
-        // Append the image and card body to the card container
-        card.appendChild(img);
-        card.appendChild(cardBody);
+    // Create the card title
+    const cardTitle = document.createElement('h6');
+    cardTitle.className = 'card_title';
+    cardTitle.textContent = `Saved Outfit ${savedOutfits.indexOf(outfit) + 1}`;
 
-        // Append the card to the cards container
-        document.getElementById('cardsContainer').appendChild(card);
+    // Create the card options container
+    const cardOptions = document.createElement('div');
+    cardOptions.className = 'card_options';
+
+    // Create the toggle switch
+    const toggleSwitch = document.createElement('div');
+    toggleSwitch.className = 'toggle-switch';
+    const switchSpan = document.createElement('span');
+    switchSpan.className = 'switch';
+    toggleSwitch.appendChild(switchSpan);
+
+    // Create the delete icon
+    const deleteDiv = document.createElement('div');
+    deleteDiv.className = 'delete';
+    const deleteIcon = document.createElement('i');
+    deleteIcon.className = 'bx bx-trash bx-sm';
+    deleteDiv.appendChild(deleteIcon);
+
+    // Append the toggle switch and delete icon to card options
+    cardOptions.appendChild(toggleSwitch);
+    cardOptions.appendChild(deleteDiv);
+
+    // Append the title and options to the card body
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardOptions);
+
+    // Append the image and card body to the card container
+    card.appendChild(img);
+    card.appendChild(cardBody);
+
+    // Append the card to the cards container
+    cardsContainer.appendChild(card);
+  }
+
+
+  // Display saved outfits
+  savedOutfits.forEach(outfit => {
+    createOutfitCard(outfit);
+  });
+
+  // Add event listener for the delete functionality
+  cardsContainer.addEventListener('click', function(event) {
+    if (event.target.classList.contains('bx-trash')) {
+      const card = event.target.closest('.card');
+      card.remove();
+
+      // Remove outfit from savedOutfits array
+      const outfitIndex = savedOutfits.findIndex(outfit => outfit.imageUrl === card.querySelector('img').src);
+      if (outfitIndex !== -1) {
+        savedOutfits.splice(outfitIndex, 1);
+        // Update local storage
+        localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
+      }
     }
+  });
 
-    // Example usage
-    createOutfitCard('static/images/new_outfit.jpg', 'New Outfit');
-
-    // Add event listener for the delete functionality
-    document.getElementById('cardsContainer').addEventListener('click', function(event) {
-        if (event.target.classList.contains('bx-trash')) {
-            const card = event.target.closest('.card');
-            card.remove();
-        }
-    });
-
-    // Add event listener for the toggle switch functionality
-    document.getElementById('cardsContainer').addEventListener('click', function(event) {
-        if (event.target.classList.contains('switch')) {
-            event.target.closest('.toggle-switch').classList.toggle('active');
-        }
-    });
+  // Add event listener for the toggle switch functionality
+  cardsContainer.addEventListener('click', function(event) {
+    if (event.target.classList.contains('switch')) {
+      event.target.closest('.toggle-switch').classList.toggle('active');
+    }
+  });
 });
