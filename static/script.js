@@ -196,3 +196,32 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const menuIcon = document.querySelectorAll('.menu-icon');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('#overlay');
+    
+    menuIcon.forEach(icon => {
+        icon.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+    });
+    
+    overlay.addEventListener('click', function () {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    });
+    
+    const accordionLabels = document.querySelectorAll('.accordion-row label');
+    accordionLabels.forEach(label => {
+        label.addEventListener('click', function () {
+            this.nextElementSibling.classList.toggle('hidden');
+        });
+    });
+
+    const saveButton = document.querySelector('#saveButton');
+    saveButton.addEventListener('click', function () {
+        alert('Outfit saved!');
+    });
+});
