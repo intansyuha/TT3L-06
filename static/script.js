@@ -156,7 +156,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
 // Gallery Outfit //
 
   document.addEventListener("DOMContentLoaded", function () {

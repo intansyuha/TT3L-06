@@ -176,22 +176,31 @@ nav.open ~ .overlay {
     transform: scaleX(1);
 }
 
+.btn-container {
+    margin-left: auto; 
+}
 
 .btn {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.btn li {
+    margin-right: 50px;
+}
+
+.btn a {
     text-decoration: none;
-    margin-left: auto;
     color: white;
     padding: 5px 10px;
     background-color: #E4C1C1;
     border-radius: 5px;
-    border: none;
-    cursor: pointer;
 }
 
-.btn:hover {
+.btn a:hover {
     background-color: #BF9797;
 }
-
 
     /*-Details/Display-*/
 

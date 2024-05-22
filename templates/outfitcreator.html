@@ -6,65 +6,66 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <form id="outfitForm" action="/save_outfit" method="post">
-        <!-- Hidden input field for outfit name -->
-        <input type="hidden" id="outfit_name" name="outfit_name" value="Default Outfit">
-        <!-- Hidden input fields for outfit details -->
-        <input type="hidden" id="top_color" name="top_color" value="Default Top Color">
-        <input type="hidden" id="bottom_color" name="bottom_color" value="Default Bottom Color">
-        <input type="hidden" id="outer_color" name="outer_color" value="Default Outer Color">
-        <input type="hidden" id="shoe_color" name="shoe_color" value="Default Shoe Color">
-        <input type="hidden" id="acc_color" name="acc_color" value="Default Accessory Color">
-    </form>
-    
     <nav>
-        <section class="header">
+    <section class="header">
+        <div class="menu">
+            <i class='bx bx-menu bx-md menu-icon'></i>
+        </div>
+        <div class="sidebar">
             <div class="menu">
-                <i class='bx bx-menu bx-md menu-icon'></i>
+            <i class='bx bx-menu bx-md menu-icon'></i>
             </div>
-            <div class="sidebar">
-                <div class="menu">
-                    <i class='bx bx-menu bx-md menu-icon'></i>
-                </div>
-                <div class="sidebar-content">
-                    <ul class="lists">
-                        <li class="list">
-                            <a href="#" class="nav-link">
-                                <i class='bx bx-home-heart icon'></i>
-                                <span class="link">Home</span>
-                            </a>
-                            <a href="#" class="nav-link">
-                                <i class='bx bxs-hot icon'></i>
-                                <span class="link">Trending</span>
-                            </a>
-                            <a href="#" class="nav-link">
-                                <i class='bx bx-closet icon'></i>
-                                <span class="link">Wardrobe</span>
-                            </a>
-                            <a href="#" class="nav-link">
-                                <i class='bx bx-edit icon'></i>
-                                <span class="link">Outfit Creator</span>
-                            </a>
-                            <a href="{{ url_for('outfit_gallery') }}" class="nav-link">
-                                <i class='bx bx-star icon'></i>
-                                <span class="link">Outfit Gallery</span>
-                            </a>
-                            <a href="#" class="nav-link">
-                                <i class='bx bx-cog icon'></i>
-                                <span class="link">Settings</span>
-                            </a>
-                        </li>
-                    </ul>
+            <div class="sidebar-content">
+                <ul class="lists">
+                    <li class="list">
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-home-heart icon'></i>
+                            <span class="link">Home</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bxs-hot icon' ></i>
+                            <span class="link">Trending</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-closet icon'></i>
+                            <span class="link">Wardrobe</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="link">Outfit Creator</span>
+                        </a>
+                        <a href="outfitgallery.html" class="nav-link">
+                            <i class='bx bx-star icon'></i>
+                            <span class="link">Outfit Gallery</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-cog icon'></i>
+                            <span class="link">Settings</span>
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrapper-container">
+            <div class="wrapper">
+                <div class="input-data">
+                    <input type="text" required name="name" placeholder="Outfit Name" autocomplete="off">
+                    <div class="underline"></div>
                 </div>
             </div>
-            <button class="btn" id="saveButton" onclick="saveOutfit()">Save Outfit</button>
-        </section>
-   
-</nav>
+        </div>
+        <div class="btn-container">
+            <ul class="btn" id="saveButton">
+                <li><a href="outfitgallery.html" class="btn-save">Save</a></li>
+            </ul>
+        </div>
+    </section>
+    </nav>
 
     <section class="details">
         <div class="img-container">
@@ -113,7 +114,6 @@
                             <img src="static/images/tops/top5.png" alt="Top 5">
                         </div>
                     </div>
-                </div>
             </div>
         </div>
         <div class="accordion-row" id="bottoms-accordion">
@@ -239,6 +239,7 @@
     </section>
 
     <section class="overlay" id="overlay"></section>
+
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
