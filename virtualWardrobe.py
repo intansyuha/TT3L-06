@@ -59,31 +59,62 @@ def imgwindow(filename):
     return render_template('imgwindow.html', file_url=file_url)
 
 
-@app.route('/wardrobecategory',  methods=['POST'])
-def wardrobecategory():
-    file_data = []
+#@app.route('/wardrobecategory',  methods=['POST'])
+#def wardrobecategory():
+#    file_data = []
+#    file_url = None
+#    category = None 
+
     if request.method == 'POST':
         category = request.form.get('category')
         file = request.files.get('file_url')
+        print(f"Received file: {filename}")
+        print(f"Category: {category}")
+
         if file and category:
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
 
+            file_url = url_for('uploaded_file', filename=filename)
+
             img = Img(data=file.read(), name=filename, mimetype=file.content_type, category=category)
             db.session.add(img)
             db.session.commit()
-            #file_data.append({'category': category, 'file_url': file_path})
+            file_data.append(img)
 
-    file_data = Img.query.all()
+            print(f"Image record added to database: {img}")
 
-    categorized_files = defaultdict(list)
-    for file in file_data:
-        categorized_files[file.category].append(file)
+    return render_template('wardrobecategory.html', category=category, files=file_data, file_url=file_url)
 
-    print(categorized_files)
+@app.route('/wardrobecategory',  methods=['GET', 'POST'])
+def wardrobecategory():
+    if request.method == 'POST':
+        category = request.form.get('category')
+        file = request.files.get('file')
+        if file and category:
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
 
-    return render_template('wardrobecategory.html', categorized_files=categorized_files, files=file_data)
+            file_url = url_for('get_file', filename=filename)
+
+            img = Img(data=file.read(), name=filename, mimetype=file.content_type, category=category)
+            db.session.add(img)
+            db.session.commit()
+    
+        # Fetch existing file URLs from the database
+        file_data = Img.query.all()
+        # Handle the exception (print it, log it, etc.)
+        print("Error occurred while querying the database:")
+        file_data = []
+
+    # Pass both category and existing file URLs to the template
+    return render_template('wardrobecategory.html', category=category, file_data=file_data, file_url=file_url)
+
+
+
+
 
 #@app.route('/wardrobecategory',  methods=['POST'])
 #def wardrobecategory():

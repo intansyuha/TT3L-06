@@ -22,9 +22,9 @@
     <div class="tab-content">
         <div id="tops" data-tab-content>
             <h1>Tops section</h1>
-            {% for file in files if file.category == 'Tops' %}
+            {% for img in file_data  %}
             <div>
-                <img src="{{ url_for('static', filename=file.file_url) }}" alt="Tops Image" style="width: 200px;">
+                <img src="{{ url_for('get_file', filename=img.name) }}" alt="Tops Image" style="width: 200px;">
             </div>
         {% endfor %}
         </div>
