@@ -75,5 +75,29 @@ def community_page():
     
     return redirect('/login')
 
+@app.route('/user-profile')
+@app.route('/user-profile.html')
+def user_profile():
+    if session['email']:
+        return render_template('user-profile.html')
+    
+    return redirect('/login')
+
+@app.route('/bookmark')
+@app.route('/bookmark.html')
+def bookmark():
+    if session['email']:
+        return render_template('bookmark.html')
+    
+    return redirect('/login')
+
+@app.route('/settings')
+@app.route('/settings.html')
+def settings():
+    if session['email']:
+        return render_template('settings.html')
+    
+    return redirect('/login')
+
 if __name__ == '__main__':
     app.run(debug=True)

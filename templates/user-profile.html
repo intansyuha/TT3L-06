@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h2 class="logo">RevêLuxe</h2>
+            <div class="search-bar">
+                <i class='bx bx-search'></i>
+                <input
+                type="search"
+                placeholder="Search for creators, inspirations and projects"
+                />
+            </div>
+                <div class="profile-pic">
+                    <img src="static/profile-8.jpg" alt="pic 1" />
+                </div>
+            </div>
+        </div>
+  </nav>
+
+  <main>
+      <div class="container">
+          <div class="left">
+              <a class="profile">
+                  <div class="profile-pic">
+                    <img src="static/profile-8.jpg">
+                  </div>
+                  <div class="handle">
+                      <h4>Intan Syuha</h4>
+                      <p class="text-muted">@intansyuha</p>
+                  </div>
+              </a>
+              <div class="sidebar">
+                <a class="menu-item active" href="user-profile.html">
+                    <span><i class='bx bx-user'></i></span> <h3>User Profile</h3>
+                </a>
+                <a class="menu-item" href="community-page.html">
+                    <span><i class='bx bx-home'></i></span> <h3>Home</h3>
+                </a>
+                <a class="menu-item" id="notifications">
+                  <span><i class='bx bx-bell'><small class="notification-count">9+</small></i></span> <h3>Notifications</h3>
+                  <div class="notifications-popup">
+                      <div>
+                          <div class="profile-pic">
+                              <img src="static/profile-10.jpg" >
+                          </div>
+                          <div class="notification-body">
+                              <b>Abigail Willey</b> accepted your friend request
+                              <small class="text-muted">2 DAYS AGO</small>
+                          </div>
+                      </div>
+                      <div>
+                          <div class="profile-pic">
+                              <img src="static/profile-11.jpg" >
+                          </div>
+                          <div class="notification-body">
+                              <b>Varun Nair</b> commented on your post
+                              <small class="text-muted">1 HOUR AGO</small>
+                          </div>
+                      </div>
+                      <div>
+                          <div class="profile-pic">
+                              <img src="static/profile-12.jpg" >
+                          </div>
+                          <div class="notification-body">
+                              <b>Marry Opmong</b> and 210 other liked your post
+                              <small class="text-muted">4 MINUTES AGO</small>
+                          </div>
+                      </div>
+                      <div>
+                          <div class="profile-pic">
+                              <img src="static/profile-13.jpg" >
+                          </div>
+                          <div class="notification-body">
+                              <b>Wilson Fisk</b> started following you
+                              <small class="text-muted"> 11 HOURS AGO</small>
+                          </div>
+                      </div>
+                  </div>
+                </a>
+                <a class="menu-item" href="bookmark.html">
+                  <span><i class='bx bx-bookmark'></i></span> <h3>Saved</h3>
+                </a>
+                <a class="menu-item" href="settings.html">
+                  <span><i class='bx bx-cog'></i></span> <h3>Settings</h3>
+                </a>
+
+            </div>
+          </div>
+          
+
+
+          <div class="middle">
+            
+            
+
+
+           
+          </div>
+      </div>
+  </main>
+
+    <script>
+        //sidebar
+const menuItems = document.querySelectorAll('.menu-item');
+const messagesNotification = document.querySelector('#messages-notifications');
+const messages = document.querySelector('.messages');
+const message = messages.querySelectorAll('.message');
+const messageSearch = document.querySelector('#message-search');
+
+//remove active class from all menu items
+const changeActiveItem = () => {
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    })
+}
+ 
+
+menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+        changeActiveItem();
+        item.classList.add('active');
+        
+        if (item.id != 'notifications') {
+            document.querySelector('.notifications-popup').style.display = 'none';
+        } else {
+            document.querySelector('.notifications-popup').style.display = 'block';
+            document.querySelector('#notifications .notification-count').style.display='none';
+        }
+    })
+})
+
+
+const searchMessage = () => {
+    const val = messageSearch.value.toLowerCase();
+    message.forEach(chat => {
+        let name=chat.querySelector('h5').textContent.toLowerCase();
+        if(name.indexOf(val) != -1){
+            chat.style.display = 'flex';
+        } else{
+            chat.style.display = 'none';
+        }
+    })
+}
+
+messageSearch.addEventListener('keyup', searchMessage);
+
+
+messagesNotification.addEventListener('click', () => {
+    messages.style.boxShadow = '0 0 1rem var(--color-primary)';
+    messagesNotification.querySelector('.notification-count').style.display = 'none';
+    setTimeout(() => {
+        messages.style.boxShadow = 'none';
+    }, 2000);
+})
+    </script>
+
+</body>
+</html>
