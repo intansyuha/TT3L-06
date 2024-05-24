@@ -1,8 +1,6 @@
 from flask import Flask, render_template
-from db import app as db_app
 
 app = Flask(__name__)
-app.register_blueprint(db_app)
 
 
 @app.route("/")
