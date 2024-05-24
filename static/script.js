@@ -178,11 +178,30 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // const saveButton = document.querySelector('#saveButton');
+    // saveButton.addEventListener('click', function () {
+    //     alert('Outfit saved!');
+    // });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     const saveButton = document.querySelector('#saveButton');
-    saveButton.addEventListener('click', function () {
-        alert('Outfit saved!');
+
+    saveButton.addEventListener('click', () => {
+        // Display a custom input prompt
+        const outfitName = prompt('Enter the name of your outfit:');
+        
+        // Check if the user entered a valid outfit name
+        if (outfitName !== null && outfitName.trim() !== '') {
+            // Proceed to save the outfit with the entered name
+            alert(`Outfit "${outfitName}" saved!`);
+            // Here you can proceed to save the outfit with the given name
+        } else {
+            alert('Please enter a valid outfit name.');
+        }
     });
 });
+
 
 
 // Gallery Outfit //
