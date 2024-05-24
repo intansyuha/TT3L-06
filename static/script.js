@@ -177,11 +177,6 @@ document.addEventListener("DOMContentLoaded", function () {
             this.nextElementSibling.classList.toggle('hidden');
         });
     });
-
-    // const saveButton = document.querySelector('#saveButton');
-    // saveButton.addEventListener('click', function () {
-    //     alert('Outfit saved!');
-    // });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
