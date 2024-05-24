@@ -286,14 +286,20 @@ document.addEventListener('DOMContentLoaded', () => {
   cardsContainer.addEventListener('click', function(event) {
     if (event.target.classList.contains('bx-trash')) {
       const card = event.target.closest('.card');
-      card.remove();
 
-      // Remove outfit from savedOutfits array
-      const outfitIndex = savedOutfits.findIndex(outfit => outfit.imageUrl === card.querySelector('img').src);
+      // Identify the outfit data associated with the deleted card
+      const imageUrl = card.querySelector('img').src;
+      const outfitIndex = savedOutfits.findIndex(outfit => outfit.top === imageUrl);
       if (outfitIndex !== -1) {
+        const outfitName = card.querySelector('.card_title').textContent;
+        // Remove the outfit data from the array
         savedOutfits.splice(outfitIndex, 1);
-        // Update local storage
+        // Update local storage with the modified array
         localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
+        card.remove();
+
+        // Alert User that outfit has been deleted
+        alert('Outfit has been deleted!')
       }
     }
   });
