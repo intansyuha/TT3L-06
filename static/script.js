@@ -1,18 +1,39 @@
-const labels = document.querySelectorAll('.accordion-row label');
+//OUTFIT CREATOR//
 
-// Initialize the display property of the accordion content
-labels.forEach(label => {
-  const accordionContent = label.nextElementSibling;
-  accordionContent.style.display = 'none'; // Initialize to 'none'
+
+// Nav Bar //
+document.addEventListener("DOMContentLoaded", function() {
+  const navBar = document.querySelector("nav");
+  const menuBtns = document.querySelectorAll(".menu-icon");
+  const overlay = document.querySelector(".overlay");
+  
+  menuBtns.forEach((menuBtn) => {
+    menuBtn.addEventListener("click", () => {
+      navBar.classList.toggle("nav");
+      navBar.classList.toggle("open");
+    });
+  });
+  
+  overlay.addEventListener("click", () => {
+    navBar.classList.remove("nav");
+    navBar.classList.remove("open");
+  });
 });
 
-// Add event listener to each label
+// Accordion //
+const labels = document.querySelectorAll('.accordion-row label');
+
+labels.forEach(label => {
+  const accordionContent = label.nextElementSibling;
+  accordionContent.style.display = 'none'; 
+});
+
 labels.forEach(label => {
     label.addEventListener('click', () => {
         const accordionContent = label.nextElementSibling;
         const chevron = label.querySelector('i');
 
-        // Toggle the display property of the accordion content
+        // Toggle the accordion content
         accordionContent.style.display = accordionContent.style.display === 'flex' ? 'none' : 'flex';
 
         // Toggle the chevron icon
@@ -21,26 +42,7 @@ labels.forEach(label => {
     });
 });
 
-
-document.addEventListener("DOMContentLoaded", function() {
-  const navBar = document.querySelector("nav");
-  const menuBtns = document.querySelectorAll(".menu-icon");
-  const overlay = document.querySelector(".overlay");
-
-  menuBtns.forEach((menuBtn) => {
-    menuBtn.addEventListener("click", () => {
-      navBar.classList.toggle("nav");
-      navBar.classList.toggle("open");
-    });
-  });
-
-  overlay.addEventListener("click", () => {
-    navBar.classList.remove("nav");
-    navBar.classList.remove("open");
-  });
-});
-
-
+// Outfit selection n display function
 document.addEventListener("DOMContentLoaded", function () {
   const topSmallBoxes = document.querySelectorAll('#tops-accordion .sb-1 .sb');
   const topContainer = document.querySelector('.top-container');
@@ -66,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const accContainer = document.querySelector('.accessories-container');
   const accContainerImg = document.querySelector('.accessories-container img');
 
-  
 
   topSmallBoxes.forEach((smallBox) => {
     smallBox.addEventListener('click', () => {
@@ -137,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Save the outfit
 document.addEventListener("DOMContentLoaded", function () {
     const saveButton = document.querySelector('.btn-save');
     saveButton.addEventListener('click', () => {
@@ -154,53 +156,58 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
     });
 });
-document.addEventListener("DOMContentLoaded", function () {
-    const menuIcon = document.querySelectorAll('.menu-icon');
-    const sidebar = document.querySelector('.sidebar');
-    const overlay = document.querySelector('#overlay');
-    
-    menuIcon.forEach(icon => {
-        icon.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('open');
-        });
-    });
-    
-    overlay.addEventListener('click', function () {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('open');
-    });
-    
-    const accordionLabels = document.querySelectorAll('.accordion-row label');
-    accordionLabels.forEach(label => {
-        label.addEventListener('click', function () {
-            this.nextElementSibling.classList.toggle('hidden');
-        });
-    });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-    const saveButton = document.querySelector('#saveButton');
 
-    saveButton.addEventListener('click', () => {
-        // Display a custom input prompt
-        const outfitName = prompt('Enter the name of your outfit:');
+// Save Button with outfit name
+document.addEventListener("DOMContentLoaded", function () {
+  const saveButton = document.querySelector('#saveButton');
         
-        // Check if the user entered a valid outfit name
-        if (outfitName !== null && outfitName.trim() !== '') {
-            // Proceed to save the outfit with the entered name
-            alert(`Outfit "${outfitName}" saved!`);
-            // Here you can proceed to save the outfit with the given name
-        } else {
-            alert('Please enter a valid outfit name.');
-        }
-    });
+  saveButton.addEventListener('click', () => {
+    // Display the outfit name prompt
+    const outfitName = prompt('Enter the name of your outfit:');
+    
+    // Check if the user entered a valid outfit name
+    if (outfitName !== null && outfitName.trim() !== '') {
+      // Proceed to save the outfit with the entered name
+      alert(`Outfit "${outfitName}" saved!`);
+      // Here user can proceed to save the outfit with the given name
+    } else {
+      alert('Please enter a valid outfit name.');
+    }
+  });
 });
 
 
 
 // Gallery Outfit //
 
+// Sidebar //
+document.addEventListener("DOMContentLoaded", function () {
+  const menuIcon = document.querySelectorAll('.menu-icon');
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.querySelector('#overlay');
+  
+  menuIcon.forEach(icon => {
+    icon.addEventListener('click', function () {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('open');
+    });
+  });
+  
+  overlay.addEventListener('click', function () {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  });
+  
+  const accordionLabels = document.querySelectorAll('.accordion-row label');
+  accordionLabels.forEach(label => {
+          label.addEventListener('click', function () {
+              this.nextElementSibling.classList.toggle('hidden');
+            });
+          });
+});
+
+// Toggle for public n private mode //
   document.addEventListener("DOMContentLoaded", function () {
     const toggleSwitches = document.querySelectorAll('.toggle-switch');
 
@@ -211,12 +218,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-
+// Outfit cards //
 document.addEventListener('DOMContentLoaded', () => {
   const cardsContainer = document.getElementById('cardsContainer');
   const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
 
-  // Function to create a new outfit card
+  // Create a new outfit card
   function createOutfitCard(outfit) {
     // Create the card container
     const card = document.createElement('a');
@@ -277,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createOutfitCard(outfit);
   });
 
-  // Add event listener for the delete functionality
+  // Delete Function //
   cardsContainer.addEventListener('click', function(event) {
     if (event.target.classList.contains('bx-trash')) {
       const card = event.target.closest('.card');
