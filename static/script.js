@@ -134,9 +134,15 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const saveButton = document.querySelector('.btn-save');
     saveButton.addEventListener('click', () => {
-        const outfitName = prompt('Enter the name of your outfit:');
+        let outfitName = prompt('Enter the name of your outfit:');
 
-        if (outfitName !== null && outfitName.trim() !== '') {
+        // Keep prompting until a valid name is entered
+        while (outfitName !== null && outfitName.trim() === '') {
+            alert('Please enter a valid outfit name.');
+            outfitName = prompt('Enter the name of your outfit:');
+        }
+
+        if (outfitName !== null) { // Check if the user provided a name
             const selectedOutfit = {
                 name: outfitName.trim(),
                 top: document.querySelector('.top-container img').src,
@@ -151,11 +157,10 @@ document.addEventListener("DOMContentLoaded", function () {
             savedOutfits.push(selectedOutfit);
             localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
             alert(`Outfit "${outfitName}" saved!`);
-        } else {
-            alert('Please enter a valid outfit name.');
         }
     });
 });
+
 
 // Sidebar and overlay functionality
 document.addEventListener("DOMContentLoaded", function () {
