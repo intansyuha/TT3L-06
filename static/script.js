@@ -161,6 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+//* Outfit Gallery */
+
 
 // Sidebar and overlay functionality
 document.addEventListener("DOMContentLoaded", function () {
@@ -254,13 +256,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.classList.contains('bx-trash')) {
             const card = event.target.closest('.card');
             const imageUrl = card.querySelector('img').src;
-            const outfitIndex = savedOutfits.findIndex(outfit => outfit.top === imageUrl);
-            if (outfitIndex !== -1) {
-                savedOutfits.splice(outfitIndex, 1);
-                localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
-                card.remove();
-                alert('Outfit has been deleted!');
+          const outfitIndex = savedOutfits.findIndex(outfit => outfit.top === imageUrl);
+          
+          if (outfitIndex !== -1) {
+            const outfitName = card.querySelector('.card_title').textContent;
+            const confirmation = confirm(`Are you sure you want to delete the outfit "${outfitName}"?`);
+
+            if (confirmation) {
+              savedOutfits.splice(outfitIndex, 1);
+              localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
+              card.remove();
+              alert(`Outfit "${outfitName}" has been deleted!`);
             }
+          } 
         }
     });
 
