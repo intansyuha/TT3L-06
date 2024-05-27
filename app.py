@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
+import os
 
 app = Flask(__name__, static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -17,6 +18,7 @@ class User(db.Model):
     username = db.Column(db.String(8), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(50))
+    bio = db.Column(db.String(30))
 
     def __init__(self, email, password, username):
         self.username = username
@@ -75,11 +77,33 @@ def community_page():
     
     return redirect('/login')
 
-@app.route('/user-profile')
-@app.route('/user-profile.html')
+@app.route('/user-profile', methods=['GET', 'POST'])
+@app.route('/user-profile.html', methods=['GET', 'POST'])
 def user_profile():
     if session['email']:
+
+        if request.method == 'POST':
+            username = request.form['username']
+            email = request.form['email']
+            password = request.form['password']
+        
+        user_data = {"username": "current_username", "bio": "current_bio", "profile_picture": "path_to_profile_picture"}
+
         return render_template('user-profile.html')
+    
+    # Handle profile picture upload and cropping
+    if 'profile_picture' in request.files:
+        profile_picture = request.files['profile_picture']
+        if profile_picture.filename != '':
+            profile_picture_path = os.path.join('static/uploads', profile_picture.filename)
+            profile_picture.save(profile_picture_path)
+            
+            # Crop the image to a square
+            image = image.open(profile_picture_path)
+            width, height = image.size
+            min_dimension = min(width, height)
+            cropped_image = image.crop((0, 0, min_dimension, min_dimension))
+            cropped_image.save(profile_picture_path)
     
     return redirect('/login')
 
