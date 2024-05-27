@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, jsonify
+from flask import Flask, render_template, request, redirect, session, jsonify, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 import os
@@ -31,6 +31,8 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
+user = {"username", "email", "password"}
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/login.html', methods=['GET', 'POST'])
@@ -38,16 +40,15 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
-        email = User.query.filter_by(email=email).first()
-
-        if email and email.check_password(password):
-            session['email'] = email.email
-            session['password'] = email.password
-            return redirect('/community-page')
+        
+        # Check if the user exists and password matches
+        user = User.query.filter_by(email=email).first()
+        if user and user.password == password:
+            flash('Login successful!', 'success')
+            return redirect(url_for('community-page.html'))
         else:
-            return render_template('login.html', error='Invalid username')
-
+            flash('Invalid email or password. Please try again.', 'danger')
+            
     return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -59,6 +60,7 @@ def signup():
         password = request.form['password']
 
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+
         if existing_user:
             return jsonify({'error': 'Username or email already exists'}), 400
         else:
@@ -81,31 +83,22 @@ def community_page():
 @app.route('/user-profile.html', methods=['GET', 'POST'])
 def user_profile():
     if session['email']:
-
-        if request.method == 'POST':
-            username = request.form['username']
-            email = request.form['email']
-            password = request.form['password']
-        
-        user_data = {"username": "current_username", "bio": "current_bio", "profile_picture": "path_to_profile_picture"}
-
-        return render_template('user-profile.html')
     
-    # Handle profile picture upload and cropping
-    if 'profile_picture' in request.files:
-        profile_picture = request.files['profile_picture']
-        if profile_picture.filename != '':
-            profile_picture_path = os.path.join('static/uploads', profile_picture.filename)
-            profile_picture.save(profile_picture_path)
-            
-            # Crop the image to a square
-            image = image.open(profile_picture_path)
-            width, height = image.size
-            min_dimension = min(width, height)
-            cropped_image = image.crop((0, 0, min_dimension, min_dimension))
-            cropped_image.save(profile_picture_path)
+        # Handle profile picture upload and cropping
+        if 'profile_picture' in request.files:
+            profile_picture = request.files['profile_picture']
+            if profile_picture.filename != '':
+                profile_picture_path = os.path.join('TT3L-06/static', profile_picture.filename)
+                profile_picture.save(profile_picture_path)
+                
+                # Crop the image to a square
+                image = image.open(profile_picture_path)
+                width, height = image.size
+                min_dimension = min(width, height)
+                cropped_image = image.crop((0, 0, min_dimension, min_dimension))
+                cropped_image.save(profile_picture_path)
     
-    return redirect('/login')
+    return render_template('user-profile.html')
 
 @app.route('/bookmark')
 @app.route('/bookmark.html')
