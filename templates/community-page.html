@@ -39,60 +39,24 @@
                   </div>
               </a>
               <div class="sidebar">
-                <a class="menu-item" href="user-profile.html">
-                    <span><i class='bx bx-user'></i></span> <h3>User Profile</h3>
-                </a>
                 <a class="menu-item active">
                     <span><i class='bx bx-home'></i></span> <h3>Home</h3>
                 </a>
-                <a class="menu-item" id="notifications">
-                  <span><i class='bx bx-bell'><small class="notification-count">9+</small></i></span> <h3>Notifications</h3>
-                  <div class="notifications-popup">
-                      <div>
-                          <div class="profile-pic">
-                              <img src="static/profile-10.jpg" >
-                          </div>
-                          <div class="notification-body">
-                              <b>Abigail Willey</b> accepted your friend request
-                              <small class="text-muted">2 DAYS AGO</small>
-                          </div>
-                      </div>
-                      <div>
-                          <div class="profile-pic">
-                              <img src="static/profile-11.jpg" >
-                          </div>
-                          <div class="notification-body">
-                              <b>Varun Nair</b> commented on your post
-                              <small class="text-muted">1 HOUR AGO</small>
-                          </div>
-                      </div>
-                      <div>
-                          <div class="profile-pic">
-                              <img src="static/profile-12.jpg" >
-                          </div>
-                          <div class="notification-body">
-                              <b>Marry Opmong</b> and 210 other liked your post
-                              <small class="text-muted">4 MINUTES AGO</small>
-                          </div>
-                      </div>
-                      <div>
-                          <div class="profile-pic">
-                              <img src="static/profile-13.jpg" >
-                          </div>
-                          <div class="notification-body">
-                              <b>Wilson Fisk</b> started following you
-                              <small class="text-muted"> 11 HOURS AGO</small>
-                          </div>
-                      </div>
-                  </div>
+                <a class="menu-item" href="imgwindow.html">
+                    <span><i class='bx bx-closet'></i></span> <h3>Wardrobe</h3>
                 </a>
-                <a class="menu-item" href="bookmark.html">
-                  <span><i class='bx bx-bookmark'></i></span> <h3>Saved</h3>
+                <a class="menu-item" href="outfitcreator.html">
+                    <span><i class='bx bxs-edit'></i></span> <h3>Outfit Creator</h3>
+                </a>
+                <a class="menu-item" href="outfitgallery.html">
+                    <span><i class='bx bx-photo-album'></i></span> <h3>Outfit Gallery</h3>
                 </a>
                 <a class="menu-item" href="settings.html">
-                  <span><i class='bx bx-cog'></i></span> <h3>Settings</h3>
+                    <span><i class='bx bx-cog'></i></span> <h3>Settings</h3>
                 </a>
-
+                <a class="menu-item" href="login.html">
+                    <span><i class='bx bx-log-out'></i></span> <h3>Log Out</h3>
+                </a>
             </div>
           </div>
           
@@ -537,9 +501,9 @@
   </main>
 
     <script>
-        //sidebar
+
+//sidebar
 const menuItems = document.querySelectorAll('.menu-item');
-const messagesNotification = document.querySelector('#messages-notifications');
 const messages = document.querySelector('.messages');
 const message = messages.querySelectorAll('.message');
 const messageSearch = document.querySelector('#message-search');
@@ -550,21 +514,6 @@ const changeActiveItem = () => {
         item.classList.remove('active');
     })
 }
- 
-
-menuItems.forEach(item => {
-    item.addEventListener('click', () => {
-        changeActiveItem();
-        item.classList.add('active');
-        
-        if (item.id != 'notifications') {
-            document.querySelector('.notifications-popup').style.display = 'none';
-        } else {
-            document.querySelector('.notifications-popup').style.display = 'block';
-            document.querySelector('#notifications .notification-count').style.display='none';
-        }
-    })
-})
 
 
 const searchMessage = () => {
