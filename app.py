@@ -30,8 +30,6 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-user = {"username", "email", "password"}
-
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/login.html', methods=['GET', 'POST'])
@@ -42,12 +40,10 @@ def login():
         
         # Check if the user exists and password matches
         user = User.query.filter_by(email=email).first()
+
         if user and user.check_password == password:
-            flash('Login successful!', 'success')
-            return redirect(url_for('community-page.html'))
-        else:
-            flash('Invalid email or password. Please try again.', 'danger')
-            
+            return redirect('community-page.html')
+
     return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])

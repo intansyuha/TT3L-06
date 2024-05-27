@@ -58,7 +58,7 @@
                 return response.json();
             })
             .then(data => {
-                // Handle successful registration if needed
+                showMessage('Registration successful!');
                 console.log(data);
             })
             .catch(error => {
@@ -66,6 +66,13 @@
             });
         });
     });
+
+    //show message
+
+    function showMessage(message) {
+    // Display message to the user (e.g., in an alert, toast, or modal)
+    alert(message);
+    }
 </script>
 
 
