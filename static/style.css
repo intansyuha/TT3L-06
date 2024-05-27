@@ -203,7 +203,7 @@ body {
     
     main {
         position: relative;
-        top: 5.4rem;
+        top: 30px;
     }
     
     main .container{
@@ -346,7 +346,7 @@ body {
         background: var(--color-white);
         border-radius: var(--card-border-radius);
         padding: var(--card-padding);
-        margin: 1rem 0;
+        margin: 3rem 0;
         font-size: 0.85rem;
         line-height: 1.5;
     }
@@ -409,6 +409,7 @@ body {
         background: var(--color-white);
         border-radius: var(--card-border-radius);
         padding: var(--card-padding);
+        margin-top: 47px;
         
     }
     
@@ -682,24 +683,67 @@ body {
     }
 
     .profile-container {
-        width: 50%;
+        width: 100%;
         margin: auto;
         padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
+        border: 2px solid #d9a7a4;
+        border-radius: 20px;
     }
     
-    .profile-picture-section,
-    .profile-details {
+    .profile-picture-section {
         margin-bottom: 20px;
+        justify-content: center;
+        align-items: center;
     }
     
     img#profile-picture-preview {
         display: block;
-        margin-top: 10px;
-        width: 200px;
-        height: 200px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 90px;
+        width: 100px;
+        height: 100px;
         object-fit: cover;
         border-radius: 50%;
     }
     
+    .profile-details {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        border: 2px solid #d9a7a4;
+        border-radius: 20px;
+        font-size: 16px;
+        color: #d9a7a4;
+        padding: 20px 45px 20px 20px;
+        margin-bottom: 20px;
+    }
+
+    .profile-container .up-btn {
+        width: 100%;
+        height: 45px;
+        background: white;
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: 0 0 10px #debfbd;
+        cursor: pointer;
+        font-size: 16px;
+        color: #d9a7a4;
+        font-weight: 600;
+    }
+
+    .profile-details span {
+        display: block;
+    }
+
+    .profile-details .user-box {
+        width: 100%;
+        margin: auto;
+        padding: 6px;
+        border: 2px solid #d9a7a4;
+        border-radius: 30px;
+        margin-bottom: 12px;
+    }
