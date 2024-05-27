@@ -680,3 +680,26 @@ body {
         padding     : 0.85rem 1.5rem;
         border-color: rgba(24, 28, 33, 0.03) !important;
     }
+
+    .profile-container {
+        width: 50%;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+    
+    .profile-picture-section,
+    .profile-details {
+        margin-bottom: 20px;
+    }
+    
+    img#profile-picture-preview {
+        display: block;
+        margin-top: 10px;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    
