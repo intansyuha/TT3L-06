@@ -244,6 +244,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.appendChild(img);
         card.appendChild(cardBody);
+       
+        card.addEventListener('click', function(event) {
+        if (!event.target.classList.contains('bx-trash') && !event.target.classList.contains('bx-edit')) {
+            window.location.href = '/'; // Replace with your Outfit Creator page URL
+        }
+    });
 
         cardsContainer.appendChild(card);
     }
@@ -252,29 +258,26 @@ document.addEventListener('DOMContentLoaded', () => {
         createOutfitCard(outfit);
     });
 
-    cardsContainer.addEventListener('click', function(event) {
-        if (event.target.classList.contains('bx-trash')) {
-            const card = event.target.closest('.card');
-            const imageUrl = card.querySelector('img').src;
-          const outfitIndex = savedOutfits.findIndex(outfit => outfit.top === imageUrl);
-          
-          if (outfitIndex !== -1) {
-            const outfitName = card.querySelector('.card_title').textContent;
-            const confirmation = confirm(`Are you sure you want to delete the outfit "${outfitName}"?`);
-
-            if (confirmation) {
-              savedOutfits.splice(outfitIndex, 1);
-              localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
-              card.remove();
-              alert(`Outfit "${outfitName}" has been deleted!`);
-            }
-          } 
-        }
-    });
-
-    cardsContainer.addEventListener('click', function(event) {
+  cardsContainer.addEventListener('click', function (event) {
         if (event.target.classList.contains('switch')) {
-            event.target.closest('.toggle-switch').classList.toggle('active');
+          event.target.closest('.toggle-switch').classList.toggle('active');
         }
+          else if (event.target.classList.contains('bx-trash')) {
+              const card = event.target.closest('.card');
+              const imageUrl = card.querySelector('img').src;
+              const outfitIndex = savedOutfits.findIndex(outfit => outfit.top === imageUrl);
+            
+            if (outfitIndex !== -1) {
+              const outfitName = card.querySelector('.card_title').textContent;
+              const confirmation = confirm(`Are you sure you want to delete the outfit "${outfitName}"?`);
+
+              if (confirmation) {
+                savedOutfits.splice(outfitIndex, 1);
+                localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
+                card.remove();
+                alert(`Outfit "${outfitName}" has been deleted!`);
+              }
+            } 
+          }
     });
 });
