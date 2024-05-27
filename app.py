@@ -18,7 +18,6 @@ class User(db.Model):
     username = db.Column(db.String(8), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(50))
-    bio = db.Column(db.String(30))
 
     def __init__(self, email, password, username):
         self.username = username
@@ -43,7 +42,7 @@ def login():
         
         # Check if the user exists and password matches
         user = User.query.filter_by(email=email).first()
-        if user and user.password == password:
+        if user and user.check_password == password:
             flash('Login successful!', 'success')
             return redirect(url_for('community-page.html'))
         else:
