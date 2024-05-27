@@ -100,14 +100,6 @@ def user_profile():
     
     return render_template('user-profile.html')
 
-@app.route('/bookmark')
-@app.route('/bookmark.html')
-def bookmark():
-    if session['email']:
-        return render_template('bookmark.html')
-    
-    return redirect('/login')
-
 @app.route('/settings')
 @app.route('/settings.html')
 def settings():
