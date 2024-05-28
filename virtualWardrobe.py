@@ -64,11 +64,13 @@ def wardrobecategory():
 
     if category not in session['image_urls']:
         session['image_urls'][category] = []
-
+    
     session['image_urls'][category].append(file_url)
+    session.modified = True
 
     return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
 
+    
 
 #@app.route('/wardrobecategory/', methods=['POST'])
 #def wardrobecategory():
