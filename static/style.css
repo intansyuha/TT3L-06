@@ -148,41 +148,41 @@ nav.open ~ .overlay {
     height: 138px;
     width: 160px;
     margin-left: 630px;
-    margin-top: 180px;
+    margin-top: 150px;
 }
 
 .bottom-container{
     height: 190px;
     width: 160px;
     margin-left: 630px;
-    margin-top: 520px;
+    margin-top: 490px;
 }
 
 .shoes-container{
     height: 90px;
     width: 160px;
     margin-left: 630px;
-    margin-top: 812px;
+    margin-top: 780px;
 }
 
 .outerwear-container{
     height: 158px;
     width: 160px;
-    margin-left: 820px;
+    margin-left: 795px;
     margin-top: 300px;
 }
 
 .accessories-container{
     height: 80px;
     width: 160px;
-    margin-left: 820px;
+    margin-left: 795px;
     margin-top: 600px;
 }
 
 .bags-container{
     height: 120px;
     width: 160px;
-    margin-left: 440px;
+    margin-left: 465px;
     margin-top: 500px;
 }
 
@@ -196,7 +196,7 @@ nav.open ~ .overlay {
     bottom: 0;
     left: 0;
     padding: 20px 15px;
-    height: 320px; 
+    height: 250px; 
     width: 100%;
     position: absolute;
     display: flex;
