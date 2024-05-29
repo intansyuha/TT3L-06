@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="{{url_for('static', filename='script.js')}}" defer></script>
+    <title>My Wardrobe</title>
+</head>
+<body>
+    <ul class="tabs">
+        <li data-tab-target="#tops" class="tab"> Tops</li>
+        <li data-tab-target="#bottoms" class="tab"> Bottoms</li>
+        <li data-tab-target="#shoes" class="tab"> Shoes</li>
+        <li data-tab-target="#accessories" class="tab"> Accessories</li>
+        <li data-tab-target="#bags" class="tab"> Bags</li>
+        <li data-tab-target="#outerwear" class="tab"> Outerwear</li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tops" data-tab-content>
+            <h1>Tops section</h1>
+            {% if 'Tops' in image_urls %}
+            {% for url in image_urls['Tops'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+            {% endfor %}
+            {% endif %}   
+        </div>
+    </div>
+        </div>
+        <div id="bottoms" data-tab-content>
+            <h1>Bottoms section</h1>
+            {% if'Bottoms' in image_urls  %}
+            {% for url in image_urls['Bottoms'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+            {% endfor %}
+            {% endif %}   
+        </div>
+        </div>
+        <div id="shoes" data-tab-content>
+            <h1>Shoes section</h1>
+            {% if'Shoes' in image_urls  %}
+            {% for url in image_urls['Shoes'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+            {% endfor %}
+            {% endif %}   
+        </div>
+        </div>
+        <div id="accessories" data-tab-content>
+            <h1>Accessories section</h1>
+            {% if 'Accessories' in image_urls %}
+            {% for url in image_urls['Accessories'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+            {% endfor %}
+            {% endif %}   
+        </div>
+        </div>
+        <div id="bags" data-tab-content>
+            <h1>Bags section</h1>
+            {% if 'Bags' in image_urls  %}
+            {% for url in image_urls['Bags'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+            {% endfor %}
+            {% endif %}   
+        </div>
+        </div>
+        <div id="outerwear" data-tab-content>
+            <h1>Outerwear section</h1>
+            {% if 'Outerwear' in image_urls  %}
+            {% for url in image_urls['Outerwear'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image" style="width: 400px;" id="imgupload">
+            </div>
+            {% endfor %}
+            {% endif %}   
+        </div>
+        </div>
+    </div>
+
+    <script>
+        const category = "{{ category }}";
+    </script>
+
+
+
+</body>
+</html>
