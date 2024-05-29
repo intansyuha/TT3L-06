@@ -244,13 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.appendChild(img);
         card.appendChild(cardBody);
-       
-        card.addEventListener('click', function(event) {
-          if (!event.target.classList.contains('bx-trash') && !event.target.classList.contains('bx-edit')) {
-            localStorage.setItem('selectedOutfit', JSON.stringify(outfit));
-            window.location.href = '/'; 
-        }
-    });
 
         cardsContainer.appendChild(card);
     }
