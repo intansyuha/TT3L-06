@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <title>Outfit Creator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <nav>
+    <section class="header">
+        <div class="menu">
+            <i class='bx bx-menu bx-md menu-icon'></i>
+        </div>
+        <div class="sidebar">
+            <div class="menu">
+            <i class='bx bx-menu bx-md menu-icon'></i>
+            </div>
+            <div class="sidebar-content">
+                <ul class="lists">
+                    <li class="list">
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-home-heart icon'></i>
+                            <span class="link">Home</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bxs-hot icon' ></i>
+                            <span class="link">Trending</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-closet icon'></i>
+                            <span class="link">Wardrobe</span>
+                        </a>
+                        <a href="/" class="nav-link">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="link">Outfit Creator</span>
+                        </a>
+                        <a href="outfitgallery.html" class="nav-link">
+                            <i class='bx bx-star icon'></i>
+                            <span class="link">Outfit Gallery</span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class='bx bx-cog icon'></i>
+                            <span class="link">Settings</span>
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="btn-container">
+            <ul class="btn" id="saveButton">
+                <li><a href="outfitgallery.html" class="btn-save">Save</a></li>
+            </ul>
+        </div>
+    </section>
+    </nav>
+
+    <section class="details">
+        <div class="img-container">
+            <div class="top-container" id="topContainer">
+                <img src="" alt="">
+            </div>
+            <div class="bottom-container">
+                <img src="" alt="">
+            </div>
+            <div class="outerwear-container">
+                <img src="" alt="">
+            </div>
+            <div class="shoes-container">
+                <img src="" alt="">
+            </div>
+            <div class="bags-container">
+                <img src="" alt="">
+            </div>
+            <div class="accessories-container">
+                <img src="" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section class="footer">
+        <div class="accordion-row" id="tops-accordion">
+            <label>Tops 
+                <i class='bx bx-chevron-right bx-sm'></i>
+            </label>
+            <div class="accordion-content">
+                <div class="accordion-box">
+                    <div class="sb-1">
+                        <div class="sb">
+                            <img src="static/images/tops/top1.png" alt="Top 1">
+                        </div>
+                        <div class="sb">
+                            <img src="static/images/tops/top2.png" alt="Top 2">
+                        </div>
+                        <div class="sb">
+                            <img src="static/images/tops/top3.png" alt="Top 3">
+                        </div>
+                        <div class="sb">
+                            <img src="static/images/tops/top4.png" alt="Top 4">
+                        </div>
+                        <div class="sb">
+                            <img src="static/images/tops/top5.png" alt="Top 5">
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="accordion-row" id="bottoms-accordion">
+            <label>Bottoms 
+                <i class='bx bx-chevron-right bx-sm'></i>
+            </label>
+            <div class="accordion-content">
+                <div class="accordion-box">
+                    <div class="sb">
+                        <img src="static/images/bottoms/bottom1.png" alt="Bottom 1">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bottoms/bottom2.png" alt="Bottom 2">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bottoms/bottom3.png" alt="Bottom 3">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bottoms/bottom4.png" alt="Bottom 4">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bottoms/bottom5.png" alt="Bottom 5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-row" id="outerwear-accordion">
+            <label>Outerwear 
+                <i class='bx bx-chevron-right bx-sm'></i>
+            </label>
+            <div class="accordion-content">
+                <div class="accordion-box">
+                    <div class="sb">
+                        <img src="static/images/outerwear/outer1.png" alt="Outerwear 1">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/outerwear/outer2.png" alt="Outerwear 2">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/outerwear/outer3.png" alt="Outerwear 3">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/outerwear/outer4.png" alt="Outerwear 4">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/outerwear/outer5.png" alt="Outerwear 5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-row" id="shoes-accordion">
+            <label>Shoes 
+                <i class='bx bx-chevron-right bx-sm'></i>
+            </label>
+            <div class="accordion-content">
+                <div class="accordion-box">
+                    <div class="sb">
+                        <img src="static/images/shoes/shoe1.png" alt="Shoe 1">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/shoes/shoe2.png" alt="Shoe 2">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/shoes/shoe3.png" alt="Shoe 3">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/shoes/shoe4.png" alt="Shoe 4">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/shoes/shoe5.png" alt="Shoe 5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-row" id="bags-accordion">
+            <label>Bags 
+                <i class='bx bx-chevron-right bx-sm'></i>
+            </label>
+            <div class="accordion-content">
+                <div class="accordion-box">
+                    <div class="sb">
+                        <img src="static/images/bags/bag1.png" alt="Bag 1">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bags/bag2.png" alt="Bag 2">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bags/bag3.png" alt="Bag 3">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bags/bag4.png" alt="Bag 4">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/bags/bag5.png" alt="Bag 5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-row" id="accessories-accordion">
+            <label>Accessories
+                <i class='bx bx-chevron-right bx-sm'></i>
+            </label>
+            <div class="accordion-content">
+                <div class="accordion-box">
+                    <div class="sb">
+                        <img src="static/images/accessories/acc1.png" alt="Accessories 1">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/accessories/acc2.png" alt="Accessories 2">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/accessories/acc3.png" alt="Accessories 3">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/accessories/acc4.png" alt="Accessories 4">
+                    </div>
+                    <div class="sb">
+                        <img src="static/images/accessories/acc5.png" alt="Accessories 5">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="overlay" id="overlay"></section>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
