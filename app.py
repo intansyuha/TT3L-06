@@ -41,8 +41,10 @@ def login():
         # Check if the user exists and password matches
         user = User.query.filter_by(email=email).first()
 
-        if user and user.check_password == password:
-            return redirect('community-page.html')
+        if user and user.check_password(password):
+            session['email'] = email
+            session['password'] = password
+            return redirect(url_for('community_page'))  # Redirect to the community page route
 
     return render_template('login.html')
 
@@ -62,6 +64,7 @@ def signup():
             new_user = User(username=username, email=email, password=password)
             db.session.add(new_user)
             db.session.commit()
+            flash('Registration successful!', 'success')
             return render_template('/')
     
     return render_template('signup.html')

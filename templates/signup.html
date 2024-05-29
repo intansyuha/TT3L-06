@@ -34,6 +34,17 @@
         </form>
     </div>
 
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
 <script>
     // Function to display pop-up message
     function showMessage(message) {
@@ -61,18 +72,8 @@
                 showMessage('Registration successful!');
                 console.log(data);
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
         });
     });
-
-    //show message
-
-    function showMessage(message) {
-    // Display message to the user (e.g., in an alert, toast, or modal)
-    alert(message);
-    }
 </script>
 
 
