@@ -246,8 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
         card.appendChild(cardBody);
        
         card.addEventListener('click', function(event) {
-        if (!event.target.classList.contains('bx-trash') && !event.target.classList.contains('bx-edit')) {
-            window.location.href = '/'; // Replace with your Outfit Creator page URL
+          if (!event.target.classList.contains('bx-trash') && !event.target.classList.contains('bx-edit')) {
+            localStorage.setItem('selectedOutfit', JSON.stringify(outfit));
+            window.location.href = '/'; 
         }
     });
 
