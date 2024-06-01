@@ -11,7 +11,7 @@
 
     /*-nav/header-*/
 .header {
-    background-color: #D9D9D9;
+    background-color: #E4C1C1;
     background-position: center;
     background-size: cover;
     padding: 10px 15px;
@@ -318,7 +318,12 @@ nav.open ~ .overlay {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh + 57px);
 }
 
 .card {

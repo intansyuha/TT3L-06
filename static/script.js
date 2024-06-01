@@ -154,15 +154,16 @@ document.addEventListener("DOMContentLoaded", function () {
     saveButton.addEventListener('click', () => {
         let outfitName = prompt('Enter the name of your outfit:');
 
-        // Keep prompting until a valid name is entered
-        while (outfitName !== null && outfitName.trim() === '') {
-            alert('Please enter a valid outfit name.');
-            outfitName = prompt('Enter the name of your outfit:');
+        // Check if the user clicked "Cancel"
+        if (outfitName === null) {
+            return;
         }
 
-        if (outfitName !== null) { // Check if the user provided a name
+        if (outfitName.trim() !== '') {
+            outfitName = outfitName.trim(); 
+
             const selectedOutfit = {
-                name: outfitName.trim(),
+                name: outfitName,
                 top: document.querySelector('.top-container img').src,
                 bottom: document.querySelector('.bottom-container img').src,
                 outerwear: document.querySelector('.outerwear-container img').src,
@@ -174,10 +175,16 @@ document.addEventListener("DOMContentLoaded", function () {
             let savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
             savedOutfits.push(selectedOutfit);
             localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
-            alert(`Outfit "${outfitName}" saved!`);
+          alert(`Outfit "${outfitName}" saved!`);
+          
+            window.location.href = "outfitgallery.html";
+        } else {
+            alert('Please enter a valid outfit name.');
         }
     });
 });
+
+
 
 //* Outfit Gallery */
 
