@@ -44,7 +44,7 @@ def login():
         if user and user.check_password(password):
             session['email'] = email
             session['password'] = password
-            return redirect(url_for('community_page'))  # Redirect to the community page route
+            return render_template('community-page.html')
 
     return render_template('login.html')
 
@@ -77,34 +77,30 @@ def community_page():
     
     return redirect('/login')
 
-@app.route('/user-profile', methods=['GET', 'POST'])
-@app.route('/user-profile.html', methods=['GET', 'POST'])
-def user_profile():
-    if session['email']:
-    
-        # Handle profile picture upload and cropping
-        if 'profile_picture' in request.files:
-            profile_picture = request.files['profile_picture']
-            if profile_picture.filename != '':
-                profile_picture_path = os.path.join('TT3L-06/static', profile_picture.filename)
-                profile_picture.save(profile_picture_path)
-                
-                # Crop the image to a square
-                image = image.open(profile_picture_path)
-                width, height = image.size
-                min_dimension = min(width, height)
-                cropped_image = image.crop((0, 0, min_dimension, min_dimension))
-                cropped_image.save(profile_picture_path)
-    
-    return render_template('user-profile.html')
-
-@app.route('/settings')
-@app.route('/settings.html')
+@app.route('/settings', methods=['GET', 'POST'])
+@app.route('/settings.html', methods=['GET', 'POST'])
 def settings():
     if session['email']:
         return render_template('settings.html')
     
     return redirect('/login')
+
+@app.route("/outfitcreator")
+@app.route("/outfitcreator.html")
+def outfitcreator():
+    if session['email']:
+        return render_template('outfitcreator.html')
+    
+    return redirect("/login")
+
+
+@app.route("/outfitgallery")
+@app.route("/outfitgallery.html")
+def outfit_gallery():
+    if session['email']:
+        return render_template('outfitgallery.html')
+    
+    return redirect("/login")
 
 if __name__ == '__main__':
     app.run(debug=True)
