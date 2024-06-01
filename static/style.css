@@ -1,11 +1,8 @@
 * {
     margin: 0;
     padding: 0;
-    outline: 0;
+    outline: none;
     box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
-    border: none;
     font-family: "Poppins", sans-serif;
 }
 
@@ -150,43 +147,43 @@ nav.open ~ .overlay {
 .top-container{
     height: 138px;
     width: 160px;
-    margin-left: 630px;
-    margin-top: 180px;
+    margin-left: -80px;
+    margin-bottom: 500px;
 }
 
 .bottom-container{
     height: 190px;
     width: 160px;
-    margin-left: 630px;
-    margin-top: 520px;
+    margin-left: -80px;
+    margin-bottom: 170px;
 }
 
 .shoes-container{
     height: 90px;
     width: 160px;
-    margin-left: 630px;
-    margin-top: 812px;
+    margin-left: -80px;
+    margin-bottom: -115px;
 }
 
 .outerwear-container{
     height: 158px;
     width: 160px;
-    margin-left: 820px;
-    margin-top: 300px;
+    margin-left: 85px;
+    margin-bottom: 300px;
 }
 
 .accessories-container{
     height: 80px;
     width: 160px;
-    margin-left: 820px;
-    margin-top: 600px;
+    margin-left: 85px;
+    margin-bottom: 50px;
 }
 
 .bags-container{
     height: 120px;
     width: 160px;
-    margin-left: 440px;
-    margin-top: 500px;
+    margin-left: -245px;
+    margin-bottom: 100px;
 }
 
 
@@ -199,7 +196,7 @@ nav.open ~ .overlay {
     bottom: 0;
     left: 0;
     padding: 20px 15px;
-    height: 320px; 
+    height: 250px; 
     width: 100%;
     position: absolute;
     display: flex;
@@ -1136,130 +1133,3 @@ body {
         border-radius: 30px;
         margin-bottom: 12px;
     }
-
-    * {
-        margin: 0;
-        padding: 0;
-        outline: none;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-    }
-    
-    
-    /*--------------- CLOTHESUPLOAD -------------------*/
-    
-    #clothesupload {
-        font-family: "Poppins", sans-serif;
-        margin-top: 70px;
-        margin-left: 15px;
-    }
-    
-    form {
-        margin-left: 15px;
-        
-    }
-    
-    input[type="file"] {
-        background-color: #F8EDEB; 
-        padding-left: 5px;
-        padding-right: 5px;
-        cursor: pointer; 
-    }
-    
-    
-    
-    form input[type="submit"] {
-        background-color: #F8EDEB; 
-        padding-left: 5px;
-        padding-right: 5px;
-        cursor: pointer; 
-    }
-    
-    
-    /*--------------- IMAGEWINDOW -------------------*/
-    
-    #imagewindow {
-        font-family: "Poppins", sans-serif;
-        margin-top: 70px;
-        margin-left: 30px;
-        font-size: 40px;
-    }   
-    
-    #imgupload {
-        margin-left: 30px;
-        margin-top: 10PX;
-        margin-bottom: 20px;
-    }
-    
-    #categorytxt {
-        margin-left: 30px;
-        margin-top: 10PX; 
-        font-size: 30px; 
-    }
-    
-    #choosecat {
-        margin-left: 30px;
-    }
-    
-    #linkimg {
-        margin-left: 30px;
-        margin-top: 20PX;
-        font-size: 30px; 
-    }
-    
-    #addlink {
-        margin-left: 30px; 
-    }
-    
-    #gobackbttn {
-        margin-left: 40px;
-        margin-top: 40PX;
-        margin-bottom: 20px;
-    }
-    
-    #submitbttn {
-        margin-left: 5px;
-        margin-top: 40PX;
-        margin-bottom: 20px;
-    }
-    
-    
-    
-    /*--------------- CATEGORYTAB -------------------*/
-    
-    
-    [data-tab-content] {
-        display: none;
-    }
-    
-    .active[data-tab-content] {
-        display: block;
-    }
-    
-    .tabs {
-        display: flex;
-        justify-content: space-around;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        border-bottom: 1px solid black;
-    }
-    
-    .tab {
-        cursor: pointer;
-        padding: 10px;
-    }
-    
-    .tab.active {
-        background-color: #CCC;
-    }
-    
-    .tab:hover {
-        background-color: #AAA;
-    }
-    
-    .tab-content {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-       
