@@ -141,3 +141,4 @@ __pycache__/
 *.py[cod]
 *.DS_Store
 
+__pycache__/db.cpython-312.pyc
