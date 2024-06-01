@@ -8,8 +8,6 @@ from wtforms.validators import InputRequired
 from db import db_init, db
 from models import Img
 
-
-
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'clothesuploadkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///img.db'
