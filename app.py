@@ -52,13 +52,14 @@ def signup():
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
 
         if existing_user:
-            return jsonify({'error': 'Username or email already exists'}), 400
+            flash('Username or email already exists', 'error')
+            return render_template('signup.html')  # Re-render the signup form with error message
         else:
             new_user = User(username=username, email=email, password=password)
             db.session.add(new_user)
             db.session.commit()
             flash('Registration successful!', 'success')
-            return redirect('/')
+            return redirect('/login')  # Redirect to login after successful registration
 
     return render_template('signup.html')
 
@@ -81,34 +82,41 @@ def settings():
 @app.route('/outfitcreator')
 @app.route('/outfitcreator.html')
 def outfit_creator():
+    if not session.get('email'):
+        return redirect('/login')
+    
     return render_template('outfitcreator.html')
 
 @app.route('/outfitgallery')
 @app.route('/outfitgallery.html')
 def outfit_gallery():
+    if not session.get('email'):
+        return redirect('/login')
+    
     return render_template('outfitgallery.html')
 
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
-    form = UploadClothesForm()
-    file_url = None
-    if form.validate_on_submit():
-        file = form.file.data
-        category = form.category.data
-        filename = secure_filename(file.filename)
-        file_url = url_for('get_file', filename=filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
-        mimetype = file.content_type
-        with open(file_path, 'rb') as f:
-            img_data = f.read()
+    if session.get('email'):
+        form = UploadClothesForm()
+        file_url = None
+        if form.validate_on_submit():
+            file = form.file.data
+            category = form.category.data
+            filename = secure_filename(file.filename)
+            file_url = url_for('get_file', filename=filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            mimetype = file.content_type
+            with open(file_path, 'rb') as f:
+                img_data = f.read()
 
-        img = Img(data=img_data, mimetype=mimetype, name=filename, category=category)
-        db.session.add(img)
-        db.session.commit()
+            img = Img(data=img_data, mimetype=mimetype, name=filename, category=category)
+            db.session.add(img)
+            db.session.commit()
 
-        return redirect(url_for('imgwindow', filename=filename))
+            return redirect(url_for('imgwindow', filename=filename))
 
     return render_template('index.html', form=form, file_url=file_url)
 
