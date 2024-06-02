@@ -1,9 +1,13 @@
 * {
     margin: 0;
     padding: 0;
-    outline: none;
+    outline: 0;
     box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    border: none;
     font-family: "Poppins", sans-serif;
+
 }
 
 /*------Outfit Creator------*/
@@ -28,7 +32,7 @@
     padding: 20px;
 }
 
-.sidebar {
+.side-bar {
     position: fixed;
     top: 0;
     left: -100%;
@@ -41,7 +45,7 @@
     z-index: 100;
 }
 
-.nav.open .sidebar{
+.nav.open .side-bar{
     left: 0;
 }
 
@@ -98,21 +102,21 @@ nav.open ~ .overlay {
   pointer-events: auto;
 }
 
-.btn-container {
+.button-container {
     margin-left: auto; 
 }
 
-.btn {
+.button {
     list-style: none;
     display: flex;
     align-items: center;
 }
 
-.btn li {
+.button li {
     margin-right: 50px;
 }
 
-.btn a {
+.button a {
     text-decoration: none;
     color: white;
     padding: 5px 10px;
@@ -120,7 +124,7 @@ nav.open ~ .overlay {
     border-radius: 5px;
 }
 
-.btn a:hover {
+.button a:hover {
     background-color: #BF9797;
 }
 

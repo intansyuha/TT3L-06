@@ -1,15 +1,20 @@
 from . import db
-from flask_login import UserMixin
+import bcrypt
 from sqlalchemy.sql import func
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(150), unique=True)
-    password = db.Column(db.String(150))
-    username = db.Column(db.String(150))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    username = db.Column(db.String(8), unique=True)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(50))
 
-    from db import db
+    def __init__(self, email, password, username):
+        self.username = username
+        self.email = email
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
 class Img(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,3 +22,12 @@ class Img(db.Model):
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), nullable=False)
+
+class Outfit(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    outfit_name = db.Column(db.String(100))
+    top_color = db.Column(db.String(20))
+    bottom_color = db.Column(db.String(20))
+    outer_color = db.Column(db.String(20))
+    shoe_color = db.Column(db.String(20))
+    acc_color = db.Column(db.String(20))

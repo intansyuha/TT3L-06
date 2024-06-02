@@ -1,10 +1,16 @@
-from flask import Flask, render_template, request, redirect, session, jsonify, flash, url_for
+from flask import Flask, render_template, request, redirect, session, jsonify, flash, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-import bcrypt
+from wtforms.validators import InputRequired
+from flask_wtf import FlaskForm
+from wtforms import FileField, SelectField,  SubmitField
+from werkzeug.utils import secure_filename
+from models import User, Img, Outfit
 import os
 
 app = Flask(__name__, static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'static/files'
 db = SQLAlchemy(app)
 app.secret_key = 'secret_key'
 
@@ -12,20 +18,14 @@ app.config['MYSQL_USERNAME'] = ""
 app.config['MYSQL_EMAIL'] = ""
 app.config['MYSQL_PASSWORD'] = ""
 app.config['MYSQL_DB'] = ""
+    
+class UploadClothesForm(FlaskForm):
+    file = FileField("File", validators=[InputRequired()])
+    submit = SubmitField("Upload File")
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(8), unique=True)
-    email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(50))
-
-    def __init__(self, email, password, username):
-        self.username = username
-        self.email = email
-        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
-    def check_password(self, password):
-        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+def create_db():
+    with app.app_context():
+        db.create_all()
     
 with app.app_context():
     db.create_all()
@@ -101,6 +101,103 @@ def outfit_gallery():
         return render_template('outfitgallery.html')
     
     return redirect("/login")
+
+@app.route('/imgwindow', methods=['GET', "POST"])
+@app.route('/imgwindow.html', methods=['GET', "POST"])
+def home():
+    if session['email']:
+        form = UploadClothesForm()
+        file_url = None
+        if form.validate_on_submit():
+            file = form.file.data # grab file
+            filename = secure_filename(file.filename)
+            file_url = url_for('get_file', filename=filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
+            file.save(file_path)
+            mimetype = file.content_type
+            with open(file_path, 'rb') as f:
+                img_data = f.read()
+
+            img = Img(data=img_data, mimetype=mimetype, name=filename)
+            db.session.add(img)
+
+            return redirect(url_for('imgwindow', filename=filename))
+    
+    return render_template('index.html', form=form, file_url=file_url)
+
+@app.route('/uploads/<filename>')
+def get_file(filename):
+     return redirect(app.config['UPLOAD_FOLDER'], filename)
+
+
+@app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
+def imgwindow(filename):
+    file_url = url_for('get_file', filename=filename)
+    return render_template('imgwindow.html', file_url=file_url)
+
+@app.route('/wardrobecategory/', methods=['POST'])
+def wardrobecategory():
+    category = request.form.get('category')
+    file_url = request.form.get('file_url')
+
+    if 'image_urls' not in session:
+        session['image_urls'] = {}
+
+    if category not in session['image_urls']:
+        session['image_urls'][category] = []
+    
+    session['image_urls'][category].append(file_url)
+    session.modified = True
+
+    return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
+
+@app.route('/imgwindow', methods=['GET', "POST"])
+@app.route('/imgwindow.html', methods=['GET', "POST"])
+def home():
+    form = UploadClothesForm()
+    file_url = None
+    if form.validate_on_submit():
+        file = form.file.data # grab file
+        filename = secure_filename(file.filename)
+        file_url = url_for('get_file', filename=filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
+        file.save(file_path)
+        mimetype = file.content_type
+        with open(file_path, 'rb') as f:
+            img_data = f.read()
+
+        img = Img(data=img_data, mimetype=mimetype, name=filename)
+        db.session.add(img)
+
+        return redirect(url_for('imgwindow', filename=filename))
+    
+    return render_template('index.html', form=form, file_url=file_url)
+
+@app.route('/uploads/<filename>')
+def get_file(filename):
+     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+@app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
+def imgwindow(filename):
+    file_url = url_for('get_file', filename=filename)
+    return render_template('imgwindow.html', file_url=file_url)
+
+@app.route('/wardrobecategory/', methods=['POST'])
+def wardrobecategory():
+    category = request.form.get('category')
+    file_url = request.form.get('file_url')
+
+    if 'image_urls' not in session:
+        session['image_urls'] = {}
+
+    if category not in session['image_urls']:
+        session['image_urls'][category] = []
+    
+    session['image_urls'][category].append(file_url)
+    session.modified = True
+
+    return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
 
 if __name__ == '__main__':
     app.run(debug=True)
