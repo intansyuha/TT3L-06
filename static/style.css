@@ -149,7 +149,7 @@ form input[type="submit"] {
         padding: 20px;
     }
     
-    .sidebar {
+    .side-bar {
         position: fixed;
         top: 0;
         left: -100%;
@@ -162,16 +162,16 @@ form input[type="submit"] {
         z-index: 100;
     }
     
-    .nav.open .sidebar{
+    .nav.open .side-bar{
         left: 0;
     }
     
-    .sidebar-content {
+    .side-bar-content {
         padding: 30px 16px;
         z-index: 100;
     }
     
-    .sidebar-content .list{
+    .side-bar-content .list{
         list-style: none;
     }
     
@@ -219,21 +219,21 @@ form input[type="submit"] {
       pointer-events: auto;
     }
     
-    .btn-container {
+    .button-container {
         margin-left: auto; 
     }
     
-    .btn {
+    .button {
         list-style: none;
         display: flex;
         align-items: center;
     }
     
-    .btn li {
+    .button li {
         margin-right: 50px;
     }
     
-    .btn a {
+    .button a {
         text-decoration: none;
         color: white;
         padding: 5px 10px;
@@ -241,7 +241,7 @@ form input[type="submit"] {
         border-radius: 5px;
     }
     
-    .btn a:hover {
+    .button a:hover {
         background-color: #BF9797;
     }
     
@@ -574,12 +574,12 @@ form {
     left: 0;
 }
 
-.sidebar-content {
+.side-bar-content {
     padding: 30px 16px;
     z-index: 100;
 }
 
-.sidebar-content .list{
+.side-bar-content .list{
     list-style: none;
 }
 
