@@ -23,11 +23,10 @@ tabs.forEach(tab => {
 document.addEventListener('DOMContentLoaded', function() {
   const imageContainer = document.getElementById('imageContainer');
 
-});
-
-labels.forEach(label => {
-  const accordionContent = label.nextElementSibling;
-  accordionContent.style.display = 'none';
+  labels.forEach(label => {
+    const accordionContent = label.nextElementSibling;
+    accordionContent.style.display = 'none';
+  });
 });
 
 labels.forEach(label => {
@@ -333,47 +332,6 @@ const changeActiveItem = () => {
         item.classList.remove('active');
     })
 }
- 
-//notifications
-
-menuItems.forEach(item => {
-    item.addEventListener('click', () => {
-        changeActiveItem();
-        item.classList.add('active');
-        
-        if (item.id != 'notifications') {
-            document.querySelector('.notifications-popup').style.display = 'none';
-        } else {
-            document.querySelector('.notifications-popup').style.display = 'block';
-            document.querySelector('#notifications .notification-count').style.display='none';
-        }
-    })
-})
-
-//messages
-
-const searchMessage = () => {
-    const val = messageSearch.value.toLowerCase();
-    message.forEach(chat => {
-        let name=chat.querySelector('h5').textContent.toLowerCase();
-        if(name.indexOf(val) != -1){
-            chat.style.display = 'flex';
-        } else{
-            chat.style.display = 'none';
-        }
-    })
-}
-
-messageSearch.addEventListener('keyup', searchMessage);
-
-
-messagesNotification.addEventListener('click', () => {
-    messages.style.boxShadow = '0 0 1rem var(--color-primary)';
-    messagesNotification.querySelector('.notification-count').style.display = 'none';
-    setTimeout(() => {
-        messages.style.boxShadow = 'none';
-    }, 2000);
-})
 
 //image
 
@@ -406,11 +364,11 @@ document.getElementById('profile-form').addEventListener('submit', async (event)
 // show password
 
 function togglePassword() {
-            var passwordField = document.getElementById("new_password");
-            var showPasswordCheckbox = document.getElementById("showPassword");
-            if (showPasswordCheckbox.checked) {
-                passwordField.type = "text";
-            } else {
-                passwordField.type = "password";
-            }
-        }
+  var passwordField = document.getElementById("new_password");
+  var showPasswordCheckbox = document.getElementById("showPassword");
+  if (showPasswordCheckbox.checked) {
+      passwordField.type = "text";
+  } else {
+      passwordField.type = "password";
+  }
+}

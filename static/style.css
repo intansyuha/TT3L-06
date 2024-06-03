@@ -218,9 +218,10 @@ input[type="file"] {
     justify-content: space-between;
     overflow-y: scroll;
     flex-direction: column;
+
 }
 
-form input[type="submit"] {
+.form input[type="submit"] {
     background-color: #F8EDEB; 
     padding-left: 5px;
     padding-right: 5px;
