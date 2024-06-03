@@ -1,13 +1,12 @@
-from collections import defaultdict
 from flask import Flask, redirect, render_template, request, send_from_directory, session, url_for # to return actual files
 from flask_wtf import FlaskForm
-from wtforms import FileField, SelectField,  SubmitField
+from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 import os
 from wtforms.validators import InputRequired
 from db import db_init, db
 from models import Img
-
+from rembg import remove
 
 
 app = Flask(__name__, static_folder='static')
@@ -33,21 +32,32 @@ def home():
         file_url = url_for('get_file', filename=filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
         file.save(file_path)
-        mimetype = file.content_type
-        with open(file_path, 'rb') as f:
-            img_data = f.read()
 
-        img = Img(data=img_data, mimetype=mimetype, name=filename)
+        with open(file_path, 'rb') as input_file:
+            input_data = input_file.read()
+
+        output_data = remove(input_data)
+
+        process_filename = 'processed_' + filename
+        process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
+
+        with open(process_file_path, 'wb') as output_file:
+            output_file.write(output_data)
+
+        mimetype = file.mimetype
+
+
+        img = Img(data=output_data, mimetype=mimetype, name=filename)
         db.session.add(img)
 
         return redirect(url_for('imgwindow', filename=filename))
     
     return render_template('index.html', form=form, file_url=file_url)
 
+
 @app.route('/uploads/<filename>')
 def get_file(filename):
      return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
 
 @app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
 def imgwindow(filename):
