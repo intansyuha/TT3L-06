@@ -222,10 +222,10 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', () => {
     const cardsContainer = document.getElementById('cardsContainer');
 
-    fetch('/get_outfits')
+    fetch('/get_outfit')
        .then(response => response.json())
-       .then(outfits => {
-            outfits.forEach(outfit => {
+       .then(outfit => {
+            outfit.forEach(outfit => {
                 createOutfitCard(outfit);
             });
         })
@@ -277,6 +277,7 @@ function createOutfitCard(outfit) {
 
     cardsContainer.appendChild(card);
 }
+
 
 cardsContainer.addEventListener('click', function (event) {
       if (event.target.classList.contains('switch')) {

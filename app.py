@@ -13,13 +13,12 @@ from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField, SelectField
 from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
-from db import db, User
+from db import db, init_db  # Import init_db to initialize the database
 from rembg import remove
-from models import Img, Outfit
+from models import User, Img, Outfit
 import os
 import bcrypt
 from PIL import Image
-from rembg import remove
 
 app = Flask(__name__, static_folder="static")
 app.config["SECRET_KEY"] = "clothesuploadkey"
@@ -99,8 +98,8 @@ def community_page():
     return redirect("/login")
 
 
-@app.route("/settings")
-@app.route("/settings.html")
+@app.route("/settings", methods=["GET", "POST"])
+@app.route("/settings.html", methods=["GET", "POST"])
 def settings():
     if request.method == "POST":
         new_username = request.form["new_username"]
@@ -114,8 +113,8 @@ def settings():
         if existing_user:
             flash("Username or email already exists.", "error")
             return render_template(
-                "/settings.html"
-            )  # Re-render the signup form with error message
+                "settings.html"
+            )  # Re-render the settings form with error message
         else:
             new_user = User(
                 username=new_username, email=new_email, password=new_password
@@ -125,7 +124,7 @@ def settings():
             flash("Registration successful!", "success")
             return redirect("/settings.html")
 
-    return render_template("/settings.html")
+    return render_template("settings.html")
 
 
 @app.route("/outfitcreator")
@@ -139,31 +138,21 @@ def outfit_creator():
 
 @app.route("/save_outfit", methods=["POST"])
 def save_outfit():
-    data = request.get_json()
-    outfit = Outfit(**data)
-    db.session.add(outfit)
-    db.session.commit()
-    return jsonify({"message": "Outfit saved successfully"})
+    try:
+        data = request.get_json()
+        outfit = Outfit(**data)
+        db.session.add(outfit)
+        db.session.commit()
+        return jsonify({"message": "Outfit saved successfully"})
+    except Exception as e:
+        app.logger.error(f"Error saving outfit: {str(e)}")
+        return jsonify({"error": "Failed to save outfit"}), 400
 
 
-@app.route("/get_outfits", methods=["GET"])
-def get_outfits():
-    outfits = Outfit.query.all()
-    return jsonify(
-        [
-            {
-                "id": o.id,
-                "name": o.name,
-                "top": o.top,
-                "bottom": o.bottom,
-                "outerwear": o.outerwear,
-                "shoes": o.shoes,
-                "bags": o.bags,
-                "accessories": o.accessories,
-            }
-            for o in outfits
-        ]
-    )
+@app.route("/get_outfit", methods=["GET"])
+def get_outfit():
+    outfit = Outfit.query.all()
+    return render_template("outfitgallery.html", outfit=outfit)
 
 
 @app.route("/outfitgallery")
@@ -171,7 +160,6 @@ def get_outfits():
 def outfit_gallery():
     if not session.get("email"):
         return redirect("/login")
-
     return render_template("outfitgallery.html")
 
 
@@ -244,13 +232,6 @@ def wardrobecategory():
     )
 
 
-def create_db():
-    with app.app_context():
-        db.create_all()
-
-
 if __name__ == "__main__":
-    from models import Img
-
-    create_db()
+    init_db()
     app.run(debug=True)
