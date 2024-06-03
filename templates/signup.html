@@ -12,6 +12,11 @@
 
 <body>
     <div class="wrapper">
+
+        {% extends "base.html" %}
+
+        {% block content %}
+
         <h1>Sign Up</h1>
         <form action="/signup", method="POST">
         <div class="input-box">
@@ -32,18 +37,10 @@
             <p>Already have an account?<a href="login.html"> Back to Login</a></p>
         </div>
         </form>
-    </div>
 
-    <!-- Flash messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        {% endblock %}
+
+    </div>
 
 <script>
     // Function to display pop-up message
