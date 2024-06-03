@@ -23,7 +23,8 @@ tabs.forEach(tab => {
 document.addEventListener('DOMContentLoaded', function() {
   const imageContainer = document.getElementById('imageContainer');
 
-<<<<<<< HEAD
+});
+
 labels.forEach(label => {
   const accordionContent = label.nextElementSibling;
   accordionContent.style.display = 'none';
@@ -304,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } 
           }
     });
-=======
   if (imageContainer) {
     imageContainer.addEventListener('click', function(event) {
       if (event.target.classList.contains('deleteButton')) {
@@ -317,7 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     console.error('Image container not found');
   }
->>>>>>> vwardrobe
 });
 
 //sidebar
