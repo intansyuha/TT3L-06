@@ -4,11 +4,13 @@ from sqlalchemy.sql import func
 
 db = SQLAlchemy()
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(50))
+
 
 class Img(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,9 +21,10 @@ class Img(db.Model):
 
 class Outfit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.LargeBinary, nullable=False)
-    mimetype = db.Column(db.String(50), nullable=False)
-    published = db.Column(db.Boolean, nullable=False, default=False)
-    upload_time = db.Column(
-        db.DateTime, nullable=False, default=db.func.current_timestamp()
-    )
+    name = db.Column(db.String(100), nullable=False)
+    top = db.Column(db.String(200), nullable=False)
+    bottom = db.Column(db.String(200), nullable=False)
+    outerwear = db.Column(db.String(200), nullable=False)
+    shoes = db.Column(db.String(200), nullable=False)
+    bags = db.Column(db.String(200), nullable=False)
+    accessories = db.Column(db.String(200), nullable=False)

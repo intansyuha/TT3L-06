@@ -2,12 +2,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
-app = Flask(__name__, static_folder='static')
-app.config['SECRET_KEY'] = 'clothesuploadkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = 'static/files'
+app = Flask(__name__, static_folder="static")
+app.config["SECRET_KEY"] = "clothesuploadkey"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["UPLOAD_FOLDER"] = "static/files"
 db = SQLAlchemy(app)
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -18,20 +19,23 @@ class User(db.Model):
     def __init__(self, email, password, username):
         self.username = username
         self.email = email
-        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        self.password = bcrypt.hashpw(
+            password.encode("utf-8"), bcrypt.gensalt()
+        ).decode("utf-8")
 
     def check_password(self, password):
-        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        return bcrypt.checkpw(password.encode("utf-8"), self.password.encode("utf-8"))
 
 
 class Outfit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.LargeBinary, nullable=False)
-    mimetype = db.Column(db.String(50), nullable=False)
-    published = db.Column(db.Boolean, nullable=False, default=False)
-    upload_time = db.Column(
-        db.DateTime, nullable=False, default=db.func.current_timestamp()
-    )
+    name = db.Column(db.String(100), nullable=False)
+    top = db.Column(db.String(200), nullable=False)
+    bottom = db.Column(db.String(200), nullable=False)
+    outerwear = db.Column(db.String(200), nullable=False)
+    shoes = db.Column(db.String(200), nullable=False)
+    bags = db.Column(db.String(200), nullable=False)
+    accessories = db.Column(db.String(200), nullable=False)
 
 
 class Img(db.Model):
@@ -41,9 +45,12 @@ class Img(db.Model):
     mimetype = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), nullable=False)
 
+
 def init_db():
     with app.app_context():
         db.create_all()
+        db.session.commit()
+
 
 if __name__ == "__main__":
     init_db()

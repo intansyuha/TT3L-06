@@ -148,35 +148,35 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Save outfit functionality with name prompt
-document.addEventListener("DOMContentLoaded", function () {
-    const saveButton = document.querySelector('.button-save');
-    saveButton.addEventListener('click', () => {
-        let outfitName = prompt('Enter the name of your outfit:');
+saveButton.addEventListener('click', () => {
+    let outfitName = prompt('Enter the name of your outfit:');
 
-        // Keep prompting until a valid name is entered
-        while (outfitName !== null && outfitName.trim() === '') {
-            alert('Please enter a valid outfit name.');
-            outfitName = prompt('Enter the name of your outfit:');
-        }
+    // Keep prompting until a valid name is entered
+    while (outfitName!== null && outfitName.trim() === '') {
+        alert('Please enter a valid outfit name.');
+        outfitName = prompt('Enter the name of your outfit:');
+    }
 
-        if (outfitName !== null) { // Check if the user provided a name
-            const selectedOutfit = {
-                name: outfitName.trim(),
-                top: document.querySelector('.top-container img').src,
-                bottom: document.querySelector('.bottom-container img').src,
-                outerwear: document.querySelector('.outerwear-container img').src,
-                shoes: document.querySelector('.shoes-container img').src,
-                bags: document.querySelector('.bags-container img').src,
-                accessories: document.querySelector('.accessories-container img').src
-            };
+    if (outfitName!== null) { // Check if the user provided a name
+        const selectedOutfit = {
+            name: outfitName.trim(),
+            top: document.querySelector('.top-container img').src,
+            bottom: document.querySelector('.bottom-container img').src,
+            outerwear: document.querySelector('.outerwear-container img').src,
+            shoes: document.querySelector('.shoes-container img').src,
+            bags: document.querySelector('.bags-container img').src,
+            accessories: document.querySelector('.accessories-container img').src
+        };
 
-            let savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
-            savedOutfits.push(selectedOutfit);
-            localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
-            alert(`Outfit "${outfitName}" saved!`);
-        }
-    });
+        fetch('/save_outfit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(selectedOutfit)
+        })
+       .then(response => response.json())
+       .then(data => alert(`Outfit "${outfitName}" saved!`))
+       .catch(error => console.error('Error saving outfit:', error));
+    }
 });
 
 //* Outfit Gallery */
@@ -220,55 +220,63 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const cardsContainer = document.getElementById('cardsContainer');
-  const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
+    const cardsContainer = document.getElementById('cardsContainer');
 
-  function createOutfitCard(outfit) {
-      const card = document.createElement('a');
-      card.href = '#';
-      card.className = 'card';
+    fetch('/get_outfits')
+       .then(response => response.json())
+       .then(outfits => {
+            outfits.forEach(outfit => {
+                createOutfitCard(outfit);
+            });
+        })
+       .catch(error => console.error('Error retrieving outfits:', error));
+});
 
-      const img = document.createElement('img');
-      img.src = outfit.top;
-      img.alt = '';
+function createOutfitCard(outfit) {
+    // Create the card element and append it to the container
+    const card = document.createElement('a');
+    card.href = '#';
+    card.className = 'card';
 
-      const cardBody = document.createElement('div');
-      cardBody.className = 'card_body';
+    // Add the outfit details to the card
+    const img = document.createElement('img');
+    img.src = outfit.top;
+    img.alt = '';
 
-      const cardTitle = document.createElement('h6');
-      cardTitle.className = 'card_title';
-      cardTitle.textContent = outfit.name;
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card_body';
 
-      const cardOptions = document.createElement('div');
-      cardOptions.className = 'card_options';
+    const cardTitle = document.createElement('h6');
+    cardTitle.className = 'card_title';
+    cardTitle.textContent = outfit.name;
 
-      const toggleSwitch = document.createElement('div');
-      toggleSwitch.className = 'toggle-switch';
-      const switchSpan = document.createElement('span');
-      switchSpan.className = 'switch';
-      toggleSwitch.appendChild(switchSpan);
+    // Add the toggle switch and delete button
+    const cardOptions = document.createElement('div');
+    cardOptions.className = 'card_options';
 
-      const deleteDiv = document.createElement('div');
-      deleteDiv.className = 'delete';
-      const deleteIcon = document.createElement('i');
-      deleteIcon.className = 'bx bx-trash bx-sm';
-      deleteDiv.appendChild(deleteIcon);
+    const toggleSwitch = document.createElement('div');
+    toggleSwitch.className = 'toggle-switch';
+    const switchSpan = document.createElement('span');
+    switchSpan.className = 'witch';
+    toggleSwitch.appendChild(switchSpan);
 
-      cardOptions.appendChild(toggleSwitch);
-      cardOptions.appendChild(deleteDiv);
+    const deleteDiv = document.createElement('div');
+    deleteDiv.className = 'delete';
+    const deleteIcon = document.createElement('i');
+    deleteIcon.className = 'fas fa-trash';
+    deleteDiv.appendChild(deleteIcon);
 
-      cardBody.appendChild(cardTitle);
-      cardBody.appendChild(cardOptions);
+    cardOptions.appendChild(toggleSwitch);
+    cardOptions.appendChild(deleteDiv);
 
-      card.appendChild(img);
-      card.appendChild(cardBody);
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardOptions);
 
-      cardsContainer.appendChild(card);
-  }
+    card.appendChild(img);
+    card.appendChild(cardBody);
 
-  savedOutfits.forEach(outfit => {
-      createOutfitCard(outfit);
-  });
+    cardsContainer.appendChild(card);
+}
 
 cardsContainer.addEventListener('click', function (event) {
       if (event.target.classList.contains('switch')) {
@@ -292,7 +300,6 @@ cardsContainer.addEventListener('click', function (event) {
             } 
           }
     });
-});
 
 
 
