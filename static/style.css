@@ -11,8 +11,36 @@ style.css
 
 
 /*--------------- CLOTHESUPLOAD -------------------*/
+#clothesupload {
+    font-family: "Poppins", sans-serif;
 
-<<<<<<< HEAD
+}
+
+form {
+    margin-left: 15px;
+    
+}
+
+input[type="file"] {
+    background-color: #F8EDEB; 
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer; 
+}
+
+
+
+form input[type="submit"] {
+    background-color: #F8EDEB; 
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer; 
+}
+
+
+
+
+
     /*-nav/header-*/
 .header {
     background-color: #E4C1C1;
@@ -24,12 +52,6 @@ style.css
     display: flex;
     align-items: center;
     justify-content: space-between;
-=======
-#clothesupload {
-    font-family: "Poppins", sans-serif;
-    margin-top: 70px;
-    margin-left: 15px;
->>>>>>> vwardrobe
 }
 
 form {
@@ -37,7 +59,6 @@ form {
     
 }
 
-<<<<<<< HEAD
 .side-bar {
     position: fixed;
     top: 0;
@@ -194,18 +215,10 @@ nav.open ~ .overlay {
     width: 160px;
     margin-left: -245px;
     margin-bottom: 100px;
-=======
-input[type="file"] {
-    background-color: #F8EDEB; 
-    padding-left: 5px;
-    padding-right: 5px;
-    cursor: pointer; 
->>>>>>> vwardrobe
 }
 
 
 
-<<<<<<< HEAD
 .footer {
     background-color: #F6F3F3;
     background-position: center;
@@ -221,13 +234,6 @@ input[type="file"] {
     justify-content: space-between;
     overflow-y: scroll;
     flex-direction: column;
-=======
-form input[type="submit"] {
-    background-color: #F8EDEB; 
-    padding-left: 5px;
-    padding-right: 5px;
-    cursor: pointer; 
->>>>>>> vwardrobe
 }
 
 
@@ -235,47 +241,43 @@ form input[type="submit"] {
 
 #imagewindow {
     font-family: "Poppins", sans-serif;
-    margin-top: 70px;
-    margin-left: 30px;
     font-size: 40px;
 }   
 
 #imgupload {
-    margin-left: 30px;
-    margin-top: 10PX;
-    margin-bottom: 20px;
+align-items: end;
 }
 
 #categorytxt {
-    margin-left: 30px;
-    margin-top: 10PX; 
+    font-family: "Poppins", sans-serif;
+
     font-size: 30px; 
 }
 
 #choosecat {
-    margin-left: 30px;
+    font-family: "Poppins", sans-serif;
+ 
 }
 
 #linkimg {
-    margin-left: 30px;
-    margin-top: 20PX;
+    font-family: "Poppins", sans-serif;
+
     font-size: 30px; 
 }
 
 #addlink {
-    margin-left: 30px; 
+    font-family: "Poppins", sans-serif;
+
 }
 
 #gobackbttn {
-    margin-left: 40px;
-    margin-top: 40PX;
-    margin-bottom: 20px;
+    font-family: "Poppins", sans-serif;
+
 }
 
 #submitbttn {
-    margin-left: 5px;
-    margin-top: 40PX;
-    margin-bottom: 20px;
+    font-family: "Poppins", sans-serif;
+
 }
 
 
@@ -313,7 +315,6 @@ form input[type="submit"] {
     background-color: #AAA;
 }
 
-<<<<<<< HEAD
 .cards {
     display: flex;
     flex-wrap: wrap;
@@ -941,10 +942,3 @@ body {
         border-radius: 30px;
         margin-bottom: 12px;
     }
-=======
-.tab-content {
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
->>>>>>> vwardrobe

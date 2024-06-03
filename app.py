@@ -98,25 +98,29 @@ def outfit_gallery():
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
-    if session.get('email'):
-        form = UploadClothesForm()
-        file_url = None
-        if form.validate_on_submit():
-            file = form.file.data
-            category = form.category.data
-            filename = secure_filename(file.filename)
-            file_url = url_for('get_file', filename=filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            mimetype = file.content_type
-            with open(file_path, 'rb') as f:
-                img_data = f.read()
+    form = UploadClothesForm()
+    file_url = None
 
-            img = Img(data=img_data, mimetype=mimetype, name=filename, category=category)
-            db.session.add(img)
-            db.session.commit()
+    if request.method == 'POST' and form.validate_on_submit():
+        if session.get('email'):
+            try:
+                file = form.file.data
+                filename = secure_filename(file.filename)
+                file_url = url_for('get_file', filename=filename)
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
+                mimetype = file.content_type
 
-            return redirect(url_for('imgwindow', filename=filename))
+                with open(file_path, 'rb') as f:
+                    img_data = f.read()
+
+                img = Img(data=img_data, mimetype=mimetype, name=filename)
+                db.session.add(img)
+                db.session.commit()
+
+                return redirect(url_for('imgwindow', filename=filename))
+            except Exception as e:
+                flash(f'An error occurred: {str(e)}', 'error')
 
     return render_template('index.html', form=form, file_url=file_url)
 
