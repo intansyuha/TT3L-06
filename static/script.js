@@ -23,10 +23,10 @@ tabs.forEach(tab => {
 document.addEventListener('DOMContentLoaded', function() {
   const imageContainer = document.getElementById('imageContainer');
 
-<<<<<<< HEAD
-labels.forEach(label => {
-  const accordionContent = label.nextElementSibling;
-  accordionContent.style.display = 'none';
+  labels.forEach(label => {
+    const accordionContent = label.nextElementSibling;
+    accordionContent.style.display = 'none';
+  });
 });
 
 labels.forEach(label => {
@@ -304,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } 
           }
     });
-=======
   if (imageContainer) {
     imageContainer.addEventListener('click', function(event) {
       if (event.target.classList.contains('deleteButton')) {
@@ -317,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     console.error('Image container not found');
   }
->>>>>>> vwardrobe
 });
 
 //sidebar
@@ -407,11 +405,11 @@ document.getElementById('profile-form').addEventListener('submit', async (event)
 // show password
 
 function togglePassword() {
-            var passwordField = document.getElementById("new_password");
-            var showPasswordCheckbox = document.getElementById("showPassword");
-            if (showPasswordCheckbox.checked) {
-                passwordField.type = "text";
-            } else {
-                passwordField.type = "password";
-            }
-        }
+  var passwordField = document.getElementById("new_password");
+  var showPasswordCheckbox = document.getElementById("showPassword");
+  if (showPasswordCheckbox.checked) {
+      passwordField.type = "text";
+  } else {
+      passwordField.type = "password";
+  }
+}
