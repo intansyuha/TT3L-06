@@ -23,14 +23,16 @@ class User(db.Model):
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
+
 class Outfit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    outfit_name = db.Column(db.String(100))
-    top_color = db.Column(db.String(20))
-    bottom_color = db.Column(db.String(20))
-    outer_color = db.Column(db.String(20))
-    shoe_color = db.Column(db.String(20))
-    acc_color = db.Column(db.String(20))
+    data = db.Column(db.LargeBinary, nullable=False)
+    mimetype = db.Column(db.String(50), nullable=False)
+    published = db.Column(db.Boolean, nullable=False, default=False)
+    upload_time = db.Column(
+        db.DateTime, nullable=False, default=db.func.current_timestamp()
+    )
+
 
 class Img(db.Model):
     id = db.Column(db.Integer, primary_key=True)

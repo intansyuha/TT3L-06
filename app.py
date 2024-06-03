@@ -10,6 +10,7 @@ import os
 import bcrypt
 from PIL import Image
 from rembg import remove
+import io
 
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'clothesuploadkey'
@@ -22,6 +23,31 @@ class UploadClothesForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     category = SelectField("Category", choices=[("top", "Top"), ("bottom", "Bottom"), ("outerwear", "Outerwear"), ("shoes", "Shoes"), ("accessories", "Accessories")], validators=[InputRequired()])
     submit = SubmitField("Upload File")
+
+
+class CreateOutfitForm(FlaskForm):
+    top = SelectField("Top", coerce=int)
+    bottom = SelectField("Bottom", coerce=int)
+    shoes = SelectField("Shoes", coerce=int)
+    outerwear = SelectField("Outerwear", coerce=int)
+    bag = SelectField("Bag", coerce=int)
+    submitOF = SubmitField("Save Outfit")
+    publish = SubmitField("Publish Outfit")
+
+
+def combine_images(images):
+    widths, heights = zip(*(i.size for i in images))
+    total_width = max(widths)
+    total_height = sum(heights)
+
+    combined_image = Image.new("RGB", (total_width, total_height))
+    y_offset = 0
+    for img in images:
+        combined_image.paste(img, (0, y_offset))
+        y_offset += img.height
+
+    return combined_image
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
@@ -97,8 +123,62 @@ def settings():
 def outfit_creator():
     if not session.get('email'):
         return redirect('/login')
-    
+
     return render_template('outfitcreator.html')
+
+
+@app.route("/create_outfit", methods=["GET", "POST"])
+def create_outfit():
+    form = CreateOutfitForm()
+
+    # Populate the form with image choices
+    form.top.choices = [
+        (img.id, img.name) for img in Img.query.filter_by(category="top").all()
+    ]
+    form.bottom.choices = [
+        (img.id, img.name) for img in Img.query.filter_by(category="bottom").all()
+    ]
+    form.shoes.choices = [
+        (img.id, img.name) for img in Img.query.filter_by(category="shoes").all()
+    ]
+    form.outerwear.choices = [
+        (img.id, img.name) for img in Img.query.filter_by(category="outerwear").all()
+    ]
+    form.bag.choices = [
+        (img.id, img.name) for img in Img.query.filter_by(category="accessories").all()
+    ]
+
+    if form.validate_on_submit():
+        top = Img.query.get(form.top.data)
+        bottom = Img.query.get(form.bottom.data)
+        shoes = Img.query.get(form.shoes.data)
+        outerwear = Img.query.get(form.outerwear.data)
+        bag = Img.query.get(form.bag.data)
+
+        images = [
+            Image.open(io.BytesIO(img.data))
+            for img in [top, bottom, shoes, outerwear, bag]
+        ]
+        combined_image = combine_images(images)
+
+        img_byte_arr = io.BytesIO()
+        combined_image.save(img_byte_arr, format="JPEG")
+        img_byte_arr = img_byte_arr.getvalue()
+
+        new_outfit = Outfit(
+            data=img_byte_arr,
+            mimetype="image/jpeg",
+            published="publish" in request.form,
+        )
+
+        db.session.add(new_outfit)
+        db.session.commit()
+
+        flash("Outfit saved successfully!", "success")
+        return redirect(url_for("outfit_gallery"))
+
+    return render_template("create_outfit.html", form=form)
+
 
 @app.route('/outfitgallery')
 @app.route('/outfitgallery.html')
