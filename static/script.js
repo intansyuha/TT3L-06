@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Save outfit functionality with name prompt
 document.addEventListener("DOMContentLoaded", function () {
-    const saveButton = document.querySelector('.btn-save');
+    const saveButton = document.querySelector('.button-save');
     saveButton.addEventListener('click', () => {
         let outfitName = prompt('Enter the name of your outfit:');
 
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Sidebar and overlay functionality
 document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelectorAll('.menu-icon');
-    const sidebar = document.querySelector('.sidebar');
+    const sidebar = document.querySelector('.side-bar');
     const overlay = document.querySelector('#overlay');
     
     menuIcon.forEach(icon => {

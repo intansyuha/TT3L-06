@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, jsonify, flash, url_for, send_from_directory
 from flask_wtf import FlaskForm
+from flask_login import LoginManager, login_required
 from wtforms import FileField, SubmitField, SelectField
 from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
@@ -16,6 +17,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/files'
 db.init_app(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'app.login'
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 class UploadClothesForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
@@ -34,10 +43,18 @@ def login():
 
         if user and user.check_password(password):
             session['email'] = email
-            session['password'] = password
-            return redirect(url_for('community_page'))
+            session['username'] = user.username
+            return redirect(url_for('community_page', username=user.username))
 
     return render_template('login.html')
+
+@app.route('/community-page/<username>')
+@app.route('/community-page.html/<username>')
+def community_page(username):
+    if session.get('email') and session.get('username') == username:
+        return render_template('community-page.html', username=username)
+
+    return redirect('/login')
 
 @app.route('/signup', methods=['GET', 'POST'])
 @app.route('/signup.html', methods=['GET', 'POST'])
@@ -61,51 +78,29 @@ def signup():
 
     return render_template('signup.html')
 
-@app.route('/community-page')
-@app.route('/community-page.html')
-def community_page():
-    if session.get('email'):
-        return render_template('community-page.html')
+@app.route('/settings/<username>')
+@app.route('/settings.html/<username>')
+def settings(username):
+    if session.get('email') and session.get('username') == username:
+        return render_template('settings.html', username=username)
 
     return redirect('/login')
 
-@app.route('/settings')
-@app.route('/settings.html')
-def settings():
-    if request.method == 'POST':
-        new_username = request.form['new_username']
-        new_email = request.form['new_email']
-        new_password = request.form['new_password']
+@app.route('/outfitcreator/<username>')
+@app.route('/outfitcreator.html/<username>')
+def outfit_creator(username):
+    if session.get('email') and session.get('username') == username:
+        return render_template('outfitcreator.html', username=username)
 
-        existing_user = User.query.filter((User.username == new_username) | (User.email == new_email)).first()
-        
-        if existing_user:
-            flash('Username or email already exists.', 'error')
-            return render_template('/settings.html')  # Re-render the signup form with error message
-        else:
-            new_user = User(username=new_username, email=new_email, password=new_password)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Registration successful!', 'success')
-            return redirect('/settings.html')
-    
-    return render_template('/settings.html')
+    return redirect('/login')
 
-@app.route('/outfitcreator')
-@app.route('/outfitcreator.html')
-def outfit_creator():
-    if not session.get('email'):
-        return redirect('/login')
-    
-    return render_template('outfitcreator.html')
+@app.route('/outfitgallery/<username>')
+@app.route('/outfitgallery.html/<username>')
+def outfit_gallery(username):
+    if session.get('email') and session.get('username') == username:
+        return render_template('outfitgallery.html', username=username)
 
-@app.route('/outfitgallery')
-@app.route('/outfitgallery.html')
-def outfit_gallery():
-    if not session.get('email'):
-        return redirect('/login')
-    
-    return render_template('outfitgallery.html')
+    return redirect('/login')
 
 @app.route('/index', methods=['GET', "POST"])
 @app.route('/index.html', methods=['GET', "POST"])
