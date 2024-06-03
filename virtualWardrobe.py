@@ -50,7 +50,7 @@ def home():
         img = Img(data=output_data, mimetype=mimetype, name=filename)
         db.session.add(img)
 
-        return redirect(url_for('imgwindow', filename=filename))
+        return redirect(url_for('imgwindow', filename=process_filename))
     
     return render_template('index.html', form=form, file_url=file_url)
 
