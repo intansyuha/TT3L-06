@@ -91,14 +91,23 @@ def settings():
             return redirect('/settings.html')
     
     return render_template('/settings.html')
+@app.route('/uploads/<filename>')
+def get_file(filename):
+     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-@app.route('/outfitcreator')
+@app.route('/outfitcreator', methods=['POST'])
 @app.route('/outfitcreator.html')
 def outfit_creator():
     if not session.get('email'):
         return redirect('/login')
     
-    return render_template('outfitcreator.html')
+    filename = session.get(filename)
+    if filename is None:
+        # If no filename is found, set a default value
+        filename = 'default_image.jpg'
+
+
+    return render_template('outfitcreator.html', filename=filename)
 
 @app.route('/outfitgallery')
 @app.route('/outfitgallery.html')
@@ -144,9 +153,6 @@ def index():
     return render_template('index.html', form=form, file_url=file_url)
 
 
-@app.route('/uploads/<filename>')
-def get_file(filename):
-     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
 def imgwindow(filename):
