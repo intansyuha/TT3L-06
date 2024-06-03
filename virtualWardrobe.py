@@ -14,16 +14,16 @@ app.config['SECRET_KEY'] = 'clothesuploadkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///img.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/files'
-db_init(app)
+db.init_app(app)
 
 class UploadClothesForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     submit = SubmitField("Upload File")
 
 
-@app.route('/', methods=['GET', "POST"])
-@app.route('/home', methods=['GET', "POST"])
-def home():
+@app.route('/index', methods=['GET', "POST"])
+@app.route('/index.html', methods=['GET', "POST"])
+def index():
     form = UploadClothesForm()
     file_url = None
     if form.validate_on_submit():
@@ -49,6 +49,7 @@ def home():
 
         img = Img(data=output_data, mimetype=mimetype, name=filename)
         db.session.add(img)
+        db.session.commit()
 
         return redirect(url_for('imgwindow', filename=process_filename))
     

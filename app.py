@@ -4,25 +4,23 @@ from wtforms import FileField, SubmitField, SelectField
 from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
 from db import db, User
+from rembg import remove
 from models import Img, Outfit
 import os
 import bcrypt
 from PIL import Image
 
 app = Flask(__name__, static_folder='static')
-app.secret_key = 'secret_key'
+app.config['SECRET_KEY'] = 'clothesuploadkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/files'
+db.init_app(app)
 
 class UploadClothesForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     category = SelectField("Category", choices=[("top", "Top"), ("bottom", "Bottom"), ("outerwear", "Outerwear"), ("shoes", "Shoes"), ("accessories", "Accessories")], validators=[InputRequired()])
     submit = SubmitField("Upload File")
-
-with app.app_context():
-    db.init_app(app)
-    db.create_all()
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
@@ -52,11 +50,11 @@ def signup():
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
 
         if existing_user:
-            flash('Username or email already exists', 'error')
+            flash('Username or email already exists.', 'error')
             return render_template('signup.html')  # Re-render the signup form with error message
         else:
-            new_user = User(username=username, email=email, password=password)
-            db.session.add(new_user)
+            current_user = User(username=username, email=email, password=password)
+            db.session.add(current_user)
             db.session.commit()
             flash('Registration successful!', 'success')
             return redirect('/login')  # Redirect to login after successful registration
@@ -74,10 +72,24 @@ def community_page():
 @app.route('/settings')
 @app.route('/settings.html')
 def settings():
-    if session.get('email'):
-        return render_template('settings.html')
+    if request.method == 'POST':
+        new_username = request.form['new_username']
+        new_email = request.form['new_email']
+        new_password = request.form['new_password']
 
-    return redirect('/login')
+        existing_user = User.query.filter((User.username == new_username) | (User.email == new_email)).first()
+        
+        if existing_user:
+            flash('Username or email already exists.', 'error')
+            return render_template('/settings.html')  # Re-render the signup form with error message
+        else:
+            new_user = User(username=new_username, email=new_email, password=new_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Registration successful!', 'success')
+            return redirect('/settings.html')
+    
+    return render_template('/settings.html')
 
 @app.route('/outfitcreator')
 @app.route('/outfitcreator.html')
@@ -95,34 +107,44 @@ def outfit_gallery():
     
     return render_template('outfitgallery.html')
 
-@app.route('/index', methods=['GET', 'POST'])
-@app.route('/index.html', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', "POST"])
+@app.route('/index.html', methods=['GET', "POST"])
 def index():
-    if session.get('email'):
-        form = UploadClothesForm()
-        file_url = None
-        if form.validate_on_submit():
-            file = form.file.data
-            category = form.category.data
-            filename = secure_filename(file.filename)
-            file_url = url_for('get_file', filename=filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            mimetype = file.content_type
-            with open(file_path, 'rb') as f:
-                img_data = f.read()
+    form = UploadClothesForm()
+    file_url = None
+    if form.validate_on_submit():
+        file = form.file.data # grab file
+        filename = secure_filename(file.filename)
+        file_url = url_for('get_file', filename=filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
+        file.save(file_path)
 
-            img = Img(data=img_data, mimetype=mimetype, name=filename, category=category)
-            db.session.add(img)
-            db.session.commit()
+        with open(file_path, 'rb') as input_file:
+            input_data = input_file.read()
 
-            return redirect(url_for('imgwindow', filename=filename))
+        output_data = remove(input_data)
 
+        process_filename = filename
+        process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
+
+        with open(process_file_path, 'wb') as output_file:
+            output_file.write(output_data)
+
+        mimetype = file.mimetype
+
+
+        img = Img(data=output_data, mimetype=mimetype, name=filename)
+        db.session.add(img)
+        db.session.commit()
+
+        return redirect(url_for('imgwindow', filename=process_filename))
+    
     return render_template('index.html', form=form, file_url=file_url)
+
 
 @app.route('/uploads/<filename>')
 def get_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
 def imgwindow(filename):
@@ -139,11 +161,17 @@ def wardrobecategory():
 
     if category not in session['image_urls']:
         session['image_urls'][category] = []
-
+    
     session['image_urls'][category].append(file_url)
     session.modified = True
 
     return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
 
+def create_db():
+    with app.app_context():
+        db.create_all()
+
 if __name__ == '__main__':
+    from models import Img
+    create_db()
     app.run(debug=True)
