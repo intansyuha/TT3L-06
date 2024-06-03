@@ -13,11 +13,12 @@
 <body>
     <div class="wrapper">
 
+        <h1>Sign Up</h1>
+
         {% extends "base.html" %}
 
         {% block content %}
 
-        <h1>Sign Up</h1>
         <form action="/signup", method="POST">
         <div class="input-box">
             <input type="username" id="username" placeholder="Username" name="username" required>

@@ -2,14 +2,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+app.config['SECRET_KEY'] = 'clothesuploadkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'static/files'
 db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(8), unique=True)
+    username = db.Column(db.String(15), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(50))
 
