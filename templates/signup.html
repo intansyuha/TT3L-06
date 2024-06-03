@@ -12,7 +12,13 @@
 
 <body>
     <div class="wrapper">
+
         <h1>Sign Up</h1>
+
+        {% extends "base.html" %}
+
+        {% block content %}
+
         <form action="/signup", method="POST">
         <div class="input-box">
             <input type="username" id="username" placeholder="Username" name="username" required>
@@ -32,18 +38,10 @@
             <p>Already have an account?<a href="login.html"> Back to Login</a></p>
         </div>
         </form>
-    </div>
 
-    <!-- Flash messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        {% endblock %}
+
+    </div>
 
 <script>
     // Function to display pop-up message

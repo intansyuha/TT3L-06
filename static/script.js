@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const accSmallBoxes = document.querySelectorAll('#accessories-accordion .sb');
   const accContainer = document.querySelector('.accessories-container');
   const accContainerImg = document.querySelector('.accessories-container img');
-
+  
   topSmallBoxes.forEach((smallBox) => {
     smallBox.addEventListener('click', () => {
       const imgSrc = smallBox.querySelector('img').src;
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Save outfit functionality with name prompt
 document.addEventListener("DOMContentLoaded", function () {
-    const saveButton = document.querySelector('.btn-save');
+    const saveButton = document.querySelector('.button-save');
     saveButton.addEventListener('click', () => {
         let outfitName = prompt('Enter the name of your outfit:');
 
@@ -220,68 +220,68 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const cardsContainer = document.getElementById('cardsContainer');
-    const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
+  const cardsContainer = document.getElementById('cardsContainer');
+  const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
 
-    function createOutfitCard(outfit) {
-        const card = document.createElement('a');
-        card.href = '#';
-        card.className = 'card';
+  function createOutfitCard(outfit) {
+      const card = document.createElement('a');
+      card.href = '#';
+      card.className = 'card';
 
-        const img = document.createElement('img');
-        img.src = outfit.top;
-        img.alt = '';
+      const img = document.createElement('img');
+      img.src = outfit.top;
+      img.alt = '';
 
-        const cardBody = document.createElement('div');
-        cardBody.className = 'card_body';
+      const cardBody = document.createElement('div');
+      cardBody.className = 'card_body';
 
-        const cardTitle = document.createElement('h6');
-        cardTitle.className = 'card_title';
-        cardTitle.textContent = outfit.name;
+      const cardTitle = document.createElement('h6');
+      cardTitle.className = 'card_title';
+      cardTitle.textContent = outfit.name;
 
-        const cardOptions = document.createElement('div');
-        cardOptions.className = 'card_options';
+      const cardOptions = document.createElement('div');
+      cardOptions.className = 'card_options';
 
-        const toggleSwitch = document.createElement('div');
-        toggleSwitch.className = 'toggle-switch';
-        const switchSpan = document.createElement('span');
-        switchSpan.className = 'switch';
-        toggleSwitch.appendChild(switchSpan);
+      const toggleSwitch = document.createElement('div');
+      toggleSwitch.className = 'toggle-switch';
+      const switchSpan = document.createElement('span');
+      switchSpan.className = 'switch';
+      toggleSwitch.appendChild(switchSpan);
 
-        const deleteDiv = document.createElement('div');
-        deleteDiv.className = 'delete';
-        const deleteIcon = document.createElement('i');
-        deleteIcon.className = 'bx bx-trash bx-sm';
-        deleteDiv.appendChild(deleteIcon);
+      const deleteDiv = document.createElement('div');
+      deleteDiv.className = 'delete';
+      const deleteIcon = document.createElement('i');
+      deleteIcon.className = 'bx bx-trash bx-sm';
+      deleteDiv.appendChild(deleteIcon);
 
-        cardOptions.appendChild(toggleSwitch);
-        cardOptions.appendChild(deleteDiv);
+      cardOptions.appendChild(toggleSwitch);
+      cardOptions.appendChild(deleteDiv);
 
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardOptions);
+      cardBody.appendChild(cardTitle);
+      cardBody.appendChild(cardOptions);
 
-        card.appendChild(img);
-        card.appendChild(cardBody);
+      card.appendChild(img);
+      card.appendChild(cardBody);
 
-        cardsContainer.appendChild(card);
-    }
+      cardsContainer.appendChild(card);
+  }
 
-    savedOutfits.forEach(outfit => {
-        createOutfitCard(outfit);
-    });
+  savedOutfits.forEach(outfit => {
+      createOutfitCard(outfit);
+  });
 
-  cardsContainer.addEventListener('click', function (event) {
-        if (event.target.classList.contains('switch')) {
-          event.target.closest('.toggle-switch').classList.toggle('active');
-        }
-          else if (event.target.classList.contains('bx-trash')) {
-              const card = event.target.closest('.card');
-              const imageUrl = card.querySelector('img').src;
-              const outfitIndex = savedOutfits.findIndex(outfit => outfit.top === imageUrl);
-            
-            if (outfitIndex !== -1) {
-              const outfitName = card.querySelector('.card_title').textContent;
-              const confirmation = confirm(`Are you sure you want to delete the outfit "${outfitName}"?`);
+cardsContainer.addEventListener('click', function (event) {
+      if (event.target.classList.contains('switch')) {
+        event.target.closest('.toggle-switch').classList.toggle('active');
+      }
+        else if (event.target.classList.contains('bx-trash')) {
+            const card = event.target.closest('.card');
+            const imageUrl = card.querySelector('img').src;
+            const outfitIndex = savedOutfits.findIndex(outfit => outfit.top === imageUrl);
+          
+          if (outfitIndex !== -1) {
+            const outfitName = card.querySelector('.card_title').textContent;
+            const confirmation = confirm(`Are you sure you want to delete the outfit "${outfitName}"?`);
 
               if (confirmation) {
                 savedOutfits.splice(outfitIndex, 1);
@@ -293,3 +293,60 @@ document.addEventListener('DOMContentLoaded', () => {
           }
     });
 });
+
+
+
+//sidebar
+
+const menuItems = document.querySelectorAll('.menu-item');
+const messagesNotification = document.querySelector('#messages-notifications');
+const messages = document.querySelector('.messages');
+const message = messages.querySelectorAll('.message');
+const messageSearch = document.querySelector('#message-search');
+
+//remove active class from all menu items
+const changeActiveItem = () => {
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    })
+}
+
+//image
+
+function loadImage(event) {
+    const output = document.getElementById('profile-picture-preview');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+}
+
+document.getElementById('profile-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const response = await fetch('/update_profile', {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (response.ok) {
+        const result = await response.json();
+        alert('Profile updated successfully!');
+        // Optionally, update the UI with the new data
+    } else {
+        alert('Failed to update profile.');
+    }
+});
+
+// show password
+
+function togglePassword() {
+  var passwordField = document.getElementById("new_password");
+  var showPasswordCheckbox = document.getElementById("showPassword");
+  if (showPasswordCheckbox.checked) {
+      passwordField.type = "text";
+  } else {
+      passwordField.type = "password";
+  }
+}
