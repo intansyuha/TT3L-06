@@ -1,6 +1,3 @@
-
-///// category tab //////
-
 const tabs = document.querySelectorAll('.tab')
 const tabContents = document.querySelectorAll('[data-tab-content]')
 
@@ -19,14 +16,12 @@ tabs.forEach(tab => {
 })
 
 
-///// delete button //////
-document.addEventListener('DOMContentLoaded', function() {
-  const imageContainer = document.getElementById('imageContainer');
+// Accordion functionality
+const labels = document.querySelectorAll('.accordion-row label');
 
-  labels.forEach(label => {
-    const accordionContent = label.nextElementSibling;
-    accordionContent.style.display = 'none';
-  });
+labels.forEach(label => {
+  const accordionContent = label.nextElementSibling;
+  accordionContent.style.display = 'none';
 });
 
 labels.forEach(label => {
@@ -159,16 +154,15 @@ document.addEventListener("DOMContentLoaded", function () {
     saveButton.addEventListener('click', () => {
         let outfitName = prompt('Enter the name of your outfit:');
 
-        // Check if the user clicked "Cancel"
-        if (outfitName === null) {
-            return;
+        // Keep prompting until a valid name is entered
+        while (outfitName !== null && outfitName.trim() === '') {
+            alert('Please enter a valid outfit name.');
+            outfitName = prompt('Enter the name of your outfit:');
         }
 
-        if (outfitName.trim() !== '') {
-            outfitName = outfitName.trim(); 
-
+        if (outfitName !== null) { // Check if the user provided a name
             const selectedOutfit = {
-                name: outfitName,
+                name: outfitName.trim(),
                 top: document.querySelector('.top-container img').src,
                 bottom: document.querySelector('.bottom-container img').src,
                 outerwear: document.querySelector('.outerwear-container img').src,
@@ -180,16 +174,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let savedOutfits = JSON.parse(localStorage.getItem('savedOutfits')) || [];
             savedOutfits.push(selectedOutfit);
             localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
-          alert(`Outfit "${outfitName}" saved!`);
-          
-            window.location.href = "outfitgallery.html";
-        } else {
-            alert('Please enter a valid outfit name.');
+            alert(`Outfit "${outfitName}" saved!`);
         }
     });
 });
-
-
 
 //* Outfit Gallery */
 
@@ -304,18 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } 
           }
     });
-  if (imageContainer) {
-    imageContainer.addEventListener('click', function(event) {
-      if (event.target.classList.contains('deleteButton')) {
-        console.log('Delete button clicked');
-        const imageDiv = event.target.parentNode;
-        console.log('Image div:', imageDiv);
-        imageDiv.parentNode.removeChild(imageDiv);
-      }
-    });
-  } else {
-    console.error('Image container not found');
-  }
 });
 
 //sidebar

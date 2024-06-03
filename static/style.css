@@ -30,370 +30,377 @@ style.css
     margin-top: 70px;
     margin-left: 15px;
 }
-
-form {
-    margin-left: 15px;
     
-}
-
-.side-bar {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    height: 100%;
-    width: 190px;
-    padding: 20px 0;
-    background-color: #fff;
-    box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    z-index: 100;
-}
-
-.nav.open .side-bar{
-    left: 0;
-}
-
-.sidebar-content {
-    padding: 30px 16px;
-    z-index: 100;
-}
-
-.sidebar-content .list{
-    list-style: none;
-}
-
-.list .nav-link {
-    display: flex;
-    align-items: center;
-    margin: 8px 0;
-    padding: 14px 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    z-index: 1;
-}
-
-.lists .nav-link:hover {
-  background-color: #F6F3F3;
-}
-
-.nav-link .icon {
-    margin-right: 14px;
-    font-size: 20px;
-    color: #707070;
-}
-
-.nav-link .link {
-    font-size: 14px;
-    color: #707070;
-    font-weight: 400;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-nav.open ~ .overlay {
-  opacity: 1;
-  left: 190px;
-  pointer-events: auto;
-}
-
-.button-container {
-    margin-left: auto; 
-}
-
-.button {
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
-
-.button li {
-    margin-right: 50px;
-}
-
-.button a {
-    text-decoration: none;
-    color: white;
-    padding: 5px 10px;
-    background-color: #E4C1C1;
-    border-radius: 5px;
-}
-
-.button a:hover {
-    background-color: #BF9797;
-}
-
-    /*-Details/Display-*/
-
-.img-container {
-    position: absolute;
-    display: flex;
-    align-items: center;
-}
-
-.top-container, .bottom-container, .outerwear-container, .shoes-container, .bags-container, .accessories-container {
-    position: absolute;
-}
-
-.img-container img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border: none;
-    padding: 0;
-}
-
-.top-container{
-    height: 138px;
-    width: 160px;
-    margin-left: -80px;
-    margin-bottom: 500px;
-}
-
-.bottom-container{
-    height: 190px;
-    width: 160px;
-    margin-left: -80px;
-    margin-bottom: 170px;
-}
-
-.shoes-container{
-    height: 90px;
-    width: 160px;
-    margin-left: -80px;
-    margin-bottom: -115px;
-}
-
-.outerwear-container{
-    height: 158px;
-    width: 160px;
-    margin-left: 85px;
-    margin-bottom: 300px;
-}
-
-.accessories-container{
-    height: 80px;
-    width: 160px;
-    margin-left: 85px;
-    margin-bottom: 50px;
-}
-
-.bags-container{
-    height: 120px;
-    width: 160px;
-    margin-left: -245px;
-    margin-bottom: 100px;
-}
-
-input[type="file"] {
-    background-color: #F8EDEB; 
-    padding-left: 5px;
-    padding-right: 5px;
-    cursor: pointer; 
-}
-
-
-
-.footer {
-    background-color: #F6F3F3;
-    background-position: center;
-    background-size: cover;
-    bottom: 0;
-    left: 0;
-    padding: 20px 15px;
-    height: 250px; 
-    width: 100%;
-    position: absolute;
-    display: flex;
-    align-items: left;
-    justify-content: space-between;
-    overflow-y: scroll;
-    flex-direction: column;
-
-}
-
-.form input[type="submit"] {
-    background-color: #F8EDEB; 
-    padding-left: 5px;
-    padding-right: 5px;
-    cursor: pointer; 
-}
-
-
-/*--------------- IMAGEWINDOW -------------------*/
-
-#imagewindow {
-    font-family: "Poppins", sans-serif;
-    margin-top: 70px;
-    margin-left: 30px;
-    font-size: 40px;
-}   
-
-#imgupload {
-    margin-left: 30px;
-    margin-top: 10PX;
-    margin-bottom: 20px;
-}
-
-#categorytxt {
-    margin-left: 30px;
-    margin-top: 10PX; 
-    font-size: 30px; 
-}
-
-#choosecat {
-    margin-left: 30px;
-}
-
-#linkimg {
-    margin-left: 30px;
-    margin-top: 20PX;
-    font-size: 30px; 
-}
-
-#addlink {
-    margin-left: 30px; 
-}
-
-#gobackbttn {
-    margin-left: 40px;
-    margin-top: 40PX;
-    margin-bottom: 20px;
-}
-
-#submitbttn {
-    margin-left: 5px;
-    margin-top: 40PX;
-    margin-bottom: 20px;
-}
-
-
-
-/*--------------- CATEGORYTAB -------------------*/
-
-
-[data-tab-content] {
-    display: none;
-}
-
-.active[data-tab-content] {
-    display: block;
-}
-
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid black;
-}
-
-.tab {
-    cursor: pointer;
-    padding: 10px;
-}
-
-.tab.active {
-    background-color: #CCC;
-}
-
-.tab:hover {
-    background-color: #AAA;
-}
-
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: calc(100vh + 57px);
-}
-
-.card {
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    margin: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    text-decoration: none;
-    color: black;
-    background-color: #E4C1C1;
-}
-
-.card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.card_body {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.card_title {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 10px;
-}
-
-.card_options { 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.toggle-switch { 
-    width: 40px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 20px;
-    position: relative;
-    cursor: pointer;
-}
-
-.toggle-switch .switch { 
-    width: 18px;
-    height: 18px;
-    background-color: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    transition: all 0.3s;
-}
-
-.toggle-switch.active .switch { 
-    left: 21px;
-    background-color: #192841;
-}
-
-.delete { 
-    cursor: pointer;
-}
-
-.delete .bx-trash { 
-    color: #707070;
-}
+    .bx-menu {
+        cursor: pointer;
+        color: black;
+        padding: 20px;
+    }
+    
+    .side-bar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100%;
+        width: 190px;
+        padding: 20px 0;
+        background-color: #fff;
+        box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        z-index: 100;
+    }
+    
+    .nav.open .side-bar{
+        left: 0;
+    }
+    
+    .sidebar-content {
+        padding: 30px 16px;
+        z-index: 100;
+    }
+    
+    .sidebar-content .list{
+        list-style: none;
+    }
+    
+    .list .nav-link {
+        display: flex;
+        align-items: center;
+        margin: 8px 0;
+        padding: 14px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        z-index: 1;
+    }
+    
+    .lists .nav-link:hover {
+      background-color: #F6F3F3;
+    }
+    
+    .nav-link .icon {
+        margin-right: 14px;
+        font-size: 20px;
+        color: #707070;
+    }
+    
+    .nav-link .link {
+        font-size: 14px;
+        color: #707070;
+        font-weight: 400;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    nav.open ~ .overlay {
+      opacity: 1;
+      left: 190px;
+      pointer-events: auto;
+    }
+    
+    .button-container {
+        margin-left: auto; 
+    }
+    
+    .button {
+        list-style: none;
+        display: flex;
+        align-items: center;
+    }
+    
+    .button li {
+        margin-right: 50px;
+    }
+    
+    .button a {
+        text-decoration: none;
+        color: white;
+        padding: 5px 10px;
+        background-color: #E4C1C1;
+        border-radius: 5px;
+    }
+    
+    .button a:hover {
+        background-color: #BF9797;
+    }
+    
+        /*-Details/Display-*/
+    
+    .img-container {
+        position: absolute;
+        display: flex;
+        align-items: center;
+    }
+    
+    .top-container, .bottom-container, .outerwear-container, .shoes-container, .bags-container, .accessories-container {
+        position: absolute;
+    }
+    
+    .img-container img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border: none;
+        padding: 0;
+    }
+    
+    .top-container{
+        height: 138px;
+        width: 160px;
+        margin-left: -80px;
+        margin-bottom: 500px;
+    }
+    
+    .bottom-container{
+        height: 190px;
+        width: 160px;
+        margin-left: -80px;
+        margin-bottom: 170px;
+    }
+    
+    .shoes-container{
+        height: 90px;
+        width: 160px;
+        margin-left: -80px;
+        margin-bottom: -115px;
+    }
+    
+    .outerwear-container{
+        height: 158px;
+        width: 160px;
+        margin-left: 85px;
+        margin-bottom: 300px;
+    }
+    
+    .accessories-container{
+        height: 80px;
+        width: 160px;
+        margin-left: 85px;
+        margin-bottom: 50px;
+    }
+    
+    .bags-container{
+        height: 120px;
+        width: 160px;
+        margin-left: -245px;
+        margin-bottom: 100px;
+    }
+    
+    
+    /*-Footer-*/
+    
+    .footer {
+        background-color: #F6F3F3;
+        background-position: center;
+        background-size: cover;
+        bottom: 0;
+        left: 0;
+        padding: 20px 15px;
+        height: 250px; 
+        width: 100%;
+        position: absolute;
+        display: flex;
+        align-items: left;
+        justify-content: space-between;
+        overflow-y: scroll;
+        flex-direction: column;
+    }
+    
+    .accordion-row {
+        max-width: 320px;
+        overflow: visible;
+        font-weight: 300;
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background:transparent;
+    }
+    
+    .footer .accordion-row label {
+        font-size: 18px;
+        line-height: 1;
+        position: relative;
+        font-weight: 300;
+        background: transparent;
+        color: black;
+        display: block;
+        top: -10px;
+        cursor: pointer;
+        padding: 10px 30px;
+        z-index: 1;
+    }
+    
+    .accordion-row label:after{
+        content: "";
+        position: absolute;
+        right: 15px;
+        top: 20px;
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+        line-height: 1;
+    }
+    
+    .accordion-content {
+        max-width: 320px;
+        overflow: visible;
+        font-weight: 300;
+        position: relative;
+        margin-top: 100px;
+        background: transparent;
+        flex-direction: row;
+    }
+    
+    .accordion-row .hidden {
+        display: none;
+    }
+    
+    .accordion-row label:focus-within + .accordion-content .hidden,
+    .accordion-row label:hover + .accordion-content .hidden {
+        display: flex;
+    }
+    
+    .accordion-box {
+        position: absolute;
+        display: flex;
+        width: 1350px;
+        height: 106px;
+        background-color: #EBDDDD;
+        top: -110px;
+        left: 25px;
+        padding: 10px 25px;
+        border-radius: 10px;
+        opacity: 1;
+        pointer-events: auto;
+        transition: all 0.3s ease;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+    }
+    
+    .accordion-row:focus-within .accordion-box{
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .sb, .sb-1 {
+        width: 93px; 
+        height: 86px; 
+        background-color: #F6F3F3;
+        margin-right: 120px;
+        border-radius: 10px;
+        flex: 0 0 auto;
+        object-fit: cover;
+        cursor: pointer;
+        display: flex;
+    }
+    
+    .sb img, .sb-1 img{
+        position: absolute;
+        max-width: 85px; 
+        max-height: 80px; 
+        border-radius: 8px; 
+        margin-left: 10px;
+    }
+    
+    
+    /*------Outfit Gallery------*/
+    
+    .Gallery h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-right: 630px;
+        text-align: center;
+    }
+    
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .card {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        margin: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        text-decoration: none;
+        color: black;
+        background-color: #E4C1C1;
+    }
+    
+    .card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    
+    .card_body {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .card_title {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+    
+    .card_options { 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .toggle-switch { 
+        width: 40px;
+        height: 20px;
+        background-color: #ccc;
+        border-radius: 20px;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .toggle-switch .switch { 
+        width: 18px;
+        height: 18px;
+        background-color: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        transition: all 0.3s;
+    }
+    
+    .toggle-switch.active .switch { 
+        left: 21px;
+        background-color: #192841;
+    }
+    
+    .delete { 
+        cursor: pointer;
+    }
+    
+    .delete .bx-trash { 
+        color: #707070;
+    }
 
 
 /*------Main------*/
