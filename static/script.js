@@ -1,3 +1,6 @@
+
+///// category tab //////
+
 const tabs = document.querySelectorAll('.tab')
 const tabContents = document.querySelectorAll('[data-tab-content]')
 
@@ -16,9 +19,11 @@ tabs.forEach(tab => {
 })
 
 
-// Accordion functionality
-const labels = document.querySelectorAll('.accordion-row label');
+///// delete button //////
+document.addEventListener('DOMContentLoaded', function() {
+  const imageContainer = document.getElementById('imageContainer');
 
+<<<<<<< HEAD
 labels.forEach(label => {
   const accordionContent = label.nextElementSibling;
   accordionContent.style.display = 'none';
@@ -299,4 +304,18 @@ document.addEventListener('DOMContentLoaded', () => {
             } 
           }
     });
+=======
+  if (imageContainer) {
+    imageContainer.addEventListener('click', function(event) {
+      if (event.target.classList.contains('deleteButton')) {
+        console.log('Delete button clicked');
+        const imageDiv = event.target.parentNode;
+        console.log('Image div:', imageDiv);
+        imageDiv.parentNode.removeChild(imageDiv);
+      }
+    });
+  } else {
+    console.error('Image container not found');
+  }
+>>>>>>> vwardrobe
 });
