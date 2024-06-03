@@ -38,7 +38,7 @@ def home():
 
         output_data = remove(input_data)
 
-        process_filename = 'processed_' + filename
+        process_filename = filename
         process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
 
         with open(process_file_path, 'wb') as output_file:
