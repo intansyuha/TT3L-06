@@ -300,3 +300,99 @@ document.addEventListener('DOMContentLoaded', () => {
           }
     });
 });
+
+//sidebar
+
+const menuItems = document.querySelectorAll('.menu-item');
+const messagesNotification = document.querySelector('#messages-notifications');
+const messages = document.querySelector('.messages');
+const message = messages.querySelectorAll('.message');
+const messageSearch = document.querySelector('#message-search');
+
+//remove active class from all menu items
+const changeActiveItem = () => {
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    })
+}
+ 
+//notifications
+
+menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+        changeActiveItem();
+        item.classList.add('active');
+        
+        if (item.id != 'notifications') {
+            document.querySelector('.notifications-popup').style.display = 'none';
+        } else {
+            document.querySelector('.notifications-popup').style.display = 'block';
+            document.querySelector('#notifications .notification-count').style.display='none';
+        }
+    })
+})
+
+//messages
+
+const searchMessage = () => {
+    const val = messageSearch.value.toLowerCase();
+    message.forEach(chat => {
+        let name=chat.querySelector('h5').textContent.toLowerCase();
+        if(name.indexOf(val) != -1){
+            chat.style.display = 'flex';
+        } else{
+            chat.style.display = 'none';
+        }
+    })
+}
+
+messageSearch.addEventListener('keyup', searchMessage);
+
+
+messagesNotification.addEventListener('click', () => {
+    messages.style.boxShadow = '0 0 1rem var(--color-primary)';
+    messagesNotification.querySelector('.notification-count').style.display = 'none';
+    setTimeout(() => {
+        messages.style.boxShadow = 'none';
+    }, 2000);
+})
+
+//image
+
+function loadImage(event) {
+    const output = document.getElementById('profile-picture-preview');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+}
+
+document.getElementById('profile-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const response = await fetch('/update_profile', {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (response.ok) {
+        const result = await response.json();
+        alert('Profile updated successfully!');
+        // Optionally, update the UI with the new data
+    } else {
+        alert('Failed to update profile.');
+    }
+});
+
+// show password
+
+function togglePassword() {
+            var passwordField = document.getElementById("new_password");
+            var showPasswordCheckbox = document.getElementById("showPassword");
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
