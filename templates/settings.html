@@ -43,7 +43,7 @@
                 <a class="menu-item" href="community-page.html">
                     <span><i class='bx bx-home'></i></span> <h3>Home</h3>
                 </a>
-                <a class="menu-item" href="imgwindow.html">
+                <a class="menu-item" href="index.html">
                     <span><i class='bx bx-closet'></i></span> <h3>Wardrobe</h3>
                 </a>
                 <a class="menu-item" href="outfitcreator.html">
@@ -66,7 +66,7 @@
 
         <div class="middle">
             <div class="profile-container">
-            <form id="profile-form" action="user-profile.html" method="post">
+            <form id="profile-form" action="settings.html" method="post">
                 <div class="profile-picture-section">
                     <h3>Profile Picture</h3>
                     <input type="file" id="profile-picture" name="profile_picture" accept="image/*" onchange="loadImage(event)">
@@ -118,47 +118,6 @@ const changeActiveItem = () => {
         item.classList.remove('active');
     })
 }
- 
-//notifications
-
-menuItems.forEach(item => {
-    item.addEventListener('click', () => {
-        changeActiveItem();
-        item.classList.add('active');
-        
-        if (item.id != 'notifications') {
-            document.querySelector('.notifications-popup').style.display = 'none';
-        } else {
-            document.querySelector('.notifications-popup').style.display = 'block';
-            document.querySelector('#notifications .notification-count').style.display='none';
-        }
-    })
-})
-
-//messages
-
-const searchMessage = () => {
-    const val = messageSearch.value.toLowerCase();
-    message.forEach(chat => {
-        let name=chat.querySelector('h5').textContent.toLowerCase();
-        if(name.indexOf(val) != -1){
-            chat.style.display = 'flex';
-        } else{
-            chat.style.display = 'none';
-        }
-    })
-}
-
-messageSearch.addEventListener('keyup', searchMessage);
-
-
-messagesNotification.addEventListener('click', () => {
-    messages.style.boxShadow = '0 0 1rem var(--color-primary)';
-    messagesNotification.querySelector('.notification-count').style.display = 'none';
-    setTimeout(() => {
-        messages.style.boxShadow = 'none';
-    }, 2000);
-})
 
 //image
 
@@ -174,7 +133,7 @@ document.getElementById('profile-form').addEventListener('submit', async (event)
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const response = await fetch('/update_profile', {
+    const response = await fetch('/settings', {
         method: 'POST',
         body: formData,
     });
