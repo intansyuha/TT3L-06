@@ -15,6 +15,23 @@ tabs.forEach(tab => {
     })
 })
 
+///// delete button //////
+document.addEventListener('DOMContentLoaded', function() {
+  const imageContainer = document.getElementById('imageContainer');
+
+  if (imageContainer) {
+    imageContainer.addEventListener('click', function(event) {
+      if (event.target.classList.contains('deleteButton')) {
+        console.log('Delete button clicked');
+        const imageDiv = event.target.parentNode;
+        console.log('Image div:', imageDiv);
+        imageDiv.parentNode.removeChild(imageDiv);
+      }
+    });
+  } else {
+    console.error('Image container not found');
+  }
+});
 
 // Accordion functionality
 const labels = document.querySelectorAll('.accordion-row label');
