@@ -316,74 +316,75 @@ document.addEventListener("DOMContentLoaded", function () {
             URL.revokeObjectURL(output.src) // free memory
         }
     }
+  // Create Outfit Card
+    function createOutfitCard(outfit) {
+          const card = document.createElement('a');
+          card.href = '#';
+          card.className = 'Card';
+      
+          const img = document.createElement('img');
+          img.src = outfit.top;
+          img.alt = '';
+      
+          const cardBody = document.createElement('div');
+          cardBody.className = 'Card_body';
+      
+          const cardTitle = document.createElement('h6');
+          cardTitle.className = 'Card_title';
+          cardTitle.textContent = outfit.name;
+      
+          const cardOptions = document.createElement('div');
+          cardOptions.className = 'Card_options';
+      
+          const toggleSwitch = document.createElement('div');
+          toggleSwitch.className = 'toggle-switch';
+          const switchSpan = document.createElement('span');
+          switchSpan.className = 'switch';
+          toggleSwitch.appendChild(switchSpan);
+      
+          const deleteDiv = document.createElement('div');
+          deleteDiv.className = 'delete';
+          const deleteIcon = document.createElement('i');
+          deleteIcon.className = 'bx bx-trash bx-sm';
+          deleteDiv.appendChild(deleteIcon);
+      
+            deleteDiv.addEventListener('click', () => {
+              const confirmation = confirm(`Are you sure you want to delete the outfit "${outfit.name}"?`);
+              if (confirmation) {
+                  deleteOutfit(outfit.id, card);
+              }
+          });
+      
+          cardOptions.appendChild(toggleSwitch);
+          cardOptions.appendChild(deleteDiv);
+      
+          cardBody.appendChild(cardTitle);
+          cardBody.appendChild(cardOptions);
+      
+          card.appendChild(img);
+          card.appendChild(cardBody);
+      
+          const cardsContainer = document.getElementById('cardsContainer');
+          console.log('Appending card to container:', card); // Debugging log
+          cardsContainer.appendChild(card);
+      }
+      
+      
+    function deleteOutfit(outfitId, cardElement) {
+          fetch(`/delete_outfit/${outfitId}`, {
+              method: 'DELETE'
+          })
+          .then(response => {
+              if (response.ok) {
+                  alert('Outfit deleted successfully!');
+                  cardElement.remove(); // Remove the card from the DOM
+              } else {
+                  alert('Failed to delete the outfit.');
+              }
+          })
+          .catch(error => {
+              console.error('Error deleting outfit:', error);
+              alert('Error deleting the outfit. Please try again.');
+          });
+      }
 });
-
-function createOutfitCard(outfit) {
-    const card = document.createElement('a');
-    card.href = '#';
-    card.className = 'Card';
-
-    const img = document.createElement('img');
-    img.src = outfit.top;
-    img.alt = '';
-
-    const cardBody = document.createElement('div');
-    cardBody.className = 'Card_body';
-
-    const cardTitle = document.createElement('h6');
-    cardTitle.className = 'Card_title';
-    cardTitle.textContent = outfit.name;
-
-    const cardOptions = document.createElement('div');
-    cardOptions.className = 'Card_options';
-
-    const toggleSwitch = document.createElement('div');
-    toggleSwitch.className = 'toggle-switch';
-    const switchSpan = document.createElement('span');
-    switchSpan.className = 'switch';
-    toggleSwitch.appendChild(switchSpan);
-
-    const deleteDiv = document.createElement('div');
-    deleteDiv.className = 'delete';
-    const deleteIcon = document.createElement('i');
-    deleteIcon.className = 'bx bx-trash bx-sm';
-    deleteDiv.appendChild(deleteIcon);
-
-      deleteDiv.addEventListener('click', () => {
-        const confirmation = confirm(`Are you sure you want to delete the outfit "${outfit.name}"?`);
-        if (confirmation) {
-            deleteOutfit(outfit.id, card);
-        }
-    });
-
-    cardOptions.appendChild(toggleSwitch);
-    cardOptions.appendChild(deleteDiv);
-
-    cardBody.appendChild(cardTitle);
-    cardBody.appendChild(cardOptions);
-
-    card.appendChild(img);
-    card.appendChild(cardBody);
-
-    const cardsContainer = document.getElementById('cardsContainer');
-    console.log('Appending card to container:', card); // Debugging log
-    cardsContainer.appendChild(card);
-}
-
-function deleteOutfit(outfitId, cardElement) {
-    fetch(`/delete_outfit/${outfitId}`, {
-        method: 'DELETE'
-    })
-    .then(response => {
-        if (response.ok) {
-            alert('Outfit deleted successfully!');
-            cardElement.remove(); // Remove the card from the DOM
-        } else {
-            alert('Failed to delete the outfit.');
-        }
-    })
-    .catch(error => {
-        console.error('Error deleting outfit:', error);
-        alert('Error deleting the outfit. Please try again.');
-    });
-}
