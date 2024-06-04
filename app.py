@@ -10,6 +10,7 @@ from models import Img, Outfit
 import os
 import bcrypt
 from PIL import Image
+from rembg import remove
 
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'clothesuploadkey'
@@ -107,33 +108,34 @@ def outfit_gallery(username):
 def index():
     form = UploadClothesForm()
     file_url = None
-    if form.validate_on_submit():
-        file = form.file.data # grab file
-        filename = secure_filename(file.filename)
-        file_url = url_for('get_file', filename=filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
-        file.save(file_path)
+    if request.method == 'POST' and form.validate_on_submit():
+        if session.get('email'):
+            file = form.file.data # grab file
+            filename = secure_filename(file.filename)
+            file_url = url_for('get_file', filename=filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
+            file.save(file_path)
 
-        with open(file_path, 'rb') as input_file:
-            input_data = input_file.read()
+            with open(file_path, 'rb') as input_file:
+                input_data = input_file.read()
 
-        output_data = remove(input_data)
-
-        process_filename = filename
-        process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
-
-        with open(process_file_path, 'wb') as output_file:
-            output_file.write(output_data)
-
-        mimetype = file.mimetype
+            output_data = remove(input_data)
 
 
-        img = Img(data=output_data, mimetype=mimetype, name=filename)
-        db.session.add(img)
-        db.session.commit()
+            process_filename = filename
+            process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
 
-        return redirect(url_for('imgwindow', filename=process_filename))
-    
+            with open(process_file_path, 'wb') as output_file:
+                output_file.write(output_data)
+
+            mimetype = file.mimetype
+
+
+            img = Img(data=output_data, mimetype=mimetype, name=filename)
+            db.session.add(img)
+            db.session.commit()
+
+            return redirect(url_for('imgwindow', filename=process_filename))
     return render_template('index.html', form=form, file_url=file_url)
 
 

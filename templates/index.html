@@ -2,25 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <title>Home</title>
+    <title>Upload Image</title>
 </head>
 <body>
-
-
-    <h1 id="clothesupload">Clothes Upload</h1>
-
-    <form method='POST' enctype="multipart/form-data">
-        {{form.hidden_tag()}}
-        
-        {{form.file()}}
-        
-        {{form.submit()}}
-
+    <h1 id="clothesupload">Upload an Image</h1>
+    <form action="/index" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            <label for="file">Choose File:</label><br>
+            {{ form.file }}
+        </p>
+        <p>
+            <label for="category">Category:</label><br>
+            {{ form.category }}
+        </p>
+        <p>{{ form.submit }}</p>
     </form>
-    </body>
+    {% if file_url %}
+    <p>File uploaded successfully: <a href="{{ file_url }}">{{ file_url }}</a></p>
+    {% endif %}
+</body>
 </html>
