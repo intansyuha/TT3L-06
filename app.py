@@ -10,7 +10,6 @@ from models import Img, Outfit
 import os
 import bcrypt
 from PIL import Image
-from rembg import remove
 
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'clothesuploadkey'
@@ -49,14 +48,6 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/community-page/<username>')
-@app.route('/community-page.html/<username>')
-def community_page(username):
-    if session.get('email') and session.get('username') == username:
-        return render_template('community-page.html', username=username)
-
-    return redirect('/login')
-
 @app.route('/signup', methods=['GET', 'POST'])
 @app.route('/signup.html', methods=['GET', 'POST'])
 def signup():
@@ -79,11 +70,11 @@ def signup():
 
     return render_template('signup.html')
 
-@app.route('/settings/<username>')
-@app.route('/settings.html/<username>')
-def settings(username):
+@app.route('/community-page/<username>')
+@app.route('/community-page.html/<username>')
+def community_page(username):
     if session.get('email') and session.get('username') == username:
-        return render_template('settings.html', username=username)
+        return render_template('community-page.html', username=username)
 
     return redirect('/login')
 
@@ -95,47 +86,45 @@ def outfit_creator(username):
 
     return redirect('/login')
 
-@app.route('/outfitgallery/<username>')
-@app.route('/outfitgallery.html/<username>')
-def outfit_gallery(username):
-    if session.get('email') and session.get('username') == username:
-        return render_template('outfitgallery.html', username=username)
-
-    return redirect('/login')
+@app.route('/outfitgallery')
+@app.route('/outfitgallery.html')
+def outfit_gallery():
+    if not session.get('email'):
+        return redirect('/login')
+    
+    return render_template('outfitgallery.html')
 
 @app.route('/index', methods=['GET', "POST"])
 @app.route('/index.html', methods=['GET', "POST"])
 def index():
     form = UploadClothesForm()
     file_url = None
-    if request.method == 'POST' and form.validate_on_submit():
-        if session.get('email'):
-            file = form.file.data # grab file
-            filename = secure_filename(file.filename)
-            file_url = url_for('get_file', filename=filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
-            file.save(file_path)
+    if form.validate_on_submit():
+        file = form.file.data # grab file
+        filename = secure_filename(file.filename)
+        file_url = url_for('get_file', filename=filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
+        file.save(file_path)
 
-            with open(file_path, 'rb') as input_file:
-                input_data = input_file.read()
+        with open(file_path, 'rb') as input_file:
+            input_data = input_file.read()
 
-            output_data = remove(input_data)
+        output_data = remove(input_data)
 
+        process_filename = filename
+        process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
 
-            process_filename = filename
-            process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
+        with open(process_file_path, 'wb') as output_file:
+            output_file.write(output_data)
 
-            with open(process_file_path, 'wb') as output_file:
-                output_file.write(output_data)
-
-            mimetype = file.mimetype
+        mimetype = file.mimetype
 
 
-            img = Img(data=output_data, mimetype=mimetype, name=filename)
-            db.session.add(img)
-            db.session.commit()
+        img = Img(data=output_data, mimetype=mimetype, name=filename)
+        db.session.add(img)
 
-            return redirect(url_for('imgwindow', filename=process_filename))
+        return redirect(url_for('imgwindow', filename=process_filename))
+    
     return render_template('index.html', form=form, file_url=file_url)
 
 
