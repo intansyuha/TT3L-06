@@ -151,8 +151,20 @@ def save_outfit():
 
 @app.route("/get_outfit", methods=["GET"])
 def get_outfit():
-    outfit = Outfit.query.all()
-    return render_template("outfitgallery.html", outfit=outfit)
+    outfits = Outfit.query.all()
+    outfits_list = [
+        {
+            "name": outfit.name,
+            "top": outfit.top,
+            "bottom": outfit.bottom,
+            "outerwear": outfit.outerwear,
+            "shoes": outfit.shoes,
+            "bags": outfit.bags,
+            "accessories": outfit.accessories,
+        }
+        for outfit in outfits
+    ]
+    return jsonify(outfits_list)
 
 
 @app.route("/outfitgallery")
@@ -160,7 +172,8 @@ def get_outfit():
 def outfit_gallery():
     if not session.get("email"):
         return redirect("/login")
-    return render_template("outfitgallery.html")
+    outfits = Outfit.query.all()
+    return render_template("outfitgallery.html", outfits=outfits)
 
 
 @app.route("/index", methods=["GET", "POST"])
