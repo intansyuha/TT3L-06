@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, jsonify, flash, url_for, send_from_directory
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import FileField, SubmitField, SelectField
 from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
@@ -70,29 +71,33 @@ def signup():
 
     return render_template('signup.html')
 
-@app.route('/community-page/<username>')
-@app.route('/community-page.html/<username>')
-def community_page(username):
-    if session.get('email') and session.get('username') == username:
-        return render_template('community-page.html', username=username)
+@app.route('/community-page')
+@app.route('/community-page.html')
+def community_page():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    return render_template('community-page.html', username=session['username'])
 
-    return redirect('/login')
-
-@app.route('/outfitcreator/<username>')
-@app.route('/outfitcreator.html/<username>')
-def outfit_creator(username):
-    if session.get('email') and session.get('username') == username:
-        return render_template('outfitcreator.html', username=username)
-
-    return redirect('/login')
+@app.route('/outfitcreator')
+@app.route('/outfitcreator.html')
+def outfit_creator():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    return render_template('outfitcreator.html', username=session['username'])
 
 @app.route('/outfitgallery')
 @app.route('/outfitgallery.html')
 def outfit_gallery():
-    if not session.get('email'):
-        return redirect('/login')
-    
-    return render_template('outfitgallery.html')
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    return render_template('outfitgallery.html', username=session['username'])
+
+@app.route('/settings')
+@app.route('/settings.html')
+def settings():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    return render_template('settings.html', username=session['username'])
 
 @app.route('/index', methods=['GET', "POST"])
 @app.route('/index.html', methods=['GET', "POST"])
