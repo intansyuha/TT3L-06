@@ -18,6 +18,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/files'
 db.init_app(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'app.login'
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 class UploadClothesForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     category = SelectField("Category", choices=[("top", "Top"), ("bottom", "Bottom"), ("outerwear", "Outerwear"), ("shoes", "Shoes"), ("accessories", "Accessories")], validators=[InputRequired()])
@@ -35,8 +43,8 @@ def login():
 
         if user and user.check_password(password):
             session['email'] = email
-            session['password'] = password
-            return redirect(url_for('community_page'))
+            session['username'] = user.username
+            return redirect(url_for('community_page', username=user.username))
 
     return render_template('login.html')
 
@@ -91,9 +99,11 @@ def settings():
             return redirect('/settings.html')
     
     return render_template('/settings.html')
+
 @app.route('/uploads/<filename>')
 def get_file(filename):
      return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 
 @app.route('/outfitgallery')

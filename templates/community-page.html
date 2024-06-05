@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, inital-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
@@ -26,12 +26,8 @@
       <div class="container">
           <div class="left">
               <a class="profile">
-                  <div class="profile-pic">
-                    <img src="static/profile-8.jpg">
-                  </div>
                   <div class="handle">
-                      <h4>Intan Syuha</h4>
-                      <p class="text-muted">@intansyuha</p>
+                      <h4>@{{ username }}</h4>
                   </div>
               </a>
               <div class="sidebar">
@@ -46,9 +42,6 @@
                 </a>
                 <a class="menu-item" href="outfitgallery.html">
                     <span><i class='bx bx-photo-album'></i></span> <h3>Outfit Gallery</h3>
-                </a>
-                <a class="menu-item" href="settings.html">
-                    <span><i class='bx bx-cog'></i></span> <h3>Settings</h3>
                 </a>
                 <a class="menu-item" href="login.html">
                     <span><i class='bx bx-log-out'></i></span> <h3>Log Out</h3>
@@ -65,12 +58,8 @@
                         
                     </div>
                      <div class="user">
-                         <div class="profile-pic">
-                             <img src="static/profile-14.jpg" alt="">
-                         </div>
                          <div class="info">
                              <h3>Lana Rose</h3>
-                             <small>Dubai, 15 MINUTES AGO</small>
                          </div >
                          <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
                      </div>
@@ -80,24 +69,9 @@
                      </div>
 
                      <div class="action-button">
-                         <div class="interaction-button">
-                             <span><i class='bx bx-heart' ></i></span>
-                         </div>
                          <div class="bookmark">
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
-                     </div>
-
-                     <div class="liked-by">
-                         <span><img src="static/profile-15.jpg"></span>
-                         <span><img src="static/profile-16.jpg"></span>
-                         <span><img src="static/profile-17.jpg"></span>
-                         ,<p>Liked by <b>Enrest Achiever</b> and <b>220 others</b></p>
-                     </div>
-
-                     <div class="caption">
-                         <p><b>Lana Rose</b>Lorem ipsum dolor storiesquiquam eius.
-                        <span class="hash-tag">#lifestyle</span></p>
                      </div>
                 </div>
             
@@ -106,12 +80,8 @@
                         
                     </div>
                      <div class="user">
-                         <div class="profile-pic">
-                             <img src="static/profile-15.jpg" alt="">
-                         </div>
                          <div class="info">
                              <h3>Chris Brown</h3>
-                             <small>New York, 1 HOUR AGO</small>
                          </div >
                          <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
                      </div>
@@ -121,24 +91,9 @@
                      </div>
 
                      <div class="action-button">
-                         <div class="interaction-button">
-                             <span><i class='bx bx-heart' ></i></span>
-                         </div>
                          <div class="bookmark">
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
-                     </div>
-
-                     <div class="liked-by">
-                         <span><img src="static/profile-2.jpg"></span>
-                         <span><img src="static/profile-4.jpg"></span>
-                         <span><img src="static/profile-6.jpg"></span>
-                         ,<p>Liked by <b>Enrest Achiever</b> and <b>188 others</b></p>
-                     </div>
-
-                     <div class="caption">
-                         <p><b>Chirs Brown</b>Lorem ipsum dolor storiesquiquam eius.
-                        <span class="hash-tag">#lifestyle</span></p>
                      </div>
                 </div>
             
@@ -147,12 +102,8 @@
                         
                     </div>
                      <div class="user">
-                         <div class="profile-pic">
-                             <img src="static/profile-16.jpg" alt="">
-                         </div>
                          <div class="info">
                              <h3>John Samron</h3>
-                             <small>Amsterdam, 7 HOURS AGO</small>
                          </div >
                          <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
                      </div>
@@ -162,24 +113,9 @@
                      </div>
 
                      <div class="action-button">
-                         <div class="interaction-button">
-                             <span><i class='bx bx-heart' ></i></span>
-                         </div>
                          <div class="bookmark">
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
-                     </div>
-
-                     <div class="liked-by">
-                         <span><img src="static/profile-3.jpg"></span>
-                         <span><img src="static/profile-5.jpg"></span>
-                         <span><img src="static/profile-7.jpg"></span>
-                         ,<p>Liked by <b>Enrest Achiever</b> and <b>130 others</b></p>
-                     </div>
-
-                     <div class="caption">
-                         <p><b>John Samron</b>Lorem ipsum dolor storiesquiquam eius.
-                        <span class="hash-tag">#lifestyle</span></p>
                      </div>
                 </div>
             
@@ -188,12 +124,8 @@
                         
                     </div>
                      <div class="user">
-                         <div class="profile-pic">
-                             <img src="static/profile-17.jpg" alt="">
-                         </div>
                          <div class="info">
                              <h3>Kareena Joshua</h3>
-                             <small>USA, 3 HOURS AGO</small>
                          </div >
                          <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
                      </div>
@@ -203,24 +135,9 @@
                      </div>
 
                      <div class="action-button">
-                         <div class="interaction-button">
-                             <span><i class='bx bx-heart' ></i></span>
-                         </div>
                          <div class="bookmark">
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
-                     </div>
-
-                     <div class="liked-by">
-                         <span><img src="static/profile-8.jpg"></span>
-                         <span><img src="static/profile-10.jpg"></span>
-                         <span><img src="static/profile-12.jpg"></span>
-                         ,<p>Liked by <b>Enrest Achiever</b> and <b>280 others</b></p>
-                     </div>
-
-                     <div class="caption">
-                         <p><b>Kareena Joshua</b>Lorem ipsum dolor storiesquiquam eius.
-                        <span class="hash-tag">#lifestyle</span></p>
                      </div>
                 </div>
             
@@ -229,12 +146,8 @@
                         
                     </div>
                      <div class="user">
-                         <div class="profile-pic">
-                             <img src="static/profile-18.jpg" alt="">
-                         </div>
                          <div class="info">
                              <h3>Dan Smith</h3>
-                             <small>Paris, 1 DAY AGO</small>
                          </div >
                          <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
                      </div>
@@ -244,24 +157,9 @@
                      </div>
 
                      <div class="action-button">
-                         <div class="interaction-button">
-                             <span><i class='bx bx-heart' ></i></span>
-                         </div>
                          <div class="bookmark">
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
-                     </div>
-
-                     <div class="liked-by">
-                         <span><img src="static/profile-9.jpg"></span>
-                         <span><img src="static/profile-11.jpg"></span>
-                         <span><img src="static/profile-13.jpg"></span>
-                         ,<p>Liked by <b>Enrest Achiever</b> and <b>420 others</b></p>
-                     </div>
-
-                     <div class="caption">
-                         <p><b>Dan Smith</b>Lorem ipsum dolor storiesquiquam eius.
-                        <span class="hash-tag">#lifestyle</span></p>
                      </div>
                 </div>
             
@@ -270,12 +168,8 @@
                         
                     </div>
                      <div class="user">
-                         <div class="profile-pic">
-                             <img src="static/profile-19.jpg" alt="">
-                         </div>
                          <div class="info">
                              <h3>Karim Benzema</h3>
-                             <small>Mumbai, 30 MINUTES AGO</small>
                          </div >
                          <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
                      </div>
@@ -285,24 +179,9 @@
                      </div>
 
                      <div class="action-button">
-                         <div class="interaction-button">
-                             <span><i class='bx bx-heart' ></i></span>
-                         </div>
                          <div class="bookmark">
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
-                     </div>
-
-                     <div class="liked-by">
-                         <span><img src="static/profile-15.jpg"></span>
-                         <span><img src="static/profile-14.jpg"></span>
-                         <span><img src="static/profile-17.jpg"></span>
-                         ,<p>Liked by <b>Enrest Achiever</b> and <b>150 others</b></p>
-                     </div>
-
-                     <div class="caption">
-                         <p><b>Karim Benzema</b>Lorem ipsum dolor storiesquiquam eius.
-                        <span class="hash-tag">#lifestyle</span></p>
                      </div>
                 </div>
                 <div class="feed">
@@ -310,12 +189,8 @@
                         
                     </div>
                      <div class="user">
-                         <div class="profile-pic">
-                             <img src="static/profile-20.jpg" alt="">
-                         </div>
                          <div class="info">
                              <h3>Srishti Tirkey</h3>
-                             <small>Bangalore, 11 HOURS AGO</small>
                          </div >
                          <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
                      </div>
@@ -325,24 +200,9 @@
                      </div>
 
                      <div class="action-button">
-                         <div class="interaction-button">
-                             <span><i class='bx bx-heart' ></i></span>
-                         </div>
                          <div class="bookmark">
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
-                     </div>
-
-                     <div class="liked-by">
-                         <span><img src="static/profile-15.jpg"></span>
-                         <span><img src="static/profile-13.jpg"></span>
-                         <span><img src="static/profile-10.jpg"></span>
-                         ,<p>Liked by <b>Enrest Achiever</b> and <b>530 others</b></p>
-                     </div>
-
-                     <div class="caption">
-                         <p><b>Srishti Tirkey</b>Lorem ipsum dolor storiesquiquam eius.
-                        <span class="hash-tag">#lifestyle</span></p>
                      </div>
                 </div>
             </div>

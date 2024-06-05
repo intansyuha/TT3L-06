@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Sidebar and overlay functionality
 document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelectorAll('.menu-icon');
-    const sidebar = document.querySelector('.sidebar');
+    const sidebar = document.querySelector('.side-bar');
     const overlay = document.querySelector('#overlay');
     
     menuIcon.forEach(icon => {

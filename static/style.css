@@ -161,7 +161,7 @@ form input[type="submit"] {
         z-index: 100;
     }
     
-    .nav.open .sidebar{
+    .nav.open .side-bar{
         left: 0;
     }
     
@@ -170,7 +170,7 @@ form input[type="submit"] {
         z-index: 100;
     }
     
-    .sidebar-content .list{
+    .side-bar-content .list{
         list-style: none;
     }
     
@@ -218,21 +218,21 @@ form input[type="submit"] {
       pointer-events: auto;
     }
     
-    .btn-container {
+    .button-container {
         margin-left: auto; 
     }
     
-    .btn {
+    .button {
         list-style: none;
         display: flex;
         align-items: center;
     }
     
-    .btn li {
+    .button li {
         margin-right: 50px;
     }
     
-    .btn a {
+    .button a {
         text-decoration: none;
         color: white;
         padding: 5px 10px;
@@ -240,7 +240,7 @@ form input[type="submit"] {
         border-radius: 5px;
     }
     
-    .btn a:hover {
+    .button a:hover {
         background-color: #BF9797;
     }
     
@@ -573,12 +573,12 @@ form {
     left: 0;
 }
 
-.sidebar-content {
+.side-bar-content {
     padding: 30px 16px;
     z-index: 100;
 }
 
-.sidebar-content .list{
+.side-bar-content .list{
     list-style: none;
 }
 
@@ -1204,6 +1204,10 @@ body {
         text-align: center;
         padding: 1rem 0;
     }
+
+    .handle h4 {
+        color: #303337;
+    }
     
     .middle .feeds .feed{
         background: var(--color-white);
@@ -1267,34 +1271,6 @@ body {
         top: var(--sticky-top-right);
         bottom: 0;
     }   
-    
-    .right .friend-requests{
-        margin-top: 5rem;
-    }
-    
-    .right .friend-requests h4{
-        color: var(--color-gray);
-        margin: 1rem 0;
-    }
-    
-    .right .request{
-        background: var(--color-white);
-        padding: var(--card-padding);
-        border-radius: var(--card-border-radius);
-        margin-bottom: 0.7rem;
-    }
-    
-    .right .request .info{
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .right .request .action{
-        display: flex;
-        gap: 1rem;
-    }
-    
     
     /* Media queries for responsive website */
     /* for laptop and big tablets */
