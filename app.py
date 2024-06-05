@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, jsonify, flash, url_for, send_from_directory
 from flask_wtf import FlaskForm
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import FileField, SubmitField, SelectField
 from werkzeug.utils import secure_filename
@@ -11,6 +11,7 @@ from models import Img, Outfit
 import os
 import bcrypt
 from PIL import Image
+from rembg import remove
 
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'clothesuploadkey'
@@ -104,38 +105,37 @@ def settings():
 def index():
     form = UploadClothesForm()
     file_url = None
-    if form.validate_on_submit():
-        file = form.file.data # grab file
-        filename = secure_filename(file.filename)
-        file_url = url_for('get_file', filename=filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
-        file.save(file_path)
+    if request.method == 'POST' and form.validate_on_submit():
+        if session.get('email'):
+            file = form.file.data # grab file
+            filename = secure_filename(file.filename)
+            file_url = url_for('get_file', filename=filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # save file
+            file.save(file_path)
 
-        with open(file_path, 'rb') as input_file:
-            input_data = input_file.read()
+            with open(file_path, 'rb') as input_file:
+                input_data = input_file.read()
 
-        output_data = remove(input_data)
-
-        process_filename = filename
-        process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
-
-        with open(process_file_path, 'wb') as output_file:
-            output_file.write(output_data)
-
-        mimetype = file.mimetype
+            output_data = remove(input_data)
 
 
-        img = Img(data=output_data, mimetype=mimetype, name=filename)
-        db.session.add(img)
+            process_filename = filename
+            process_file_path = os.path.join(app.config['UPLOAD_FOLDER'], process_filename)
 
-        return redirect(url_for('imgwindow', filename=process_filename))
-    
+            with open(process_file_path, 'wb') as output_file:
+                output_file.write(output_data)
+
+            mimetype = file.mimetype
+
+
+            img = Img(data=output_data, mimetype=mimetype, name=filename)
+            db.session.add(img)
+            db.session.commit()
+
+            return redirect(url_for('imgwindow', filename=process_filename))
     return render_template('index.html', form=form, file_url=file_url)
 
 
-@app.route('/uploads/<filename>')
-def get_file(filename):
-     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
 def imgwindow(filename):
@@ -157,6 +157,19 @@ def wardrobecategory():
     session.modified = True
 
     return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
+
+@app.route('/outfitcreator/<filename>', methods=['GET', 'POST'])
+@app.route('/outfitcreator.html')
+def outfit_creator():
+    if not session.get('email'):
+        return redirect('/login')
+        
+    image_urls = session.get("image_urls", {})
+    return render_template('outfitcreator.html', image_urls=image_urls)
+    
+
+
+
 
 def create_db():
     with app.app_context():
