@@ -308,9 +308,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Sidebar functionality
+    // Sidebar outfitcreator, outfitgallery, index, imgwindow functionality
     const menuIcon = document.querySelectorAll('.menu-icon');
-    const sidebar = document.querySelector('.sidebar');
+    const sidebar = document.querySelector('.side-bar');
     const overlaySidebar = document.querySelector('#overlay');
 
     menuIcon.forEach(icon => {
