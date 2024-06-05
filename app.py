@@ -95,19 +95,6 @@ def settings():
 def get_file(filename):
      return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-@app.route('/outfitcreator', methods=['POST'])
-@app.route('/outfitcreator.html')
-def outfit_creator():
-    if not session.get('email'):
-        return redirect('/login')
-    
-    filename = session.get(filename)
-    if filename is None:
-        # If no filename is found, set a default value
-        filename = 'default_image.jpg'
-
-
-    return render_template('outfitcreator.html', filename=filename)
 
 @app.route('/outfitgallery')
 @app.route('/outfitgallery.html')
@@ -174,6 +161,19 @@ def wardrobecategory():
     session.modified = True
 
     return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
+
+@app.route('/outfitcreator/<filename>', methods=['GET', 'POST'])
+@app.route('/outfitcreator.html')
+def outfit_creator():
+    if session.get('email'):
+        file_url = request.form.get('file_url')
+        return render_template('outfitcreator.html', file_url=file_url)
+    else:
+        return redirect('/login')
+    
+
+
+
 
 def create_db():
     with app.app_context():
