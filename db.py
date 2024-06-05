@@ -37,7 +37,6 @@ class Img(db.Model):
     data = db.Column(db.LargeBinary, nullable=False)
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
-    category = db.Column(db.String(50), nullable=False)
 
 def init_db():
     with app.app_context():

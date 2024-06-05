@@ -79,12 +79,14 @@ def community_page():
         return redirect(url_for('login'))
     return render_template('community-page.html', username=session['username'])
 
-@app.route('/outfitcreator')
+@app.route('/outfitcreator', methods=['GET', 'POST'])
 @app.route('/outfitcreator.html')
 def outfit_creator():
-    if 'email' not in session:
-        return redirect(url_for('login'))
-    return render_template('outfitcreator.html', username=session['username'])
+    if not session.get('email'):
+        return redirect('/login')
+        
+    image_urls = session.get("image_urls", {})
+    return render_template('outfitcreator.html', image_urls=image_urls, username=session['username'])
 
 @app.route('/outfitgallery')
 @app.route('/outfitgallery.html')
@@ -135,7 +137,9 @@ def index():
             return redirect(url_for('imgwindow', filename=process_filename))
     return render_template('index.html', form=form, file_url=file_url)
 
-
+@app.route('/uploads/<filename>')
+def get_file(filename):
+     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
 def imgwindow(filename):
@@ -157,19 +161,6 @@ def wardrobecategory():
     session.modified = True
 
     return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
-
-@app.route('/outfitcreator/<filename>', methods=['GET', 'POST'])
-@app.route('/outfitcreator.html')
-def outfit_creator():
-    if not session.get('email'):
-        return redirect('/login')
-        
-    image_urls = session.get("image_urls", {})
-    return render_template('outfitcreator.html', image_urls=image_urls)
-    
-
-
-
 
 def create_db():
     with app.app_context():
