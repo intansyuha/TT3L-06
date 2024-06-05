@@ -89,21 +89,12 @@
             <div class="accordion-content">
                 <div class="accordion-box">
                     <div class="sb-1">
+                        {% for image_url in image_urls.get('Tops', [])%}
                         <div class="sb">
-                            <img src="{{ file_url }}" alt="Uploaded Image" style="width: 400px;">
+                            <img src="{{ image_url }}" alt="Uploaded Image" style="width: 400px;">
                         </div>
-                        <div class="sb">
-                            <img src="static/images/tops/top2.png" alt="Top 2">
-                        </div>
-                        <div class="sb">
-                            <img src="static/images/tops/top3.png" alt="Top 3">
-                        </div>
-                        <div class="sb">
-                            <img src="static/images/tops/top4.png" alt="Top 4">
-                        </div>
-                        <div class="sb">
-                            <img src="static/images/tops/top5.png" alt="Top 5">
-                        </div>
+                        {% endfor %}
+                     
                     </div>
             </div>
         </div>
@@ -113,21 +104,11 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
+                    {% for image_url in image_urls.get('Bottoms', [])%}
                     <div class="sb">
-                        <img src="static/images/bottoms/bottom1.png" alt="Bottom 1">
+                        <img src="{{ image_url }}" alt="Bottom">
                     </div>
-                    <div class="sb">
-                        <img src="static/images/bottoms/bottom2.png" alt="Bottom 2">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/bottoms/bottom3.png" alt="Bottom 3">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/bottoms/bottom4.png" alt="Bottom 4">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/bottoms/bottom5.png" alt="Bottom 5">
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -137,21 +118,11 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
-                    <div class="sb">
-                        <img src="static/images/outerwear/outer1.png" alt="Outerwear 1">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/outerwear/outer2.png" alt="Outerwear 2">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/outerwear/outer3.png" alt="Outerwear 3">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/outerwear/outer4.png" alt="Outerwear 4">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/outerwear/outer5.png" alt="Outerwear 5">
-                    </div>
+                        {% for image_url in image_urls.get('Outerwear', [])%}
+                        <div class="sb">
+                            <img src="{{ image_url }}" alt="Outerwear">
+                        </div>
+                        {% endfor %}
                 </div>
             </div>
         </div>
@@ -161,21 +132,11 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
+                    {% for image_url in image_urls.get('Shoes', [])%}
                     <div class="sb">
-                        <img src="static/images/shoes/shoe1.png" alt="Shoe 1">
+                        <img src="{{ image_url }}" alt="Shoes">
                     </div>
-                    <div class="sb">
-                        <img src="static/images/shoes/shoe2.png" alt="Shoe 2">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/shoes/shoe3.png" alt="Shoe 3">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/shoes/shoe4.png" alt="Shoe 4">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/shoes/shoe5.png" alt="Shoe 5">
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -185,21 +146,11 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
+                    {% for image_url in image_urls.get('Bags', [])%}
                     <div class="sb">
-                        <img src="static/images/bags/bag1.png" alt="Bag 1">
+                        <img src="{{ image_url }}" alt="Bags">
                     </div>
-                    <div class="sb">
-                        <img src="static/images/bags/bag2.png" alt="Bag 2">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/bags/bag3.png" alt="Bag 3">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/bags/bag4.png" alt="Bag 4">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/bags/bag5.png" alt="Bag 5">
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -209,21 +160,11 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
+                    {% for image_url in image_urls.get('Accessories', [])%}
                     <div class="sb">
-                        <img src="static/images/accessories/acc1.png" alt="Accessories 1">
+                        <img src="{{ image_url }}" alt="Accessories">
                     </div>
-                    <div class="sb">
-                        <img src="static/images/accessories/acc2.png" alt="Accessories 2">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/accessories/acc3.png" alt="Accessories 3">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/accessories/acc4.png" alt="Accessories 4">
-                    </div>
-                    <div class="sb">
-                        <img src="static/images/accessories/acc5.png" alt="Accessories 5">
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

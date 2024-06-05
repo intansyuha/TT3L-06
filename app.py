@@ -165,11 +165,11 @@ def wardrobecategory():
 @app.route('/outfitcreator/<filename>', methods=['GET', 'POST'])
 @app.route('/outfitcreator.html')
 def outfit_creator():
-    if session.get('email'):
-        file_url = request.form.get('file_url')
-        return render_template('outfitcreator.html', file_url=file_url)
-    else:
+    if not session.get('email'):
         return redirect('/login')
+        
+    image_urls = session.get("image_urls", {})
+    return render_template('outfitcreator.html', image_urls=image_urls)
     
 
 
