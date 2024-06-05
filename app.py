@@ -167,15 +167,14 @@ def get_outfit():
     return jsonify(outfits_list)
 
 
-@app.route("/delete_outfit/<int:id>", methods=["DELETE"])
-def delete_outfit(id):
-    outfit = Outfit.query.get(id)
+@app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
+def delete_outfit(outfit_id):
+    outfit = Outfit.query.get(outfit_id)
     if outfit:
         db.session.delete(outfit)
         db.session.commit()
-        return jsonify({"message": "Outfit deleted successfully!"}), 200
-    else:
-        return jsonify({"message": "Outfit not found."}), 404
+        return jsonify({"message": "Outfit deleted successfully"}), 200
+    return jsonify({"message": "Outfit not found"}), 404
 
 
 @app.route("/outfitgallery")
