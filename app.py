@@ -10,6 +10,8 @@ from flask import (
     send_from_directory,
 )
 from flask_wtf import FlaskForm
+from flask_login import LoginManager
+from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import FileField, SubmitField, SelectField
 from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
@@ -17,7 +19,6 @@ from db import db, init_db  # Import init_db to initialize the database
 from rembg import remove
 from models import User, Img, Outfit
 import os
-import bcrypt
 from PIL import Image
 
 app = Flask(__name__, static_folder="static")
@@ -61,9 +62,8 @@ def login():
 
     return render_template("login.html")
 
-
-@app.route("/signup", methods=["GET", "POST"])
-@app.route("/signup.html", methods=["GET", "POST"])
+@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup.html', methods=['GET', 'POST'])
 def signup():
     if request.method == "POST":
         username = request.form["username"]
@@ -87,34 +87,6 @@ def signup():
             return redirect("/login")  # Redirect to login after successful registration
 
     return render_template("signup.html")
-
-
-@app.route("/community-page/<username>")
-@app.route("/community-page.html/<username>")
-def community_page(username):
-    if session.get("email") and session.get("username") == username:
-        return render_template("community-page.html", username=username)
-
-    return redirect("/login")
-
-
-@app.route("/settings/<username>")
-@app.route("/settings.html/<username>")
-def settings(username):
-    if session.get("email") and session.get("username") == username:
-        return render_template("settings.html", username=username)
-
-    return redirect("/login")
-
-
-@app.route("/outfitcreator")
-@app.route("/outfitcreator.html")
-def outfit_creator():
-    if not session.get("email"):
-        return redirect("/login")
-
-    return render_template("outfitcreator.html")
-
 
 @app.route("/save_outfit", methods=["POST"])
 def save_outfit():
@@ -166,6 +138,28 @@ def outfit_gallery(username):
         return render_template("outfitgallery.html", outfits=outfits, username=username)                  
     return redirect("/login")
 
+@app.route('/community-page')
+@app.route('/community-page.html')
+def community_page():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    return render_template('community-page.html', username=session['username'])
+
+@app.route('/outfitcreator', methods=['GET', 'POST'])
+@app.route('/outfitcreator.html')
+def outfit_creator():
+    if not session.get('email'):
+        return redirect('/login')
+        
+    image_urls = session.get("image_urls", {})
+    return render_template('outfitcreator.html', image_urls=image_urls, username=session['username'])
+
+@app.route('/settings')
+@app.route('/settings.html')
+def settings():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    return render_template('settings.html', username=session['username'])
 
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/index.html", methods=["GET", "POST"])
@@ -202,8 +196,7 @@ def index():
             return redirect(url_for("imgwindow", filename=process_filename))
     return render_template("index.html", form=form, file_url=file_url)
 
-
-@app.route("/uploads/<filename>")
+@app.route('/uploads/<filename>')
 def get_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 

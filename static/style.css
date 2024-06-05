@@ -13,8 +13,7 @@
 
 #clothesupload {
     font-family: "Poppins", sans-serif;
-    margin-top: 70px;
-    margin-left: 15px;
+    margin-top: 100px;
 }
 
 form {
@@ -807,6 +806,10 @@ body {
         text-align: center;
         padding: 1rem 0;
     }
+
+    .handle h4 {
+        color: #303337;
+    }
     
     .middle .feeds .feed{
         background: var(--color-white);
@@ -870,34 +873,6 @@ body {
         top: var(--sticky-top-right);
         bottom: 0;
     }   
-    
-    .right .friend-requests{
-        margin-top: 5rem;
-    }
-    
-    .right .friend-requests h4{
-        color: var(--color-gray);
-        margin: 1rem 0;
-    }
-    
-    .right .request{
-        background: var(--color-white);
-        padding: var(--card-padding);
-        border-radius: var(--card-border-radius);
-        margin-bottom: 0.7rem;
-    }
-    
-    .right .request .info{
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .right .request .action{
-        display: flex;
-        gap: 1rem;
-    }
-    
     
     /* Media queries for responsive website */
     /* for laptop and big tablets */

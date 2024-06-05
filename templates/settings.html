@@ -13,17 +13,6 @@
     <nav>
         <div class="container">
             <h2 class="logo">RevêLuxe</h2>
-            <div class="search-bar">
-                <i class='bx bx-search'></i>
-                <input
-                type="search"
-                placeholder="Search for creators, inspirations and projects"
-                />
-            </div>
-                <div class="profile-pic">
-                    <img src="static/profile-8.jpg" alt="pic 1" />
-                </div>
-            </div>
         </div>
   </nav>
 
@@ -31,12 +20,8 @@
       <div class="container">
           <div class="left">
               <a class="profile">
-                  <div class="profile-pic">
-                    <img src="static/profile-8.jpg">
-                  </div>
                   <div class="handle">
-                      <h4>Intan Syuha</h4>
-                      <p class="text-muted">@intansyuha</p>
+                      <h4>@{{ username }}</h4>
                   </div>
               </a>
               <div class="sidebar">
@@ -67,11 +52,6 @@
         <div class="middle">
             <div class="profile-container">
             <form id="profile-form" action="settings.html" method="post">
-                <div class="profile-picture-section">
-                    <h3>Profile Picture</h3>
-                    <input type="file" id="profile-picture" name="profile_picture" accept="image/*" onchange="loadImage(event)">
-                    <img id="profile-picture-preview" src="static/default.jpg" alt="Profile Picture Preview">
-                </div>
                 <div class="profile-details">
                     <b><h4>Username</h4>
                     <div class="user-box">
@@ -107,26 +87,13 @@
 //sidebar
 
 const menuItems = document.querySelectorAll('.menu-item');
-const messagesNotification = document.querySelector('#messages-notifications');
-const messages = document.querySelector('.messages');
-const message = messages.querySelectorAll('.message');
-const messageSearch = document.querySelector('#message-search');
+const searchBar = document.querySelector('#search-bar');
 
 //remove active class from all menu items
 const changeActiveItem = () => {
     menuItems.forEach(item => {
         item.classList.remove('active');
     })
-}
-
-//image
-
-function loadImage(event) {
-    const output = document.getElementById('profile-picture-preview');
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function() {
-        URL.revokeObjectURL(output.src) // free memory
-    }
 }
 
 document.getElementById('profile-form').addEventListener('submit', async (event) => {
