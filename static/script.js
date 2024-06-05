@@ -114,9 +114,21 @@ document.addEventListener("DOMContentLoaded", function () {
         card.appendChild(img);
         card.appendChild(cardBody);
 
-        cardsContainer.appendChild(card);
-    }
+        card.addEventListener('click', () => {
+        const queryParams = new URLSearchParams({
+            top: outfit.top,
+            bottom: outfit.bottom,
+            outerwear: outfit.outerwear,
+            shoes: outfit.shoes,
+            bags: outfit.bags,
+            accessories: outfit.accessories,
+        }).toString();
+        window.location.href = `/outfitcreator.html?${queryParams}`;
+        });
 
+    cardsContainer.appendChild(card);
+    }
+    
     function deleteOutfit(outfitId, cardElement) {
         console.log(`Sending DELETE request for outfit ID: ${outfitId}`); // Debugging log
         fetch(`/delete_outfit/${outfitId}`, {

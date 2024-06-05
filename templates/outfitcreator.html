@@ -233,5 +233,23 @@
 
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const top = urlParams.get('top');
+            const bottom = urlParams.get('bottom');
+            const outerwear = urlParams.get('outerwear');
+            const shoes = urlParams.get('shoes');
+            const bags = urlParams.get('bags');
+            const accessories = urlParams.get('accessories');
+
+            if (top) document.querySelector('.top-container img').src = top;
+            if (bottom) document.querySelector('.bottom-container img').src = bottom;
+            if (outerwear) document.querySelector('.outerwear-container img').src = outerwear;
+            if (shoes) document.querySelector('.shoes-container img').src = shoes;
+            if (bags) document.querySelector('.bags-container img').src = bags;
+            if (accessories) document.querySelector('.accessories-container img').src = accessories;
+        });
+    </script>
 </body>
 </html>
