@@ -36,6 +36,7 @@ class Outfit(db.Model):
     __tablename__ = "Outfit"
     __table_args__ = {"extend_existing": True}
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     top = db.Column(db.String(200), nullable=False)
     bottom = db.Column(db.String(200), nullable=False)
@@ -43,4 +44,3 @@ class Outfit(db.Model):
     shoes = db.Column(db.String(200), nullable=False)
     bags = db.Column(db.String(200), nullable=False)
     accessories = db.Column(db.String(200), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
