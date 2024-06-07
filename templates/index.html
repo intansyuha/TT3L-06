@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -10,21 +10,73 @@
     <title>Upload Image</title>
 </head>
 <body>
-    <h1 id="clothesupload">Upload an Image</h1>
-    <form action="/index" method="post" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <p>
-            <label for="file">Choose File:</label><br>
-            {{ form.file }}
-        </p>
-        <p>
-            <label for="category">Category:</label><br>
-            {{ form.category }}
-        </p>
-        <p>{{ form.submit }}</p>
-    </form>
-    {% if file_url %}
-    <p>File uploaded successfully: <a href="{{ file_url }}">{{ file_url }}</a></p>
-    {% endif %}
+   <nav>
+    <section class="header">
+        <div class="menu">
+            <i class='bx bx-menu bx-md menu-icon'></i>
+        </div>
+        <div class="side-bar">
+            <div class="menu">
+                <i class='bx bx-menu bx-md menu-icon'></i>
+            </div>
+            <div class="side-bar-content">
+                <ul class="lists">
+                    <li class="list">
+                        <a href="community-page.html" class="nav-link">
+                            <i class='bx bx-home-heart icon'></i>
+                            <span class="link">Home</span>
+                        </a>
+                        <a href="index.html" class="nav-link">
+                            <i class='bx bx-closet icon'></i>
+                            <span class="link">Wardrobe</span>
+                        </a>
+                        <a href="outfitcreator.html" class="nav-link">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="link">Outfit Creator</span>
+                        </a>
+                        <a href="outfitgallery.html" class="nav-link">
+                            <i class='bx bx-star icon'></i>
+                            <span class="link">Outfit Gallery</span>
+                        </a>
+                        <a href="settings.html" class="nav-link">
+                            <i class='bx bx-cog icon'></i>
+                            <span class="link">Settings</span>
+                        </a>
+                        <a href="login.html" class="nav-link">
+                            <i class='bx bx-log-out'></i>
+                            <span class="link">Log Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="ClothesUpload">
+            <h2> Clothes Upload</h2>
+        </div>
+    </section>
+   </nav>
+    
+    <div class="wrapper-id">
+        <form action="/index" method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="input-box-id">
+                <label for="file">Choose File:</label><br>
+                {{ form.file }}
+            </div>
+            <div class="input-box-id">
+                <label for="category">Category:</label><br>
+                {{ form.category }}
+            </div>
+            <div class="input-box-id">
+                {{ form.submit }}
+            </div>
+        </form>
+        {% if file_url %}
+        <p>File uploaded successfully: <a href="{{ file_url }}">{{ file_url }}</a></p>
+        {% endif %}
+    </div>
+    <section class="overlay" id="overlay"></section>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

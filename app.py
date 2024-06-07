@@ -46,7 +46,7 @@ class UploadClothesForm(FlaskForm):
 
 
 @app.route("/", methods=["GET", "POST"])
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 @app.route("/login.html", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -57,13 +57,16 @@ def login():
 
         if user and user.check_password(password):
             session["email"] = email
-            session["password"] = password
+            session["username"] = (
+                user.username
+            )  # Add this line to set the username in session
             return redirect(url_for("community_page"))
 
     return render_template("login.html")
 
-@app.route('/signup', methods=['GET', 'POST'])
-@app.route('/signup.html', methods=['GET', 'POST'])
+
+@app.route("/signup", methods=["GET", "POST"])
+@app.route("/signup.html", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
         username = request.form["username"]
@@ -87,6 +90,7 @@ def signup():
             return redirect("/login")  # Redirect to login after successful registration
 
     return render_template("signup.html")
+
 
 @app.route("/save_outfit", methods=["POST"])
 def save_outfit():
@@ -119,47 +123,53 @@ def get_outfit():
     return jsonify(outfits_list)
 
 
-@app.route("/delete_outfit/<int:id>", methods=["DELETE"])
-def delete_outfit(id):
-    outfit = Outfit.query.get(id)
+@app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
+def delete_outfit(outfit_id):
+    outfit = Outfit.query.get(outfit_id)
     if outfit:
         db.session.delete(outfit)
         db.session.commit()
-        return jsonify({"message": "Outfit deleted successfully!"}), 200
-    else:
-        return jsonify({"message": "Outfit not found."}), 404
+        return jsonify({"message": "Outfit deleted successfully"}), 200
+    return jsonify({"message": "Outfit not found"}), 404
 
 
 @app.route("/outfitgallery")
-@app.route('/outfitgallery.html/<username>')
-def outfit_gallery(username):
-    if not session.get("email")and session.get('username') == username:
+@app.route("/outfitgallery.html")
+def outfit_gallery():
+    if "email" not in session:
         outfits = Outfit.query.all()
-        return render_template("outfitgallery.html", outfits=outfits, username=username)                  
-    return redirect("/login")
+        return redirect(url_for("login"))
+    return render_template("outfitgallery.html", username=session["username"])
 
-@app.route('/community-page')
-@app.route('/community-page.html')
+
+@app.route("/community-page")
+@app.route("/community-page.html")
 def community_page():
-    if 'email' not in session:
-        return redirect(url_for('login'))
-    return render_template('community-page.html', username=session['username'])
+    if "email" not in session or "username" not in session:
+        return redirect(url_for("login"))
+    username = session.get("username")
+    return render_template("community-page.html", username=username)
 
-@app.route('/outfitcreator', methods=['GET', 'POST'])
-@app.route('/outfitcreator.html')
+
+@app.route("/outfitcreator", methods=["GET", "POST"])
+@app.route("/outfitcreator.html")
 def outfit_creator():
-    if not session.get('email'):
-        return redirect('/login')
-        
-    image_urls = session.get("image_urls", {})
-    return render_template('outfitcreator.html', image_urls=image_urls, username=session['username'])
+    if not session.get("email"):
+        return redirect("/login")
 
-@app.route('/settings')
-@app.route('/settings.html')
+    image_urls = session.get("image_urls", {})
+    return render_template(
+        "outfitcreator.html", image_urls=image_urls, username=session["username"]
+    )
+
+
+@app.route("/settings")
+@app.route("/settings.html")
 def settings():
-    if 'email' not in session:
-        return redirect(url_for('login'))
-    return render_template('settings.html', username=session['username'])
+    if "email" not in session:
+        return redirect(url_for("login"))
+    return render_template("settings.html", username=session["username"])
+
 
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/index.html", methods=["GET", "POST"])
@@ -196,7 +206,8 @@ def index():
             return redirect(url_for("imgwindow", filename=process_filename))
     return render_template("index.html", form=form, file_url=file_url)
 
-@app.route('/uploads/<filename>')
+
+@app.route("/uploads/<filename>")
 def get_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
