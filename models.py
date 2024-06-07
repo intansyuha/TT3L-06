@@ -27,9 +27,11 @@ class Img(db.Model):
     __tablename__ = "Img"
     __table_args__ = {"extend_existing": True}
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), nullable=False)
     data = db.Column(db.LargeBinary, nullable=False)
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
 
 
 class Outfit(db.Model):
