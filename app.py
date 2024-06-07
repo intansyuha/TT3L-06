@@ -96,6 +96,7 @@ def signup():
 def save_outfit():
     try:
         data = request.get_json()
+        data["email"] = session.get("email")
         outfit = Outfit(**data)
         db.session.add(outfit)
         db.session.commit()
