@@ -43,3 +43,4 @@ class Outfit(db.Model):
     shoes = db.Column(db.String(200), nullable=False)
     bags = db.Column(db.String(200), nullable=False)
     accessories = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
