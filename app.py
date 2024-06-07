@@ -96,6 +96,7 @@ def signup():
 def save_outfit():
     try:
         data = request.get_json()
+        data["email"] = session.get("email")
         outfit = Outfit(**data)
         db.session.add(outfit)
         db.session.commit()
@@ -198,8 +199,16 @@ def index():
                 output_file.write(output_data)
 
             mimetype = file.mimetype
+            category = form.category.data  # Obtain category from the form
+            email = session.get("email")  # Get email from session
 
-            img = Img(data=output_data, mimetype=mimetype, name=filename)
+            img = Img(
+                data=output_data,
+                mimetype=mimetype,
+                name=filename,
+                category=category,
+                email=email,
+            )
             db.session.add(img)
             db.session.commit()
 
