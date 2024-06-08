@@ -11,14 +11,12 @@ import os
 import bcrypt
 from PIL import Image
 from rembg import remove
-from flask_migrate import Migrate
 
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'clothesuploadkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/files'
-migrate = Migrate(app, db)
 db.init_app(app)
 
 login_manager = LoginManager()
