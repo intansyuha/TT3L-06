@@ -282,6 +282,8 @@ ul.button li {
 .tab-content {
     display: none;
     margin-top: 230px; 
+    max-height: 700px;
+    overflow-y: scroll;
 }
 
 .tab-content.active {
