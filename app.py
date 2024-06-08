@@ -57,9 +57,7 @@ def login():
 
         if user and user.check_password(password):
             session["email"] = email
-            session["username"] = (
-                user.username
-            )  # Add this line to set the username in session
+            session["username"] = user.username
             return redirect(url_for("community_page"))
 
     return render_template("login.html")
@@ -227,26 +225,35 @@ def imgwindow(filename):
     return render_template("imgwindow.html", file_url=file_url)
 
 
-@app.route("/wardrobecategory/", methods=["POST"])
+@app.route("/wardrobecategory", methods=["GET", "POST"])
+@app.route("/wardrobecategory.html")
 def wardrobecategory():
-    category = request.form.get("category")
-    file_url = request.form.get("file_url")
+    if "email" not in session:
+        return redirect(url_for("login"))
 
-    if "image_urls" not in session:
-        session["image_urls"] = {}
+    if request.method == "POST":
+        category = request.form.get("category").lower()
+        file_url = request.form.get("file_url")
 
-    if category not in session["image_urls"]:
-        session["image_urls"][category] = []
+        if "image_urls" not in session:
+            session["image_urls"] = {}
 
-    session["image_urls"][category].append(file_url)
-    session.modified = True
+        if category not in session["image_urls"]:
+            session["image_urls"][category] = []
 
+        session["image_urls"][category].append(file_url)
+        session.modified = True
+
+        app.logger.debug(f"Session image URLs: {session['image_urls']}")
+
+    image_urls = session.get("image_urls", {})
     return render_template(
         "wardrobecategory.html",
-        category=category,
-        file_url=file_url,
-        image_urls=session["image_urls"],
+        category=request.form.get("category", "").lower(),
+        file_url=request.form.get("file_url", ""),
+        image_urls=image_urls,
     )
+
 
 
 if __name__ == "__main__":

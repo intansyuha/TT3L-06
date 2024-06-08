@@ -1,20 +1,24 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('[data-tab-content]');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const target = document.querySelector(tab.dataset.tabTarget)
-        tabContents.forEach(tabContent => { 
-            tabContent.classList.remove('active')
-        })
-        tabs.forEach(tab => { 
-            tab.classList.remove('active')
-        })
-        tab.classList.add('active')
-        target.classList.add('active')
-    })
-})
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = document.querySelector(tab.dataset.tabTarget);
+
+            tabContents.forEach(tabContent => {
+                tabContent.classList.remove('active');
+            });
+
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            tab.classList.add('active');
+            target.classList.add('active');
+        });
+    });
+
 
 ///// delete button //////
 document.addEventListener('DOMContentLoaded', function() {
@@ -63,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
         navBar.classList.remove("nav");
         navBar.classList.remove("open");
     });
+    
 
     // Outfit gallery functionality
     const cardsContainer = document.getElementById('cardsContainer');
@@ -343,12 +348,6 @@ document.addEventListener('DOMContentLoaded', function() {
         overlaySidebar.classList.remove('open');
     });
 
-    const accordionLabels = document.querySelectorAll('.accordion-row label');
-    accordionLabels.forEach(label => {
-        label.addEventListener('click', function () {
-            this.nextElementSibling.classList.toggle('hidden');
-        });
-    });
 
     // Toggle password visibility
     const showPasswordCheckbox = document.getElementById("showPassword");

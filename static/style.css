@@ -9,13 +9,7 @@
 
 }
 
-/*--------------- CLOTHESUPLOAD -------------------*/
-    .ClothesUpload h2 {
-        font-size: 24px;
-        font-weight: 600;
-        margin-right: 630px;
-        text-align: center;
-    }
+/*--------------- NAV BAR -------------------*/
 
     .header {
         background-color: #E4C1C1;
@@ -105,11 +99,20 @@
       pointer-events: auto;
     }
 
+/*--------------- CLOTHESUPLOAD -------------------*/
+    .ClothesUpload h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-right: 630px;
+        text-align: center;
+    }
+
+
     .input-box-id {
     position: relative;
     width: 100%;
     margin: 30px 0;
-}
+    }
 
 .input-box-id label {
     font-size: 20px;
@@ -165,93 +168,6 @@ form input[type="submit"] {
         text-align: center;
     }
 
-    .header {
-        background-color: #E4C1C1;
-        background-position: center;
-        background-size: cover;
-        padding: 10px 15px;
-        height: 57px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    
-    .bx-menu {
-        cursor: pointer;
-        color: black;
-        padding: 20px;
-    }
-    
-    .side-bar {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        height: 100%;
-        width: 190px;
-        padding: 20px 0;
-        background-color: #fff;
-        box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        z-index: 100;
-    }
-    
-    .nav.open .side-bar{
-        left: 0;
-    }
-    
-    .side-bar-content {
-        padding: 30px 16px;
-        z-index: 100;
-    }
-    
-    .side-bar-content .list{
-        list-style: none;
-    }
-    
-    .list .nav-link {
-        display: flex;
-        align-items: center;
-        margin: 8px 0;
-        padding: 14px 12px;
-        border-radius: 8px;
-        text-decoration: none;
-        z-index: 1;
-    }
-    
-    .lists .nav-link:hover {
-      background-color: #F6F3F3;
-    }
-    
-    .nav-link .icon {
-        margin-right: 14px;
-        font-size: 20px;
-        color: #707070;
-    }
-    
-    .nav-link .link {
-        font-size: 14px;
-        color: #707070;
-        font-weight: 400;
-    }
-    
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      background: rgba(0, 0, 0, 0.3);
-    }
-    
-    nav.open ~ .overlay {
-      opacity: 1;
-      left: 190px;
-      pointer-events: auto; 
-    }
 
 #imgupload {
     display: block;
@@ -329,18 +245,26 @@ ul.button li {
     display: inline;
 }
 
+/*--------------- WARDROBE CATEGORY -------------------*/
 
-/*--------------- CATEGORYTAB -------------------*/
-
+.imagegall h2 {
+    font-size: 24px;        
+    font-weight: 600;
+    margin-right: 630px;
+    text-align: center;
+}
 
 .tabs {
     display: flex;
     justify-content: space-around;
     list-style-type: none;
-    margin-bottom: 600px;
-    padding: 0;
+    margin: 0;  /* Remove margin to prevent any initial offset */
+    padding: 0;  /* Ensure there's no padding affecting positioning */
     border-bottom: 1px solid #d9a7a4;
     background-color: #F8EDEB;
+    position: fixed;  /* Fix the position to the viewport */
+    top: 150px;  /* Align it to the top of the viewport */
+    z-index: 10;  /* Ensure the tabs stay above other content */
 }
 
 .tab {
@@ -357,16 +281,12 @@ ul.button li {
 
 .tab-content {
     display: none;
-    padding: 20px;
+    margin-top: 230px; 
 }
 
 .tab-content.active {
     display: block;
-}
-
-.tab-content h1 {
-    font-size: 30px;
-    margin-bottom: 20px;
+    margin-top: 230px; 
 }
 
 .tab-content img {
@@ -384,6 +304,8 @@ ul.button li {
     padding: 5px 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    display: block;
+    margin: 10px auto;
 }
 
 .deleteButton:hover {
@@ -392,97 +314,9 @@ ul.button li {
 
 
 
+
+
 /*--------------- OUTFITCREATOR -------------------*/
-
-
-    /*-nav/header-*/
-    .header {
-        background-color: #E4C1C1;
-        background-position: center;
-        background-size: cover;
-        padding: 10px 15px;
-        height: 57px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    
-    .bx-menu {
-        cursor: pointer;
-        color: black;
-        padding: 20px;
-    }
-    
-    .side-bar {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        height: 100%;
-        width: 190px;
-        padding: 20px 0;
-        background-color: #fff;
-        box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        z-index: 100;
-    }
-    
-    .nav.open .side-bar{
-        left: 0;
-    }
-    
-    .side-bar-content {
-        padding: 30px 16px;
-        z-index: 100;
-    }
-    
-    .side-bar-content .list{
-        list-style: none;
-    }
-    
-    .list .nav-link {
-        display: flex;
-        align-items: center;
-        margin: 8px 0;
-        padding: 14px 12px;
-        border-radius: 8px;
-        text-decoration: none;
-        z-index: 1;
-    }
-    
-    .lists .nav-link:hover {
-      background-color: #F6F3F3;
-    }
-    
-    .nav-link .icon {
-        margin-right: 14px;
-        font-size: 20px;
-        color: #707070;
-    }
-    
-    .nav-link .link {
-        font-size: 14px;
-        color: #707070;
-        font-weight: 400;
-    }
-    
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      background: rgba(0, 0, 0, 0.3);
-    }
-    
-    nav.open ~ .overlay {
-      opacity: 1;
-      left: 190px;
-      pointer-events: auto;
-    }
     
     .button-container {
         margin-left: auto; 
@@ -672,7 +506,7 @@ ul.button li {
     
     .sb, .sb-1 {
         width: 93px; 
-        height: 86px; 
+        height: 88px; 
         background-color: #F6F3F3;
         margin-right: 120px;
         border-radius: 10px;
@@ -685,9 +519,9 @@ ul.button li {
     .sb img, .sb-1 img{
         position: absolute;
         max-width: 85px; 
-        max-height: 80px; 
+        max-height: 85px; 
         border-radius: 8px; 
-        margin-left: 10px;
+        margin-left: 5px;
     }
     
     
@@ -1303,7 +1137,3 @@ body {
         border-radius: 30px;
         margin-bottom: 12px;
     }
-.tab-content {
-    margin-left: 20px;
-    margin-right: 20px;
-}
