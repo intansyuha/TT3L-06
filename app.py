@@ -106,7 +106,6 @@ def get_file(filename):
      return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
-
 @app.route('/outfitgallery')
 @app.route('/outfitgallery.html')
 def outfit_gallery():
@@ -173,7 +172,7 @@ def wardrobecategory():
 
     return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
 
-@app.route('/outfitcreator/<filename>', methods=['GET', 'POST'])
+@app.route('/outfitcreator', methods=['GET', 'POST'])
 @app.route('/outfitcreator.html')
 def outfit_creator():
     if not session.get('email'):
