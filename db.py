@@ -38,6 +38,7 @@ class Img(db.Model):
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(100), unique=True)
 
 def init_db():
     with app.app_context():
