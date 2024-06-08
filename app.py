@@ -46,7 +46,7 @@ class UploadClothesForm(FlaskForm):
 
 
 @app.route("/", methods=["GET", "POST"])
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET", "POST"])
 @app.route("/login.html", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -58,7 +58,7 @@ def login():
         if user and user.check_password(password):
             session["email"] = email
             session["username"] = user.username
-            return redirect(url_for("community_page"))
+            return redirect(url_for("community_page", username=user.username))
 
     return render_template("login.html")
 
@@ -253,7 +253,6 @@ def wardrobecategory():
         file_url=request.form.get("file_url", ""),
         image_urls=image_urls,
     )
-
 
 
 if __name__ == "__main__":
