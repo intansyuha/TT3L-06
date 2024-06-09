@@ -69,68 +69,68 @@
 
     <div id="imageContainer">
         <div id="tops" data-tab-content class="tab-content">
-            {% if 'tops' in image_urls %}
-            {% for url in image_urls['tops'] %}
-            <div>
-                <img src="{{ url }}" alt="Uploaded Image">
-                <button class="deleteButton">Delete image</button>
-            </div>
-            {% endfor %}
+            {% if 'top' in image_urls %}
+                {% for url in image_urls['top'] %}
+                    <div>
+                        <img src="{{ url }}" alt="Uploaded Image">
+                        <button class="deleteButton">Delete image</button>
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
 
         <div id="bottoms" data-tab-content class="tab-content">
-            {% if 'bottoms' in image_urls %}
-            {% for url in image_urls['bottoms'] %}
-            <div>
-                <img src="{{ url }}" alt="Uploaded Image">
-                <button class="deleteButton">Delete image</button>
-            </div>
-            {% endfor %}
+            {% if 'bottom' in image_urls %}
+                {% for url in image_urls['bottom'] %}
+                    <div>
+                        <img src="{{ url }}" alt="Uploaded Image">
+                        <button class="deleteButton">Delete image</button>
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
 
         <div id="shoes" data-tab-content class="tab-content">
             {% if 'shoes' in image_urls %}
-            {% for url in image_urls['shoes'] %}
-            <div>
-                <img src="{{ url }}" alt="Uploaded Image">
-                <button class="deleteButton">Delete image</button>
-            </div>
-            {% endfor %}
+                {% for url in image_urls['shoes'] %}
+                    <div>
+                        <img src="{{ url }}" alt="Uploaded Image">
+                        <button class="deleteButton">Delete image</button>
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
 
         <div id="accessories" data-tab-content class="tab-content">
             {% if 'accessories' in image_urls %}
-            {% for url in image_urls['accessories'] %}
-            <div>
-                <img src="{{ url }}" alt="Uploaded Image">
-                <button class="deleteButton">Delete image</button>
-            </div>
-            {% endfor %}
+                {% for url in image_urls['accessories'] %}
+                    <div>
+                        <img src="{{ url }}" alt="Uploaded Image">
+                        <button class="deleteButton">Delete image</button>
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
 
         <div id="bags" data-tab-content class="tab-content">
             {% if 'bags' in image_urls %}
-            {% for url in image_urls['bags'] %}
-            <div>
-                <img src="{{ url }}" alt="Uploaded Image">
-                <button class="deleteButton">Delete image</button>
-            </div>
-            {% endfor %}
+                {% for url in image_urls['bags'] %}
+                    <div>
+                        <img src="{{ url }}" alt="Uploaded Image">
+                        <button class="deleteButton">Delete image</button>
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
 
         <div id="outerwear" data-tab-content class="tab-content">
             {% if 'outerwear' in image_urls %}
-            {% for url in image_urls['outerwear'] %}
-            <div>
-                <img src="{{ url }}" alt="Uploaded Image">
-                <button class="deleteButton">Delete image</button>
-            </div>
-            {% endfor %}
+                {% for url in image_urls['outerwear'] %}
+                    <div>
+                        <img src="{{ url }}" alt="Uploaded Image">
+                        <button class="deleteButton">Delete image</button>
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
     </div>

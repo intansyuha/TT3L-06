@@ -106,7 +106,11 @@ def save_outfit():
 
 @app.route("/get_outfit", methods=["GET"])
 def get_outfit():
-    outfits = Outfit.query.all()
+    email = session.get("email")
+    if not email:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    outfits = Outfit.query.filter_by(email=email).all()
     outfits_list = [
         {
             "id": outfit.id,
@@ -175,9 +179,13 @@ def delete_outfit(outfit_id):
 @app.route("/outfitgallery.html")
 def outfit_gallery():
     if "email" not in session:
-        outfits = Outfit.query.all()
         return redirect(url_for("login"))
-    return render_template("outfitgallery.html", username=session["username"])
+
+    email = session.get("email")
+    outfits = Outfit.query.filter_by(email=email).all()
+    return render_template(
+        "outfitgallery.html", username=session["username"], outfits=outfits
+    )
 
 
 @app.route("/community-page")
@@ -214,8 +222,10 @@ def settings():
 def index():
     form = UploadClothesForm()
     file_url = None
+    email = session.get("email")
+
     if request.method == "POST" and form.validate_on_submit():
-        if session.get("email"):
+        if email:
             file = form.file.data  # grab file
             filename = secure_filename(file.filename)
             file_url = url_for("get_file", filename=filename)
@@ -237,7 +247,6 @@ def index():
 
             mimetype = file.mimetype
             category = form.category.data  # Obtain category from the form
-            email = session.get("email")  # Get email from session
 
             img = Img(
                 data=output_data,
@@ -250,7 +259,9 @@ def index():
             db.session.commit()
 
             return redirect(url_for("imgwindow", filename=process_filename))
-    return render_template("index.html", form=form, file_url=file_url)
+
+    images = Img.query.filter_by(email=email).all() if email else []
+    return render_template("index.html", form=form, file_url=file_url, images=images)
 
 
 @app.route("/uploads/<filename>")
@@ -270,6 +281,15 @@ def wardrobecategory():
     if "email" not in session:
         return redirect(url_for("login"))
 
+    email = session.get("email")
+    images = Img.query.filter_by(email=email).all()
+
+    image_urls = {}
+    for img in images:
+        if img.category not in image_urls:
+            image_urls[img.category] = []
+        image_urls[img.category].append(url_for("get_file", filename=img.name))
+
     if request.method == "POST":
         category = request.form.get("category").lower()
         file_url = request.form.get("file_url")
@@ -283,9 +303,6 @@ def wardrobecategory():
         session["image_urls"][category].append(file_url)
         session.modified = True
 
-        app.logger.debug(f"Session image URLs: {session['image_urls']}")
-
-    image_urls = session.get("image_urls", {})
     return render_template(
         "wardrobecategory.html",
         category=request.form.get("category", "").lower(),
