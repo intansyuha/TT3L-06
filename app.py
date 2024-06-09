@@ -151,12 +151,13 @@ def community_page():
 
 
 @app.route("/outfitcreator", methods=["GET", "POST"])
-@app.route("/outfitcreator.html")
+@app.route("/outfitcreator.html", methods=["GET", "POST"])
 def outfit_creator():
     if not session.get("email"):
         return redirect("/login")
 
     image_urls = session.get("image_urls", {})
+    app.logger.debug(f"Image URLs passed to template: {image_urls}")  # Debugging line
     return render_template(
         "outfitcreator.html", image_urls=image_urls, username=session["username"]
     )
@@ -174,18 +175,19 @@ def settings():
 @app.route("/index.html", methods=["GET", "POST"])
 def index():
     form = UploadClothesForm()
-    file_url = None
     if request.method == "POST" and form.validate_on_submit():
         if session.get("email"):
-            file = form.file.data  # grab file
+            file = form.file.data
+            category = form.category.data
+            email = session.get("email")
+
+            # Process and save image
             filename = secure_filename(file.filename)
-            file_url = url_for("get_file", filename=filename)
-            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)  # save file
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(file_path)
 
             with open(file_path, "rb") as input_file:
                 input_data = input_file.read()
-
             output_data = remove(input_data)
 
             process_filename = filename
@@ -197,8 +199,6 @@ def index():
                 output_file.write(output_data)
 
             mimetype = file.mimetype
-            category = form.category.data  # Obtain category from the form
-            email = session.get("email")  # Get email from session
 
             img = Img(
                 data=output_data,
@@ -210,8 +210,21 @@ def index():
             db.session.add(img)
             db.session.commit()
 
+            # Store image URL in session
+            file_url = url_for("get_file", filename=process_filename)
+            if "image_urls" not in session:
+                session["image_urls"] = {}
+            if category not in session["image_urls"]:
+                session["image_urls"][category] = []
+            session["image_urls"][category].append(file_url)
+            session.modified = True
+
+            app.logger.debug(
+                f"Image URL stored in session: {session['image_urls']}"
+            )  # Debugging line
+
             return redirect(url_for("imgwindow", filename=process_filename))
-    return render_template("index.html", form=form, file_url=file_url)
+    return render_template("index.html", form=form)
 
 
 @app.route("/uploads/<filename>")
