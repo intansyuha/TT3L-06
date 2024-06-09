@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Check if imageContainer exists before adding event listener
     const imageContainer = document.getElementById('imageContainer');
 
     if (imageContainer) {
@@ -31,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Image container not found');
     }
-});
 
     // Accordion functionality
     const labels = document.querySelectorAll('.accordion-row label');
@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navBar.classList.remove("nav");
         navBar.classList.remove("open");
     });
-    
 
     // Outfit gallery functionality
     const cardsContainer = document.getElementById('cardsContainer');
@@ -71,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/get_outfit')
             .then(response => response.json())
             .then(outfits => {
+                console.log('Fetched outfits:', outfits);  // Log fetched outfits
                 outfits.forEach(outfit => {
                     createOutfitCard(outfit);
                 });
@@ -79,6 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createOutfitCard(outfit) {
+        if (!outfit.id) {
+            console.error('Outfit ID is missing:', outfit);
+            return;
+        }
+
         const card = document.createElement('div');
         card.className = 'Card';
         card.id = `outfit-${outfit.id}`;
@@ -110,13 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteIcon.className = 'bx bx-trash bx-sm';
         deleteDiv.appendChild(deleteIcon);
 
-        deleteDiv.addEventListener('click', function () {
+        deleteDiv.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevents the card click event from firing
             const outfitId = this.getAttribute('data-id');
+            console.log(`Deleting outfit with ID: ${outfitId}`);  // Logging the outfit ID
             const cardElement = this.closest('.Card');
             const confirmation = confirm(`Are you sure you want to delete the outfit "${outfit.name}"?`);
-            
-
-            console.log(`Clicked delete icon. Outfit ID: ${outfitId}, Confirmation: ${confirmation}`); // Debugging log
 
             if (confirmation) {
                 deleteOutfit(outfitId, cardElement);
@@ -125,42 +129,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cardOptions.appendChild(toggleSwitch);
         cardOptions.appendChild(deleteDiv);
-
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardOptions);
-
         card.appendChild(img);
         card.appendChild(cardBody);
 
         card.addEventListener('click', () => {
-        const queryParams = new URLSearchParams({
-            top: outfit.top,
-            bottom: outfit.bottom,
-            outerwear: outfit.outerwear,
-            shoes: outfit.shoes,
-            bags: outfit.bags,
-            accessories: outfit.accessories,
-        }).toString();
-        window.location.href = `/outfitcreator.html?${queryParams}`;
+            const queryParams = new URLSearchParams({
+                top: outfit.top,
+                bottom: outfit.bottom,
+                outerwear: outfit.outerwear,
+                shoes: outfit.shoes,
+                bags: outfit.bags,
+                accessories: outfit.accessories,
+            }).toString();
+            window.location.href = `/outfitcreator.html?${queryParams}`;
         });
 
-    cardsContainer.appendChild(card);
+        cardsContainer.appendChild(card);
     }
-    
+
     function deleteOutfit(outfitId, cardElement) {
-        console.log(`Sending DELETE request for outfit ID: ${outfitId}`); // Debugging log
         fetch(`/delete_outfit/${outfitId}`, {
             method: 'DELETE'
         })
         .then(response => {
             if (response.ok) {
                 alert('Outfit deleted successfully!');
-                cardElement.remove(); // Remove the card from the DOM
+                cardElement.remove();
             } else {
                 return response.json().then(data => {
                     console.error('Failed to delete the outfit:', data.message);
                     alert('Failed to delete the outfit.');
-                }).catch(err => console.error('JSON parsing error:', err));
+                });
             }
         })
         .catch(error => {
@@ -170,6 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetchOutfits();
+
+
+
+
 
 
 
@@ -402,4 +407,4 @@ document.addEventListener('DOMContentLoaded', () => {
             URL.revokeObjectURL(output.src) // free memory
         }
     }
-
+});

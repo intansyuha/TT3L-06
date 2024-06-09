@@ -109,6 +109,7 @@ def get_outfit():
     outfits = Outfit.query.all()
     outfits_list = [
         {
+            "id": outfit.id,
             "name": outfit.name,
             "top": outfit.top,
             "bottom": outfit.bottom,
@@ -124,12 +125,17 @@ def get_outfit():
 
 @app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
 def delete_outfit(outfit_id):
-    outfit = Outfit.query.get(outfit_id)
-    if outfit:
-        db.session.delete(outfit)
-        db.session.commit()
-        return jsonify({"message": "Outfit deleted successfully"}), 200
-    return jsonify({"message": "Outfit not found"}), 404
+    try:
+        outfit = Outfit.query.get(outfit_id)
+        if outfit:
+            db.session.delete(outfit)
+            db.session.commit()
+            return jsonify({"message": "Outfit deleted successfully"}), 200
+        else:
+            return jsonify({"message": "Outfit not found"}), 404
+    except Exception as e:
+        app.logger.error(f"Error deleting outfit: {str(e)}")
+        return jsonify({"error": "Failed to delete outfit"}), 400
 
 
 @app.route("/outfitgallery")
@@ -151,13 +157,12 @@ def community_page():
 
 
 @app.route("/outfitcreator", methods=["GET", "POST"])
-@app.route("/outfitcreator.html", methods=["GET", "POST"])
+@app.route("/outfitcreator.html")
 def outfit_creator():
     if not session.get("email"):
         return redirect("/login")
 
     image_urls = session.get("image_urls", {})
-    app.logger.debug(f"Image URLs passed to template: {image_urls}")  # Debugging line
     return render_template(
         "outfitcreator.html", image_urls=image_urls, username=session["username"]
     )
@@ -175,19 +180,18 @@ def settings():
 @app.route("/index.html", methods=["GET", "POST"])
 def index():
     form = UploadClothesForm()
+    file_url = None
     if request.method == "POST" and form.validate_on_submit():
         if session.get("email"):
-            file = form.file.data
-            category = form.category.data
-            email = session.get("email")
-
-            # Process and save image
+            file = form.file.data  # grab file
             filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file_url = url_for("get_file", filename=filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)  # save file
             file.save(file_path)
 
             with open(file_path, "rb") as input_file:
                 input_data = input_file.read()
+
             output_data = remove(input_data)
 
             process_filename = filename
@@ -199,6 +203,8 @@ def index():
                 output_file.write(output_data)
 
             mimetype = file.mimetype
+            category = form.category.data  # Obtain category from the form
+            email = session.get("email")  # Get email from session
 
             img = Img(
                 data=output_data,
@@ -210,21 +216,8 @@ def index():
             db.session.add(img)
             db.session.commit()
 
-            # Store image URL in session
-            file_url = url_for("get_file", filename=process_filename)
-            if "image_urls" not in session:
-                session["image_urls"] = {}
-            if category not in session["image_urls"]:
-                session["image_urls"][category] = []
-            session["image_urls"][category].append(file_url)
-            session.modified = True
-
-            app.logger.debug(
-                f"Image URL stored in session: {session['image_urls']}"
-            )  # Debugging line
-
             return redirect(url_for("imgwindow", filename=process_filename))
-    return render_template("index.html", form=form)
+    return render_template("index.html", form=form, file_url=file_url)
 
 
 @app.route("/uploads/<filename>")
