@@ -123,6 +123,39 @@ def get_outfit():
     return jsonify(outfits_list)
 
 
+@app.route("/delete_image/<filename>", methods=["DELETE"])
+def delete_image(filename):
+    email = session.get("email")
+    if not email:
+        app.logger.error("Unauthorized access attempt.")
+        return jsonify({"error": "Unauthorized"}), 401
+
+    app.logger.info(f"Attempting to delete image: {filename} for user: {email}")
+    img = Img.query.filter_by(email=email, name=filename).first()
+    if img:
+        app.logger.info(f"Image found in database: {img.name}")
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], img.name)
+        if os.path.exists(file_path):
+            app.logger.info(f"Image found in filesystem: {file_path}")
+            os.remove(file_path)
+        else:
+            app.logger.warning(f"Image not found in filesystem: {file_path}")
+
+        db.session.delete(img)
+        db.session.commit()
+
+        for category in session.get("image_urls", {}):
+            file_url = url_for("get_file", filename=img.name, _external=True)
+            if file_url in session["image_urls"][category]:
+                session["image_urls"][category].remove(file_url)
+                session.modified = True
+
+        return jsonify({"message": "Image deleted successfully"}), 200
+
+    app.logger.error(f"Image not found in database: {filename}")
+    return jsonify({"error": "Image not found"}), 404
+
+
 @app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
 def delete_outfit(outfit_id):
     try:
