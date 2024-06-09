@@ -1,4 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Sidebar outfitcreator, outfitgallery, index, imgwindow functionality
+    const menuIcon = document.querySelectorAll('.menu-icon');
+    const sidebar = document.querySelector('.side-bar');
+    const overlaySidebar = document.querySelector('#overlay');
+    
+    menuIcon.forEach(icon => {
+        icon.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+            overlaySidebar.classList.toggle('open');
+        });
+    });
+
+    overlaySidebar.addEventListener('click', function () {
+        sidebar.classList.remove('open');
+        overlaySidebar.classList.remove('open');
+    });
+});
+
+// Wardrobe Category //
+document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -62,7 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error deleting the image. Please try again.');
         });
     }
+});
 
+//OUTFIT CREATOR//
+document.addEventListener('DOMContentLoaded', () => {
     // Accordion functionality
     const labels = document.querySelectorAll('.accordion-row label');
     labels.forEach(label => {
@@ -205,8 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Cards container not found');
     }
+});
 
-
+//OUTFIT GALLERY//
+document.addEventListener('DOMContentLoaded', () => {
     // Outfit selection and display functionality
     const topSmallBoxes = document.querySelectorAll('#tops-accordion .sb-1 .sb');
     const topContainer = document.querySelector('.top-container');
@@ -358,25 +383,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+});
 
-    // Sidebar outfitcreator, outfitgallery, index, imgwindow functionality
-    const menuIcon = document.querySelectorAll('.menu-icon');
-    const sidebar = document.querySelector('.side-bar');
-    const overlaySidebar = document.querySelector('#overlay');
-    
-    menuIcon.forEach(icon => {
-        icon.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
-            overlaySidebar.classList.toggle('open');
-        });
-    });
+//LOGIN//
 
-    overlaySidebar.addEventListener('click', function () {
-        sidebar.classList.remove('open');
-        overlaySidebar.classList.remove('open');
-    });
-
-
+document.addEventListener('DOMContentLoaded', () => {
     // Toggle password visibility
     const showPasswordCheckbox = document.getElementById("showPassword");
     if (showPasswordCheckbox) {

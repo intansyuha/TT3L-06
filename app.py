@@ -95,9 +95,27 @@ def save_outfit():
     try:
         data = request.get_json()
         data["email"] = session.get("email")
+
+        # Ensure data integrity before saving
+        required_fields = [
+            "name",
+            "top",
+            "bottom",
+            "outerwear",
+            "shoes",
+            "bags",
+            "accessories",
+        ]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+
         outfit = Outfit(**data)
         db.session.add(outfit)
         db.session.commit()
+
+        app.logger.debug(f"Outfit saved: {outfit}")
+
         return jsonify({"message": "Outfit saved successfully"})
     except Exception as e:
         app.logger.error(f"Error saving outfit: {str(e)}")
@@ -111,6 +129,10 @@ def get_outfit():
         return jsonify({"error": "Unauthorized"}), 401
 
     outfits = Outfit.query.filter_by(email=email).all()
+
+    if not outfits:
+        return jsonify({"message": "No outfits found for the specified email"}), 404
+
     outfits_list = [
         {
             "id": outfit.id,
@@ -198,12 +220,20 @@ def community_page():
 
 
 @app.route("/outfitcreator", methods=["GET", "POST"])
-@app.route("/outfitcreator.html")
+@app.route("/outfitcreator.html", methods=["GET", "POST"])
 def outfit_creator():
     if not session.get("email"):
         return redirect("/login")
 
-    image_urls = session.get("image_urls", {})
+    email = session.get("email")
+    images = Img.query.filter_by(email=email).all()
+
+    image_urls = {}
+    for img in images:
+        if img.category not in image_urls:
+            image_urls[img.category] = []
+        image_urls[img.category].append(url_for("get_file", filename=img.name))
+
     return render_template(
         "outfitcreator.html", image_urls=image_urls, username=session["username"]
     )
