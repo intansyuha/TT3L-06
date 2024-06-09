@@ -6,7 +6,6 @@
     outline: none;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-
 }
 
 /*--------------- NAV BAR -------------------*/
@@ -258,13 +257,13 @@ ul.button li {
     display: flex;
     justify-content: space-around;
     list-style-type: none;
-    margin: 0;  /* Remove margin to prevent any initial offset */
-    padding: 0;  /* Ensure there's no padding affecting positioning */
+    margin: 0; 
+    padding: 0; 
     border-bottom: 1px solid #d9a7a4;
     background-color: #F8EDEB;
-    position: fixed;  /* Fix the position to the viewport */
-    top: 150px;  /* Align it to the top of the viewport */
-    z-index: 10;  /* Ensure the tabs stay above other content */
+    position: fixed;  
+    top: 150px;  
+    z-index: 10;  
 }
 
 .tab {
@@ -286,7 +285,8 @@ ul.button li {
 
 .tab-content.active {
     display: block;
-    margin-top: 230px; 
+    max-height: 800px;
+    overflow-y: scroll;
 }
 
 .tab-content img {
