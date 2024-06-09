@@ -12,51 +12,51 @@
 </head>
 <body>
     <nav>
-    <section class="header">
-        <div class="menu">
-            <i class='bx bx-menu bx-md menu-icon'></i>
-        </div>
-        <div class="side-bar">
+        <section class="header">
             <div class="menu">
                 <i class='bx bx-menu bx-md menu-icon'></i>
             </div>
-            <div class="side-bar-content">
-                <ul class="lists">
-                    <li class="list">
-                        <a href="community-page.html" class="nav-link">
-                            <i class='bx bx-home-heart icon'></i>
-                            <span class="link">Home</span>
-                        </a>
-                        <a href="index.html" class="nav-link">
-                            <i class='bx bx-closet icon'></i>
-                            <span class="link">Wardrobe</span>
-                        </a>
-                        <a href="outfitcreator.html" class="nav-link">
-                            <i class='bx bx-edit icon'></i>
-                            <span class="link">Outfit Creator</span>
-                        </a>
-                        <a href="outfitgallery.html" class="nav-link">
-                            <i class='bx bx-star icon'></i>
-                            <span class="link">Outfit Gallery</span>
-                        </a>
-                        <a href="settings.html" class="nav-link">
-                            <i class='bx bx-cog icon'></i>
-                            <span class="link">Settings</span>
-                        </a>
-                        <a href="login.html" class="nav-link">
-                            <i class='bx bx-log-out'></i>
-                            <span class="link">Log Out</span>
-                        </a>
-                    </li>
-                </ul>
+            <div class="side-bar">
+                <div class="menu">
+                    <i class='bx bx-menu bx-md menu-icon'></i>
+                </div>
+                <div class="side-bar-content">
+                    <ul class="lists">
+                        <li class="list">
+                            <a href="community-page.html" class="nav-link">
+                                <i class='bx bx-home-heart icon'></i>
+                                <span class="link">Home</span>
+                            </a>
+                            <a href="index.html" class="nav-link">
+                                <i class='bx bx-closet icon'></i>
+                                <span class="link">Wardrobe</span>
+                            </a>
+                            <a href="outfitcreator.html" class="nav-link">
+                                <i class='bx bx-edit icon'></i>
+                                <span class="link">Outfit Creator</span>
+                            </a>
+                            <a href="outfitgallery.html" class="nav-link">
+                                <i class='bx bx-star icon'></i>
+                                <span class="link">Outfit Gallery</span>
+                            </a>
+                            <a href="settings.html" class="nav-link">
+                                <i class='bx bx-cog icon'></i>
+                                <span class="link">Settings</span>
+                            </a>
+                            <a href="login.html" class="nav-link">
+                                <i class='bx bx-log-out'></i>
+                                <span class="link">Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        
-        <div class="imagegall">
-            <h2>Image Gallery</h2>
-        </div>
-    </section>
-   </nav>
+            
+            <div class="imagegall">
+                <h2>Image Gallery</h2>
+            </div>
+        </section>
+    </nav>
 
     <ul class="tabs">
         <li data-tab-target="#tops" class="tab">Tops</li>
@@ -67,70 +67,72 @@
         <li data-tab-target="#outerwear" class="tab">Outerwear</li>
     </ul>
 
-    <div class="tab-content" id="tops" data-tab-content>
-        {% if 'top' in image_urls %}
-        {% for url in image_urls['top'] %}
-        <div>
-            <img src="{{ url }}" alt="Uploaded Image">
-            <button class="deleteButton">Delete image</button>
+    <div id="imageContainer">
+        <div id="tops" data-tab-content class="tab-content">
+            {% if 'tops' in image_urls %}
+            {% for url in image_urls['tops'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image">
+                <button class="deleteButton">Delete image</button>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-    </div>
 
-    <div class="tab-content" id="bottoms" data-tab-content>
-        {% if 'bottom' in image_urls %}
-        {% for url in image_urls['bottom'] %}
-        <div>
-            <img src="{{ url }}" alt="Uploaded Image">
-            <button class="deleteButton">Delete image</button>
+        <div id="bottoms" data-tab-content class="tab-content">
+            {% if 'bottoms' in image_urls %}
+            {% for url in image_urls['bottoms'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image">
+                <button class="deleteButton">Delete image</button>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-    </div>
 
-    <div class="tab-content" id="shoes" data-tab-content>
-        {% if 'shoes' in image_urls %}
-        {% for url in image_urls['shoes'] %}
-        <div>
-            <img src="{{ url }}" alt="Uploaded Image">
-            <button class="deleteButton">Delete image</button>
+        <div id="shoes" data-tab-content class="tab-content">
+            {% if 'shoes' in image_urls %}
+            {% for url in image_urls['shoes'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image">
+                <button class="deleteButton">Delete image</button>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-    </div>
 
-    <div class="tab-content" id="accessories" data-tab-content>
-        {% if 'accessories' in image_urls %}
-        {% for url in image_urls['accessories'] %}
-        <div>
-            <img src="{{ url }}" alt="Uploaded Image">
-            <button class="deleteButton">Delete image</button>
+        <div id="accessories" data-tab-content class="tab-content">
+            {% if 'accessories' in image_urls %}
+            {% for url in image_urls['accessories'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image">
+                <button class="deleteButton">Delete image</button>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-    </div>
 
-    <div class="tab-content" id="bags" data-tab-content>
-        {% if 'bags' in image_urls %}
-        {% for url in image_urls['bags'] %}
-        <div>
-            <img src="{{ url }}" alt="Uploaded Image">
-            <button class="deleteButton">Delete image</button>
+        <div id="bags" data-tab-content class="tab-content">
+            {% if 'bags' in image_urls %}
+            {% for url in image_urls['bags'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image">
+                <button class="deleteButton">Delete image</button>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-    </div>
 
-    <div class="tab-content" id="outerwear" data-tab-content>
-        {% if 'outerwear' in image_urls %}
-        {% for url in image_urls['outerwear'] %}
-        <div>
-            <img src="{{ url }}" alt="Uploaded Image">
-            <button class="deleteButton">Delete image</button>
+        <div id="outerwear" data-tab-content class="tab-content">
+            {% if 'outerwear' in image_urls %}
+            {% for url in image_urls['outerwear'] %}
+            <div>
+                <img src="{{ url }}" alt="Uploaded Image">
+                <button class="deleteButton">Delete image</button>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
     </div>
 
     <section class="overlay" id="overlay"></section>
