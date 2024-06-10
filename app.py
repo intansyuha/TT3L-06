@@ -316,9 +316,10 @@ def wardrobecategory():
 
     image_urls = {}
     for img in images:
-        if img.category not in image_urls:
-            image_urls[img.category] = []
-        image_urls[img.category].append(url_for("get_file", filename=img.name))
+        if img and img.category:  # Ensure img is not None and has a category
+            if img.category not in image_urls:
+                image_urls[img.category] = []
+            image_urls[img.category].append(url_for("get_file", filename=img.name))
 
     if request.method == "POST":
         category = request.form.get("category").lower()
