@@ -9,6 +9,7 @@ from flask import (
     url_for,
     send_from_directory,
 )
+
 from flask_wtf import FlaskForm
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -230,22 +231,14 @@ def outfit_creator():
 
     image_urls = {}
     for img in images:
-        if img.category not in image_urls:
+        if img is not None and img.category not in image_urls:
             image_urls[img.category] = []
-        image_urls[img.category].append(url_for("get_file", filename=img.name))
+        if img is not None:
+            image_urls[img.category].append(url_for("get_file", filename=img.name))
 
     return render_template(
         "outfitcreator.html", image_urls=image_urls, username=session["username"]
     )
-
-
-@app.route("/settings")
-@app.route("/settings.html")
-def settings():
-    if "email" not in session:
-        return redirect(url_for("login"))
-    return render_template("settings.html", username=session["username"])
-
 
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/index.html", methods=["GET", "POST"])
@@ -288,10 +281,10 @@ def index():
             db.session.add(img)
             db.session.commit()
 
-            return redirect(url_for("imgwindow", filename=process_filename))
+            return redirect(url_for("imgwindow", filename=process_filename), username=session["username"])
 
     images = Img.query.filter_by(email=email).all() if email else []
-    return render_template("index.html", form=form, file_url=file_url, images=images)
+    return render_template("index.html", form=form, file_url=file_url, images=images, username=session["username"])
 
 
 @app.route("/uploads/<filename>")
@@ -306,7 +299,7 @@ def imgwindow(filename):
 
 
 @app.route("/wardrobecategory", methods=["GET", "POST"])
-@app.route("/wardrobecategory.html")
+@app.route("/wardrobecategory.html", methods=["GET", "POST"])
 def wardrobecategory():
     if "email" not in session:
         return redirect(url_for("login"))
@@ -325,21 +318,16 @@ def wardrobecategory():
         category = request.form.get("category").lower()
         file_url = request.form.get("file_url")
 
-        if "image_urls" not in session:
-            session["image_urls"] = {}
+    if 'image_urls' not in session:
+        session['image_urls'] = {}
 
-        if category not in session["image_urls"]:
-            session["image_urls"][category] = []
+    if category not in session['image_urls']:
+        session['image_urls'][category] = []
+    
+    session['image_urls'][category].append(file_url)
+    session.modified = True
 
-        session["image_urls"][category].append(file_url)
-        session.modified = True
-
-    return render_template(
-        "wardrobecategory.html",
-        category=request.form.get("category", "").lower(),
-        file_url=request.form.get("file_url", ""),
-        image_urls=image_urls,
-    )
+    return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'], username=session["username"])
 
 
 if __name__ == "__main__":
