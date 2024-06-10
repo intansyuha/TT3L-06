@@ -40,7 +40,7 @@ class Outfit(db.Model):
 
 
 class Img(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(120), nullable=False)
     data = db.Column(db.LargeBinary, nullable=False)
     name = db.Column(db.Text, nullable=False)

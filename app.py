@@ -231,13 +231,12 @@ def outfit_creator():
 
     image_urls = {}
     for img in images:
-        if img is not None and img.category not in image_urls:
-            image_urls[img.category] = []
-        if img is not None:
-            image_urls[img.category].append(url_for("get_file", filename=img.name))
+        if Img.category not in image_urls:
+            image_urls[Img.category] = []
+        image_urls[Img.category].append(url_for("get_file", filename=Img.name))
 
     return render_template(
-        "outfitcreator.html", image_urls=image_urls, username=session["username"]
+        "outfitcreator.html", image_urls=image_urls
     )
 
 @app.route("/index", methods=["GET", "POST"])
@@ -281,7 +280,7 @@ def index():
             db.session.add(img)
             db.session.commit()
 
-            return redirect(url_for("imgwindow", filename=process_filename), username=session["username"])
+            return redirect(url_for("imgwindow", filename=process_filename))
 
     images = Img.query.filter_by(email=email).all() if email else []
     return render_template("index.html", form=form, file_url=file_url, images=images, username=session["username"])
@@ -301,6 +300,9 @@ def imgwindow(filename):
 @app.route("/wardrobecategory", methods=["GET", "POST"])
 @app.route("/wardrobecategory.html", methods=["GET", "POST"])
 def wardrobecategory():
+    if not session.get("email"):
+        return redirect("/login")
+
     category = request.form.get('category')
     file_url = request.form.get('file_url')
 
