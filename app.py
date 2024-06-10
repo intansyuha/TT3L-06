@@ -306,6 +306,7 @@ def wardrobecategory():
 
     email = session.get("email")
     images = Img.query.filter_by(email=email).all()
+    category = session.get("category")
 
     image_urls = {}
     for img in images:
@@ -314,20 +315,30 @@ def wardrobecategory():
                 image_urls[img.category] = []
             image_urls[img.category].append(url_for("get_file", filename=img.name))
 
+    file_url = None  # Initialize file_url here
+
     if request.method == "POST":
         category = request.form.get("category").lower()
         file_url = request.form.get("file_url")
 
-    if 'image_urls' not in session:
-        session['image_urls'] = {}
+        # Check if file_url is provided before accessing it
+        if file_url:
+            if "image_urls" not in session:
+                session["image_urls"] = {}
 
-    if category not in session['image_urls']:
-        session['image_urls'][category] = []
-    
-    session['image_urls'][category].append(file_url)
-    session.modified = True
+            if category not in session["image_urls"]:
+                session["image_urls"][category] = []
 
-    return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'], username=session["username"])
+            session["image_urls"][category].append(file_url)
+            session.modified = True
+
+    return render_template(
+        "wardrobecategory.html",
+        category=category,
+        file_url=file_url,
+        image_urls=session.get("image_urls", {}),
+        username=session["username"],
+    )
 
 
 if __name__ == "__main__":
