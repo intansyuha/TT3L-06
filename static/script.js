@@ -1,39 +1,91 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('[data-tab-content]');
-
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const target = document.querySelector(tab.dataset.tabTarget)
-        tabContents.forEach(tabContent => { 
-            tabContent.classList.remove('active')
-        })
-        tabs.forEach(tab => { 
-            tab.classList.remove('active')
-        })
-        tab.classList.add('active')
-        target.classList.add('active')
-    })
-})
-
-///// delete button //////
-document.addEventListener('DOMContentLoaded', function() {
-  const imageContainer = document.getElementById('imageContainer');
-
-  if (imageContainer) {
-    imageContainer.addEventListener('click', function(event) {
-      if (event.target.classList.contains('deleteButton')) {
-        console.log('Delete button clicked');
-        const imageDiv = event.target.parentNode;
-        console.log('Image div:', imageDiv);
-        imageDiv.parentNode.removeChild(imageDiv);
-      }
+document.addEventListener('DOMContentLoaded', () => {
+    // Sidebar outfitcreator, outfitgallery, index, imgwindow functionality
+    const menuIcon = document.querySelectorAll('.menu-icon');
+    const sidebar = document.querySelector('.side-bar');
+    const overlaySidebar = document.querySelector('#overlay');
+    
+    menuIcon.forEach(icon => {
+        icon.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+            overlaySidebar.classList.toggle('open');
+        });
     });
-  } else {
-    console.error('Image container not found');
-  }
+
+    overlaySidebar.addEventListener('click', function () {
+        sidebar.classList.remove('open');
+        overlaySidebar.classList.remove('open');
+    });
 });
 
+// Wardrobe Category //
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = document.querySelector(tab.dataset.tabTarget);
+
+            tabContents.forEach(tabContent => {
+                tabContent.classList.remove('active');
+            });
+
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            tab.classList.add('active');
+            target.classList.add('active');
+        });
+    });
+
+    const imageContainer = document.getElementById('imageContainer');
+
+    if (imageContainer) {
+        imageContainer.addEventListener('click', function(event) {
+            if (event.target.classList.contains('deleteButton')) {
+                event.stopPropagation();
+                const imageDiv = event.target.parentNode;
+                const fileUrl = imageDiv.querySelector('img').src;
+                const filename = decodeURIComponent(fileUrl.split('/').pop()); // Ensure URL encoding is handled
+
+                const confirmation = confirm('Are you sure you want to delete this image?');
+                if (confirmation) {
+                    deleteImage(filename, imageDiv);
+                }
+            }
+        });
+    } else {
+        console.error('Image container not found');
+    }
+
+    function deleteImage(filename, imageDiv) {
+        fetch(`/delete_image/${filename}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Failed to delete image');
+        })
+        .then(data => {
+            if (data.message) {
+                alert('Image deleted successfully!');
+                imageDiv.remove();
+            } else {
+                alert('Failed to delete image.');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting image:', error);
+            alert('Error deleting the image. Please try again.');
+        });
+    }
+});
+
+//OUTFIT CREATOR//
+document.addEventListener('DOMContentLoaded', () => {
     // Accordion functionality
     const labels = document.querySelectorAll('.accordion-row label');
     labels.forEach(label => {
@@ -67,113 +119,119 @@ document.addEventListener('DOMContentLoaded', function() {
     // Outfit gallery functionality
     const cardsContainer = document.getElementById('cardsContainer');
 
-    function fetchOutfits() {
-        fetch('/get_outfit')
-            .then(response => response.json())
-            .then(outfits => {
-                outfits.forEach(outfit => {
-                    createOutfitCard(outfit);
-                });
+    if (cardsContainer) {
+        function fetchOutfits() {
+            fetch('/get_outfit')
+                .then(response => response.json())
+                .then(outfits => {
+                    console.log('Fetched outfits:', outfits);  // Log fetched outfits
+                    outfits.forEach(outfit => {
+                        createOutfitCard(outfit);
+                    });
+                })
+                .catch(error => console.error('Error retrieving outfits:', error));
+        }
+
+        function createOutfitCard(outfit) {
+            if (!outfit.id) {
+                console.error('Outfit ID is missing:', outfit);
+                return;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'Card';
+            card.id = `outfit-${outfit.id}`;
+
+            const img = document.createElement('img');
+            img.src = outfit.top;
+            img.alt = outfit.name;
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'Card_body';
+
+            const cardTitle = document.createElement('h6');
+            cardTitle.className = 'Card_title';
+            cardTitle.textContent = outfit.name;
+
+            const cardOptions = document.createElement('div');
+            cardOptions.className = 'Card_options';
+
+            const toggleSwitch = document.createElement('div');
+            toggleSwitch.className = 'toggle-switch';
+            const switchSpan = document.createElement('span');
+            switchSpan.className = 'switch';
+            toggleSwitch.appendChild(switchSpan);
+
+            const deleteDiv = document.createElement('div');
+            deleteDiv.className = 'delete';
+            deleteDiv.setAttribute('data-id', outfit.id);
+            const deleteIcon = document.createElement('i');
+            deleteIcon.className = 'bx bx-trash bx-sm';
+            deleteDiv.appendChild(deleteIcon);
+
+            deleteDiv.addEventListener('click', function (event) {
+                event.stopPropagation(); // Prevents the card click event from firing
+                const outfitId = this.getAttribute('data-id');
+                console.log(`Deleting outfit with ID: ${outfitId}`);  // Logging the outfit ID
+                const cardElement = this.closest('.Card');
+                const confirmation = confirm(`Are you sure you want to delete the outfit "${outfit.name}"?`);
+
+                if (confirmation) {
+                    deleteOutfit(outfitId, cardElement);
+                }
+            });
+
+            cardOptions.appendChild(toggleSwitch);
+            cardOptions.appendChild(deleteDiv);
+            cardBody.appendChild(cardTitle);
+            cardBody.appendChild(cardOptions);
+            card.appendChild(img);
+            card.appendChild(cardBody);
+
+            card.addEventListener('click', () => {
+                const queryParams = new URLSearchParams({
+                    top: outfit.top,
+                    bottom: outfit.bottom,
+                    outerwear: outfit.outerwear,
+                    shoes: outfit.shoes,
+                    bags: outfit.bags,
+                    accessories: outfit.accessories,
+                }).toString();
+                window.location.href = `/outfitcreator.html?${queryParams}`;
+            });
+
+            cardsContainer.appendChild(card);
+        }
+
+        function deleteOutfit(outfitId, cardElement) {
+            fetch(`/delete_outfit/${outfitId}`, {
+                method: 'DELETE'
             })
-            .catch(error => console.error('Error retrieving outfits:', error));
+            .then(response => {
+                if (response.ok) {
+                    alert('Outfit deleted successfully!');
+                    cardElement.remove();
+                } else {
+                    return response.json().then(data => {
+                        console.error('Failed to delete the outfit:', data.message);
+                        alert('Failed to delete the outfit.');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting outfit:', error);
+                alert('Error deleting the outfit. Please try again.');
+            });
+        }
+
+        fetchOutfits();
+    } else {
+        console.error('Cards container not found');
     }
+});
 
-    function createOutfitCard(outfit) {
-        const card = document.createElement('div');
-        card.className = 'Card';
-        card.id = `outfit-${outfit.id}`;
-
-        const img = document.createElement('img');
-        img.src = outfit.top;
-        img.alt = outfit.name;
-
-        const cardBody = document.createElement('div');
-        cardBody.className = 'Card_body';
-
-        const cardTitle = document.createElement('h6');
-        cardTitle.className = 'Card_title';
-        cardTitle.textContent = outfit.name;
-
-        const cardOptions = document.createElement('div');
-        cardOptions.className = 'Card_options';
-
-        const toggleSwitch = document.createElement('div');
-        toggleSwitch.className = 'toggle-switch';
-        const switchSpan = document.createElement('span');
-        switchSpan.className = 'switch';
-        toggleSwitch.appendChild(switchSpan);
-
-        const deleteDiv = document.createElement('div');
-        deleteDiv.className = 'delete';
-        deleteDiv.setAttribute('data-id', outfit.id);
-        const deleteIcon = document.createElement('i');
-        deleteIcon.className = 'bx bx-trash bx-sm';
-        deleteDiv.appendChild(deleteIcon);
-
-        deleteDiv.addEventListener('click', function () {
-            const outfitId = this.getAttribute('data-id');
-            const cardElement = this.closest('.Card');
-            const confirmation = confirm(`Are you sure you want to delete the outfit "${outfit.name}"?`);
-            
-
-            console.log(`Clicked delete icon. Outfit ID: ${outfitId}, Confirmation: ${confirmation}`); // Debugging log
-
-            if (confirmation) {
-                deleteOutfit(outfitId, cardElement);
-            }
-        });
-
-        cardOptions.appendChild(toggleSwitch);
-        cardOptions.appendChild(deleteDiv);
-
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardOptions);
-
-        card.appendChild(img);
-        card.appendChild(cardBody);
-
-        card.addEventListener('click', () => {
-        const queryParams = new URLSearchParams({
-            top: outfit.top,
-            bottom: outfit.bottom,
-            outerwear: outfit.outerwear,
-            shoes: outfit.shoes,
-            bags: outfit.bags,
-            accessories: outfit.accessories,
-        }).toString();
-        window.location.href = `/outfitcreator.html?${queryParams}`;
-        });
-
-    cardsContainer.appendChild(card);
-    }
-    
-    function deleteOutfit(outfitId, cardElement) {
-        console.log(`Sending DELETE request for outfit ID: ${outfitId}`); // Debugging log
-        fetch(`/delete_outfit/${outfitId}`, {
-            method: 'DELETE'
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('Outfit deleted successfully!');
-                cardElement.remove(); // Remove the card from the DOM
-            } else {
-                return response.json().then(data => {
-                    console.error('Failed to delete the outfit:', data.message);
-                    alert('Failed to delete the outfit.');
-                }).catch(err => console.error('JSON parsing error:', err));
-            }
-        })
-        .catch(error => {
-            console.error('Error deleting outfit:', error);
-            alert('Error deleting the outfit. Please try again.');
-        });
-    }
-
-    fetchOutfits();
-
-
-
-
+//OUTFIT GALLERY//
+document.addEventListener('DOMContentLoaded', () => {
     // Outfit selection and display functionality
     const topSmallBoxes = document.querySelectorAll('#tops-accordion .sb-1 .sb');
     const topContainer = document.querySelector('.top-container');
@@ -325,31 +383,55 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+});
 
-    // Sidebar outfitcreator, outfitgallery, index, imgwindow functionality
-    const menuIcon = document.querySelectorAll('.menu-icon');
-    const sidebar = document.querySelector('.side-bar');
-    const overlaySidebar = document.querySelector('#overlay');
-    
-    menuIcon.forEach(icon => {
-        icon.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
-            overlaySidebar.classList.toggle('open');
-        });
+
+/// EDIT CLOTHES IN OUTFIT GALLERY ///
+function saveEditedOutfit() {
+    const editedOutfit = {
+        id: outfitId, // You need to populate this with the ID of the outfit being edited
+        name: document.getElementById('editedOutfitName').value,
+        top: document.getElementById('editedTopURL').value,
+        bottom: document.getElementById('editedBottomURL').value,
+        outerwear: document.getElementById('editedOuterwearURL').value,
+        shoes: document.getElementById('editedShoesURL').value,
+        bags: document.getElementById('editedBagsURL').value,
+        accessories: document.getElementById('editedAccessoriesURL').value
+    };
+
+    fetch('/update_outfit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editedOutfit)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Failed to update outfit');
+    })
+    .then(data => {
+        if (data.message) {
+            alert('Outfit updated successfully!');
+        } else {
+            alert('Failed to update outfit.');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating outfit:', error);
+        alert('Error updating outfit. Please try again.');
     });
+}
 
-    overlaySidebar.addEventListener('click', function () {
-        sidebar.classList.remove('open');
-        overlaySidebar.classList.remove('open');
-    });
 
-    const accordionLabels = document.querySelectorAll('.accordion-row label');
-    accordionLabels.forEach(label => {
-        label.addEventListener('click', function () {
-            this.nextElementSibling.classList.toggle('hidden');
-        });
-    });
 
+
+
+
+
+//LOGIN//
+
+document.addEventListener('DOMContentLoaded', () => {
     // Toggle password visibility
     const showPasswordCheckbox = document.getElementById("showPassword");
     if (showPasswordCheckbox) {
@@ -407,5 +489,13 @@ document.addEventListener('DOMContentLoaded', function() {
         output.onload = function () {
             URL.revokeObjectURL(output.src) // free memory
         }
+    }
+
+
+    if (messages) {
+        const messageElements = messages.querySelectorAll('.message');
+        // Add functionality for handling messages
+    } else {
+        console.error('Messages container not found');
     }
 });

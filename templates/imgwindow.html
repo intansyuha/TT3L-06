@@ -23,25 +23,25 @@
             <div class="side-bar-content">
                 <ul class="lists">
                     <li class="list">
-                        <a href="community-page.html" class="nav-link">
+                        <a href="{{ url_for('community_page', username=username) }}" class="nav-link">
                             <i class='bx bx-home-heart icon'></i>
                             <span class="link">Home</span>
                         </a>
-                        <a href="index.html" class="nav-link">
+                        <a href="{{ url_for('wardrobecategory', username=username) }}" class="nav-link">
                             <i class='bx bx-closet icon'></i>
                             <span class="link">Wardrobe</span>
                         </a>
-                        <a href="outfitcreator.html" class="nav-link">
+                        <a href="{{ url_for('index', username=username) }}" class="nav-link">
+                            <i class='bx bx-closet icon'></i>
+                            <span class="link">Clothes Upload</span>
+                        </a>
+                        <a href="{{ url_for('outfit_creator', username=username) }}" class="nav-link">
                             <i class='bx bx-edit icon'></i>
                             <span class="link">Outfit Creator</span>
                         </a>
-                        <a href="outfitgallery.html" class="nav-link">
+                        <a href="{{ url_for('outfit_gallery', username=username) }}" class="nav-link">
                             <i class='bx bx-star icon'></i>
                             <span class="link">Outfit Gallery</span>
-                        </a>
-                        <a href="settings.html" class="nav-link">
-                            <i class='bx bx-cog icon'></i>
-                            <span class="link">Settings</span>
                         </a>
                         <a href="login.html" class="nav-link">
                             <i class='bx bx-log-out'></i>
@@ -77,13 +77,7 @@
                 <option value="Accessories"> Accessories</option>
                 <option value="Bags"> Bags</option>
                 <option value="Outerwear"> Outerwear</option>
-            </select>
-
-            <h2 id="linkimg">Link (URL)</h2>
-                <label for="Add link" id="addlink"> Add Link</label>
-                <input type="url" name="Add Link" placeholder=" Add link URL here..."> 
-
-                
+            </select>             
                 
             <div class="buttoncontainer">
                 <ul class="button">

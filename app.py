@@ -9,6 +9,7 @@ from flask import (
     url_for,
     send_from_directory,
 )
+
 from flask_wtf import FlaskForm
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -38,6 +39,7 @@ class UploadClothesForm(FlaskForm):
             ("bottom", "Bottom"),
             ("outerwear", "Outerwear"),
             ("shoes", "Shoes"),
+            ("bags", "Bags"),
             ("accessories", "Accessories"),
         ],
         validators=[InputRequired()],
@@ -46,7 +48,7 @@ class UploadClothesForm(FlaskForm):
 
 
 @app.route("/", methods=["GET", "POST"])
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET", "POST"])
 @app.route("/login.html", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -57,10 +59,8 @@ def login():
 
         if user and user.check_password(password):
             session["email"] = email
-            session["username"] = (
-                user.username
-            )  # Add this line to set the username in session
-            return redirect(url_for("community_page"))
+            session["username"] = user.username
+            return redirect(url_for("community_page", username=user.username))
 
     return render_template("login.html")
 
@@ -97,9 +97,37 @@ def save_outfit():
     try:
         data = request.get_json()
         data["email"] = session.get("email")
+
+        # Ensure data integrity before saving
+        required_fields = [
+            "name",
+            "top",
+            "bottom",
+            "outerwear",
+            "shoes",
+            "bags",
+            "accessories",
+        ]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+
+        outfit = Outfit( #take data from outfit creator and save into database
+            name=data["name"],
+            top=data["top"],
+            bottom=data["bottom"],
+            outerwear=data["outerwear"],
+            shoes=data["shoes"],
+            bags=data["bags"],
+            accessories=data["accessories"]
+        )
+
         outfit = Outfit(**data)
         db.session.add(outfit)
         db.session.commit()
+
+        app.logger.debug(f"Outfit saved: {outfit}")
+
         return jsonify({"message": "Outfit saved successfully"})
     except Exception as e:
         app.logger.error(f"Error saving outfit: {str(e)}")
@@ -108,9 +136,18 @@ def save_outfit():
 
 @app.route("/get_outfit", methods=["GET"])
 def get_outfit():
-    outfits = Outfit.query.all()
+    email = session.get("email")
+    if not email:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    outfits = Outfit.query.filter_by(email=email).all()
+
+    if not outfits:
+        return jsonify({"message": "No outfits found for the specified email"}), 404
+
     outfits_list = [
         {
+            "id": outfit.id,
             "name": outfit.name,
             "top": outfit.top,
             "bottom": outfit.bottom,
@@ -124,23 +161,104 @@ def get_outfit():
     return jsonify(outfits_list)
 
 
+@app.route("/delete_image/<filename>", methods=["DELETE"])
+def delete_image(filename):
+    email = session.get("email")
+    if not email:
+        app.logger.error("Unauthorized access attempt.")
+        return jsonify({"error": "Unauthorized"}), 401
+
+    app.logger.info(f"Attempting to delete image: {filename} for user: {email}")
+    img = Img.query.filter_by(email=email, name=filename).first()
+    if img:
+        app.logger.info(f"Image found in database: {img.name}")
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], img.name)
+        if os.path.exists(file_path):
+            app.logger.info(f"Image found in filesystem: {file_path}")
+            os.remove(file_path)
+        else:
+            app.logger.warning(f"Image not found in filesystem: {file_path}")
+
+        db.session.delete(img)
+        db.session.commit()
+
+        for category in session.get("image_urls", {}):
+            file_url = url_for("get_file", filename=img.name, _external=True)
+            if file_url in session["image_urls"][category]:
+                session["image_urls"][category].remove(file_url)
+                session.modified = True
+
+        return jsonify({"message": "Image deleted successfully"}), 200
+
+    app.logger.error(f"Image not found in database: {filename}")
+    return jsonify({"error": "Image not found"}), 404
+
+
 @app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
 def delete_outfit(outfit_id):
-    outfit = Outfit.query.get(outfit_id)
-    if outfit:
-        db.session.delete(outfit)
+    try:
+        outfit = Outfit.query.get(outfit_id)
+        if outfit:
+            db.session.delete(outfit)
+            db.session.commit()
+            return jsonify({"message": "Outfit deleted successfully"}), 200
+        else:
+            return jsonify({"message": "Outfit not found"}), 404
+    except Exception as e:
+        app.logger.error(f"Error deleting outfit: {str(e)}")
+        return jsonify({"error": "Failed to delete outfit"}), 400
+
+
+@app.route("/update_outfit", methods=["POST"])
+def update_outfit():
+    try:
+        data = request.get_json()
+
+        # Validate required fields
+        required_fields = ["id", "name", "top", "bottom", "outerwear", "shoes", "bags", "accessories"]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+
+        # Retrieve the outfit to be updated from the database
+        email = session.get("email")
+        outfit_id = data.get('id')
+        outfit_name = data.get('name')
+        outfit = Outfit.query.filter_by(email=email, id=outfit_id, name=outfit_name).first()
+        if not outfit:
+            return jsonify({"error": "Outfit not found"}), 404
+
+        # Update the outfit with the new data
+        outfit.name = data["name"]
+        outfit.top = data["top"]
+        outfit.bottom = data["bottom"]
+        outfit.outerwear = data["outerwear"]
+        outfit.shoes = data["shoes"]
+        outfit.bags = data["bags"]
+        outfit.accessories = data["accessories"]
+
+        # Commit changes to the database
         db.session.commit()
-        return jsonify({"message": "Outfit deleted successfully"}), 200
-    return jsonify({"message": "Outfit not found"}), 404
+
+        return jsonify({"message": "Outfit updated successfully"}), 200
+    except Exception as e:
+        app.logger.error(f"Error updating outfit: {str(e)}")
+        return jsonify({"error": "Failed to update outfit"}), 500
+
+
 
 
 @app.route("/outfitgallery")
 @app.route("/outfitgallery.html")
 def outfit_gallery():
     if "email" not in session:
-        outfits = Outfit.query.all()
         return redirect(url_for("login"))
-    return render_template("outfitgallery.html", username=session["username"])
+
+    email = session.get("email")
+    outfits = Outfit.query.filter_by(email=email).all()
+    return render_template(
+        "outfitgallery.html", username=session["username"], outfits=outfits
+    )
 
 
 @app.route("/community-page")
@@ -153,23 +271,24 @@ def community_page():
 
 
 @app.route("/outfitcreator", methods=["GET", "POST"])
-@app.route("/outfitcreator.html")
+@app.route("/outfitcreator.html", methods=["GET", "POST"])
 def outfit_creator():
     if not session.get("email"):
         return redirect("/login")
 
-    image_urls = session.get("image_urls", {})
+    email = session.get("email")
+    images = Img.query.filter_by(email=email).all()
+
+    image_urls = {}
+    for img in images:
+        if img is not None and img.category not in image_urls:
+            image_urls[img.category] = []
+        if img is not None:
+            image_urls[img.category].append(url_for("get_file", filename=img.name))
+
     return render_template(
         "outfitcreator.html", image_urls=image_urls, username=session["username"]
     )
-
-
-@app.route("/settings")
-@app.route("/settings.html")
-def settings():
-    if "email" not in session:
-        return redirect(url_for("login"))
-    return render_template("settings.html", username=session["username"])
 
 
 @app.route("/index", methods=["GET", "POST"])
@@ -177,11 +296,12 @@ def settings():
 def index():
     form = UploadClothesForm()
     file_url = None
+    email = session.get("email")
+
     if request.method == "POST" and form.validate_on_submit():
-        if session.get("email"):
+        if email:
             file = form.file.data  # grab file
             filename = secure_filename(file.filename)
-            file_url = url_for("get_file", filename=filename)
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)  # save file
             file.save(file_path)
 
@@ -200,7 +320,6 @@ def index():
 
             mimetype = file.mimetype
             category = form.category.data  # Obtain category from the form
-            email = session.get("email")  # Get email from session
 
             img = Img(
                 data=output_data,
@@ -212,8 +331,27 @@ def index():
             db.session.add(img)
             db.session.commit()
 
-            return redirect(url_for("imgwindow", filename=process_filename))
-    return render_template("index.html", form=form, file_url=file_url)
+            # Update session with new image URL
+            file_url = url_for("get_file", filename=filename, _external=True)
+            if "image_urls" not in session:
+                session["image_urls"] = {}
+
+            if category not in session["image_urls"]:
+                session["image_urls"][category] = []
+
+            session["image_urls"][category].append(file_url)
+            session.modified = True
+
+        return redirect(url_for("wardrobecategory"))
+
+    images = Img.query.filter_by(email=email).all() if email else []
+    return render_template(
+        "index.html",
+        form=form,
+        file_url=file_url,
+        images=images,
+        username=session["username"],
+    )
 
 
 @app.route("/uploads/<filename>")
@@ -227,21 +365,49 @@ def imgwindow(filename):
     return render_template("imgwindow.html", file_url=file_url)
 
 
-@app.route("/wardrobecategory/", methods=["POST"])
+@app.route("/wardrobecategory", methods=["GET", "POST"])
+@app.route("/wardrobecategory.html", methods=["GET", "POST"])
 def wardrobecategory():
-    category = request.form.get("category")
-    file_url = request.form.get("file_url")
+    if "email" not in session:
+        return redirect(url_for("login"))
 
-    if "image_urls" not in session:
-        session["image_urls"] = {}
+    email = session.get("email")
+    images = Img.query.filter_by(email=email).all()
+    category = session.get("category")
 
-    if category not in session["image_urls"]:
-        session["image_urls"][category] = []
+    image_urls = {}
+    for img in images:
+        if img and img.category:  # Ensure img is not None and has a category
+            if img.category not in image_urls:
+                image_urls[img.category] = []
+            image_urls[img.category].append(url_for("get_file", filename=img.name))
 
-    session["image_urls"][category].append(file_url)
-    session.modified = True
+    print("Image URLs:", image_urls)  # Add this print statement to check image URLs
 
-    return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'])
+    file_url = None  # Initialize file_url here
+
+    if request.method == "POST":
+        category = request.form.get("category").lower()
+        file_url = request.form.get("file_url")
+
+        # Check if file_url is provided before accessing it
+        if file_url:
+            if "image_urls" not in session:
+                session["image_urls"] = {}
+
+            if category not in session["image_urls"]:
+                session["image_urls"][category] = []
+
+            session["image_urls"][category].append(file_url)
+            session.modified = True
+
+    return render_template(
+        "wardrobecategory.html",
+        category=category,
+        file_url=file_url,
+        image_urls=session.get("image_urls", {}),
+        username=session["username"],
+    )
 
 
 if __name__ == "__main__":

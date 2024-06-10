@@ -2,60 +2,61 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-    <title>Outfit</title>
+    <title>Outfit Creator</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <nav>
-    <section class="header">
-        <div class="menu">
-            <i class='bx bx-menu bx-md menu-icon'></i>
-        </div>
-        <div class="side-bar">
+        <section class="header">
             <div class="menu">
-            <i class='bx bx-menu bx-md menu-icon'></i>
+                <i class='bx bx-menu bx-md menu-icon'></i>
             </div>
-            <div class="sidebar-content">
-                <ul class="lists">
-                    <li class="list">
-                        <a href="community-page.html" class="nav-link">
-                            <i class='bx bx-home'></i>
-                            <span class="link">Home</span>
-                        </a>
-                        <a href="index.html" class="nav-link">
-                            <i class='bx bx-closet'></i>
-                            <span class="link">Wardrobe</span>
-                        </a>
-                        <a href="outfitcreator.html" class="nav-link">
-                            <i class='bx bxs-edit'></i>
-                            <span class="link">Outfit Creator</span>
-                        </a>
-                        <a href="outfitgallery.html" class="nav-link">
-                            <i class='bx bx-photo-album'></i>
-                            <span class="link">Outfit Gallery</span>
-                        </a>
-                        <a href="settings.html" class="nav-link">
-                            <i class='bx bx-cog'></i>
-                            <span class="link">Settings</span>
-                        </a>
-                        <a href="login.html" class="nav-link">
-                            <i class='bx bx-log-out'></i>
-                            <span class="link">Log Out</span>
-                        </a>
-                    </li>
+            <div class="side-bar">
+                <div class="menu">
+                    <i class='bx bx-menu bx-md menu-icon'></i>
+                </div>
+                <div class="side-bar-content">
+                    <ul class="lists">
+                        <li class="list">
+                            <a href="{{ url_for('community_page', username=username) }}" class="nav-link">
+                                <i class='bx bx-home-heart icon'></i>
+                                <span class="link">Home</span>
+                            </a>
+                            <a href="{{ url_for('wardrobecategory', username=username) }}" class="nav-link">
+                                <i class='bx bx-store icon'></i>
+                                <span class="link">Wardrobe</span>
+                            </a>
+                            <a href="{{ url_for('index', username=username) }}" class="nav-link">
+                                <i class='bx bx-closet icon'></i>
+                                <span class="link">Clothes Upload</span>
+                            </a>
+                            <a href="{{ url_for('outfit_creator', username=username) }}" class="nav-link">
+                                <i class='bx bx-edit icon'></i>
+                                <span class="link">Outfit Creator</span>
+                            </a>
+                            <a href="{{ url_for('outfit_gallery', username=username) }}" class="nav-link">
+                                <i class='bx bx-star icon'></i>
+                                <span class="link">Outfit Gallery</span>
+                            </a>
+                            <a href="login.html" class="nav-link">
+                                <i class='bx bx-log-out'></i>
+                                <span class="link">Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="button-container">
+                <ul class="button" id="saveButton">
+                    <li><a href="outfitgallery.html" class="button-save">Save</a></li>
                 </ul>
             </div>
-        </div>
-        <div class="button-container">
-            <ul class="button" id="saveButton">
-                <li><a href="outfitgallery.html" class="button-save">Save</a></li>
-            </ul>
-        </div>
-    </section>
+        </section>
     </nav>
 
     <section class="details">
@@ -89,13 +90,13 @@
             <div class="accordion-content">
                 <div class="accordion-box">
                     <div class="sb-1">
-                        {% for image_url in image_urls.get('Tops', [])%}
+                        {% for image_url in image_urls.get('top', []) %}
                         <div class="sb">
-                            <img src="{{ image_url }}" alt="Uploaded Image" style="width: 400px;">
+                            <img src="{{ image_url }}" alt="Uploaded Image">
                         </div>
                         {% endfor %}
-                     
                     </div>
+                </div>
             </div>
         </div>
         <div class="accordion-row" id="bottoms-accordion">
@@ -104,7 +105,7 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
-                    {% for image_url in image_urls.get('Bottoms', [])%}
+                    {% for image_url in image_urls.get('bottom', []) %}
                     <div class="sb">
                         <img src="{{ image_url }}" alt="Bottom">
                     </div>
@@ -118,11 +119,11 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
-                        {% for image_url in image_urls.get('Outerwear', [])%}
-                        <div class="sb">
-                            <img src="{{ image_url }}" alt="Outerwear">
-                        </div>
-                        {% endfor %}
+                    {% for image_url in image_urls.get('outerwear', []) %}
+                    <div class="sb">
+                        <img src="{{ image_url }}" alt="Outerwear">
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -132,7 +133,7 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
-                    {% for image_url in image_urls.get('Shoes', [])%}
+                    {% for image_url in image_urls.get('shoes', []) %}
                     <div class="sb">
                         <img src="{{ image_url }}" alt="Shoes">
                     </div>
@@ -146,7 +147,7 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
-                    {% for image_url in image_urls.get('Bags', [])%}
+                    {% for image_url in image_urls.get('bags', []) %}
                     <div class="sb">
                         <img src="{{ image_url }}" alt="Bags">
                     </div>
@@ -160,7 +161,7 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
-                    {% for image_url in image_urls.get('Accessories', [])%}
+                    {% for image_url in image_urls.get('accessories', []) %}
                     <div class="sb">
                         <img src="{{ image_url }}" alt="Accessories">
                     </div>
@@ -171,7 +172,6 @@
     </section>
 
     <section class="overlay" id="overlay"></section>
-
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script>
