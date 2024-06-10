@@ -25,7 +25,7 @@
         <div id="tops" data-tab-content>
             <h1>Tops section</h1>
             {% if 'Tops' in image_urls %}
-            {% for url in image_urls['Tops'] %}
+            {% for image_url in image_urls['Tops'] %}
             <div>
                 <img src="{{ url }}" alt="Uploaded Image">
                 <button class="deleteButton">Delete image</button>
