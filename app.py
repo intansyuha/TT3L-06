@@ -21,7 +21,6 @@ from rembg import remove
 from models import User, Img, Outfit
 import os
 from PIL import Image
-from forms import UpdateUserForm
 
 app = Flask(__name__, static_folder="static")
 app.config["SECRET_KEY"] = "clothesuploadkey"
