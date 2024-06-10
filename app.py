@@ -39,6 +39,7 @@ class UploadClothesForm(FlaskForm):
             ("bottom", "Bottom"),
             ("outerwear", "Outerwear"),
             ("shoes", "Shoes"),
+            ("bags", "Bags"),
             ("accessories", "Accessories"),
         ],
         validators=[InputRequired()],
@@ -240,6 +241,7 @@ def outfit_creator():
         "outfitcreator.html", image_urls=image_urls, username=session["username"]
     )
 
+
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/index.html", methods=["GET", "POST"])
 def index():
@@ -251,7 +253,6 @@ def index():
         if email:
             file = form.file.data  # grab file
             filename = secure_filename(file.filename)
-            file_url = url_for("get_file", filename=filename)
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)  # save file
             file.save(file_path)
 
@@ -281,10 +282,27 @@ def index():
             db.session.add(img)
             db.session.commit()
 
-            return redirect(url_for("imgwindow", filename=process_filename), username=session["username"])
+            # Update session with new image URL
+            file_url = url_for("get_file", filename=filename, _external=True)
+            if "image_urls" not in session:
+                session["image_urls"] = {}
+
+            if category not in session["image_urls"]:
+                session["image_urls"][category] = []
+
+            session["image_urls"][category].append(file_url)
+            session.modified = True
+
+        return redirect(url_for("wardrobecategory"))
 
     images = Img.query.filter_by(email=email).all() if email else []
-    return render_template("index.html", form=form, file_url=file_url, images=images, username=session["username"])
+    return render_template(
+        "index.html",
+        form=form,
+        file_url=file_url,
+        images=images,
+        username=session["username"],
+    )
 
 
 @app.route("/uploads/<filename>")
@@ -314,6 +332,8 @@ def wardrobecategory():
             if img.category not in image_urls:
                 image_urls[img.category] = []
             image_urls[img.category].append(url_for("get_file", filename=img.name))
+
+    print("Image URLs:", image_urls)  # Add this print statement to check image URLs
 
     file_url = None  # Initialize file_url here
 
