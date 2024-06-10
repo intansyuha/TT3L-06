@@ -231,9 +231,10 @@ def outfit_creator():
 
     image_urls = {}
     for img in images:
-        if img.category not in image_urls:
+        if img is not None and img.category not in image_urls:
             image_urls[img.category] = []
-        image_urls[img.category].append(url_for("get_file", filename=img.name))
+        if img is not None:
+            image_urls[img.category].append(url_for("get_file", filename=img.name))
 
     return render_template(
         "outfitcreator.html", image_urls=image_urls, username=session["username"]
