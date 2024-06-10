@@ -586,38 +586,22 @@ ul.button li {
     align-items: center;
 }
     
-    .toggle-switch { 
-        width: 40px;
-        height: 20px;
-        background-color: #ccc;
-        border-radius: 20px;
-        position: relative;
-        cursor: pointer;
-    }
+.upload { 
+    cursor: pointer;
+}
+
+.upload .bx-cloud { 
+    color: #707070;
+}
+
     
-    .toggle-switch .switch { 
-        width: 18px;
-        height: 18px;
-        background-color: white;
-        border-radius: 50%;
-        position: absolute;
-        top: 1px;
-        left: 1px;
-        transition: all 0.3s;
-    }
+.delete { 
+    cursor: pointer;
+}
     
-    .toggle-switch.active .switch { 
-        left: 21px;
-        background-color: #192841;
-    }
-    
-    .delete { 
-        cursor: pointer;
-    }
-    
-    .delete .bx-trash { 
-        color: #707070;
-    }
+.delete .bx-trash { 
+    color: #707070;
+}
     
 
 

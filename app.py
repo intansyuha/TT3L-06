@@ -193,6 +193,25 @@ def delete_image(filename):
     app.logger.error(f"Image not found in database: {filename}")
     return jsonify({"error": "Image not found"}), 404
 
+@app.route("/upload_outfit/<int:outfit_id>", methods=["POST"])
+def upload_outfit(outfit_id):
+    try:
+        # Retrieve the outfit from the database based on the outfit_id
+        outfit = Outfit.query.get(outfit_id)
+        
+        if outfit:
+            # Implement logic to publish the outfit to the community page
+            # For example, you can update a field in the outfit indicating it's published
+            
+            # Commit changes to the database
+            db.session.commit()
+            
+            return jsonify({"message": "Outfit published successfully"}), 200
+        else:
+            return jsonify({"error": "Outfit not found"}), 404
+    except Exception as e:
+        app.logger.error(f"Error publishing outfit: {str(e)}")
+        return jsonify({"error": "Failed to publish outfit"}), 500
 
 @app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
 def delete_outfit(outfit_id):
@@ -273,20 +292,18 @@ def community_page():
 @app.route("/outfitcreator", methods=["GET", "POST"])
 @app.route("/outfitcreator.html", methods=["GET", "POST"])
 def outfit_creator():
-    if not session.get("email"):
-        return redirect("/login")
-
     email = session.get("email")
+    if not email:
+        return redirect(url_for("login"))
+
     images = Img.query.filter_by(email=email).all()
 
-    image_urls = {}
+    image_urls = {category: [] for category, _ in UploadClothesForm().category.choices}
     for img in images:
-        if Img.category not in image_urls:
-            image_urls[Img.category] = []
-        image_urls[Img.category].append(url_for("get_file", filename=Img.name))
+        image_urls[img.category].append(url_for("get_file", filename=img.name))
 
     return render_template(
-        "outfitcreator.html", image_urls=image_urls
+        "outfitcreator.html", image_urls=image_urls, username=session["username"]
     )
 
 
@@ -367,47 +384,19 @@ def imgwindow(filename):
 @app.route("/wardrobecategory", methods=["GET", "POST"])
 @app.route("/wardrobecategory.html", methods=["GET", "POST"])
 def wardrobecategory():
-    if "email" not in session:
+    email = session.get("email")
+    if not email:
         return redirect(url_for("login"))
 
-    email = session.get("email")
     images = Img.query.filter_by(email=email).all()
-    category = session.get("category")
 
-    image_urls = {}
+    image_urls = {category: [] for category, _ in UploadClothesForm().category.choices}
     for img in images:
-        if img and img.category:  # Ensure img is not None and has a category
-            if img.category not in image_urls:
-                image_urls[img.category] = []
-            image_urls[img.category].append(url_for("get_file", filename=img.name))
-
-    print("Image URLs:", image_urls)  # Add this print statement to check image URLs
-
-    file_url = None  # Initialize file_url here
-
-    if request.method == "POST":
-        category = request.form.get("category").lower()
-        file_url = request.form.get("file_url")
-
-        # Check if file_url is provided before accessing it
-        if file_url:
-            if "image_urls" not in session:
-                session["image_urls"] = {}
-
-            if category not in session["image_urls"]:
-                session["image_urls"][category] = []
-
-            session["image_urls"][category].append(file_url)
-            session.modified = True
+        image_urls[img.category].append(url_for("get_file", filename=img.name))
 
     return render_template(
-        "wardrobecategory.html",
-        category=category,
-        file_url=file_url,
-        image_urls=session.get("image_urls", {}),
-        username=session["username"],
+        "wardrobecategory.html", image_urls=image_urls, username=session["username"]
     )
-
 
 if __name__ == "__main__":
     init_db()

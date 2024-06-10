@@ -90,9 +90,9 @@
             <div class="accordion-content">
                 <div class="accordion-box">
                     <div class="sb-1">
-                        {% for image_url in image_urls.get('top', []) %}
+                        {% for image_url in image_urls.get('top', [])%}
                         <div class="sb">
-                            <img src="{{ image_url }}" alt="Uploaded Image">
+                            <img src="{{ image_url }}" alt="Top" style="width: 400px;">
                         </div>
                         {% endfor %}
                     </div>
@@ -105,9 +105,9 @@
             </label>
             <div class="accordion-content">
                 <div class="accordion-box">
-                    {% for image_url in image_urls.get('bottom', []) %}
+                    {% for image_url in image_urls.get('bottom', [])%}
                     <div class="sb">
-                        <img src="{{ image_url }}" alt="Bottom">
+                        <img src="{{ image_url }}" alt="Bottom" style="width: 400px;">>
                     </div>
                     {% endfor %}
                 </div>
@@ -121,7 +121,7 @@
                 <div class="accordion-box">
                     {% for image_url in image_urls.get('outerwear', []) %}
                     <div class="sb">
-                        <img src="{{ image_url }}" alt="Outerwear">
+                        <img src="{{ image_url }}" alt="Outerwear" style="width: 400px;">>
                     </div>
                     {% endfor %}
                 </div>
@@ -135,7 +135,7 @@
                 <div class="accordion-box">
                     {% for image_url in image_urls.get('shoes', []) %}
                     <div class="sb">
-                        <img src="{{ image_url }}" alt="Shoes">
+                        <img src="{{ image_url }}" alt="Shoes" style="width: 400px;">>
                     </div>
                     {% endfor %}
                 </div>
@@ -149,7 +149,7 @@
                 <div class="accordion-box">
                     {% for image_url in image_urls.get('bags', []) %}
                     <div class="sb">
-                        <img src="{{ image_url }}" alt="Bags">
+                        <img src="{{ image_url }}" alt="Bags" style="width: 400px;">>
                     </div>
                     {% endfor %}
                 </div>
@@ -163,7 +163,7 @@
                 <div class="accordion-box">
                     {% for image_url in image_urls.get('accessories', []) %}
                     <div class="sb">
-                        <img src="{{ image_url }}" alt="Accessories">
+                        <img src="{{ image_url }}" alt="Accessories" style="width: 400px;">>
                     </div>
                     {% endfor %}
                 </div>

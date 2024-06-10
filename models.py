@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 import bcrypt
+from datetime import datetime
 from db import db
 
 
@@ -46,3 +47,11 @@ class Outfit(db.Model):
     shoes = db.Column(db.String(200), nullable=False)
     bags = db.Column(db.String(200), nullable=False)
     accessories = db.Column(db.String(200), nullable=False)
+
+class Feed(db.Model):
+    __tablename__ = 'Feed'  
+    __table_args__ = {'extend_existing': True}
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(15), unique=True)
+    outfit_id = db.Column(db.Integer, db.ForeignKey('outfit.id'), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now())

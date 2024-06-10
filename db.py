@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 import bcrypt
 
 app = Flask(__name__, static_folder="static")
@@ -46,6 +47,11 @@ class Img(db.Model):
     name = db.Column(db.Text, nullable=False)
     mimetype = db.Column(db.Text, nullable=False)
 
+class Feed(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(15), unique=True)
+    outfit_id = db.Column(db.Integer, db.ForeignKey('outfit.id'), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now())
 
 def init_db():
     with app.app_context():

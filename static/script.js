@@ -156,11 +156,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardOptions = document.createElement('div');
             cardOptions.className = 'Card_options';
 
-            const toggleSwitch = document.createElement('div');
-            toggleSwitch.className = 'toggle-switch';
-            const switchSpan = document.createElement('span');
-            switchSpan.className = 'switch';
-            toggleSwitch.appendChild(switchSpan);
+            // upload
+            const uploadDiv = document.createElement('div');
+            uploadDiv.className = 'upload';
+            uploadDiv.setAttribute('data-id', outfit.id);
+            const uploadIcon = document.createElement('i');
+            uploadIcon.className = 'bx bx-cloud-upload';
+            uploadDiv.appendChild(uploadIcon);
+
+            uploadDiv.addEventListener('click', function (event) {
+                event.stopPropagation(); // Prevents the card click event from firing
+                const outfitId = this.getAttribute('data-id');
+                console.log(`Publishing outfit with ID: ${outfitId}`);  // Logging the outfit ID
+                const cardElement = this.closest('.Card');
+                const confirmation = confirm(`Are you sure you want to publish the outfit "${outfit.name}"?`);
+
+                if (confirmation) {
+                    uploadOutfit(outfitId, cardElement);
+                }
+            });
+
+            //delete
 
             const deleteDiv = document.createElement('div');
             deleteDiv.className = 'delete';
@@ -181,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            cardOptions.appendChild(toggleSwitch);
+            cardOptions.appendChild(uploadDiv);
             cardOptions.appendChild(deleteDiv);
             cardBody.appendChild(cardTitle);
             cardBody.appendChild(cardOptions);
@@ -202,6 +218,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
             cardsContainer.appendChild(card);
         }
+
+        //upload func 
+
+        function uploadOutfit(outfitId, cardElement) {
+            fetch(`/upload_outfit/${outfitId}`, {
+                method: 'UPLOAD'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Outfit published successfully!');
+                } else {
+                    return response.json().then(data => {
+                        console.error('Failed to publish the outfit:', data.message);
+                        alert('Failed to publish the outfit.');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error publishing outfit:', error);
+                alert('Error publishing the outfit. Please try again.');
+            });
+        }
+
+        //delete func
 
         function deleteOutfit(outfitId, cardElement) {
             fetch(`/delete_outfit/${outfitId}`, {
