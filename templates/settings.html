@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h2 class="logo">RevêLuxe</h2>
+        </div>
+  </nav>
+
+  <main>
+      <div class="container">
+          <div class="left">
+              <a class="profile">
+                  <div class="handle">
+                      <h4>@{{ username }}</h4>
+                  </div>
+              </a>
+              <div class="sidebar">
+                <a class="menu-item" href="community-page.html">
+                    <span><i class='bx bx-home'></i></span> <h3>Home</h3>
+                </a>
+                <a class="menu-item" href="index.html">
+                    <span><i class='bx bx-closet'></i></span> <h3>Wardrobe</h3>
+                </a>
+                <a class="menu-item" href="outfitcreator.html">
+                      <span><i class='bx bxs-edit'></i></span> <h3>Outfit Creator</h3>
+                </a>
+                <a class="menu-item" href="outfitgallery.html">
+                      <span><i class='bx bx-photo-album'></i></span> <h3>Outfit Gallery</h3>
+                </a>
+                <a class="menu-item active" href="settings.html">
+                  <span><i class='bx bx-cog'></i></span> <h3>Settings</h3>
+                </a>
+                <a class="menu-item" href="login.html">
+                    <span><i class='bx bx-log-out'></i></span> <h3>Log Out</h3>
+                </a>
+
+            </div>
+          </div>
+          
+
+
+        <div class="middle">
+            <div class="profile-container">
+            <form id="profile-form" action="settings.html" method="post">
+                <div class="profile-details">
+                    <b><h4>Username</h4>
+                    <div class="user-box">
+                    <input type="text" id="new_username" name="new_username" placeholder="New Username"></b>
+                    </div>
+                    
+                    <span><b><h4>Email</h4>
+                    <div class="user-box">
+                    <input type="email" id="new_email" name="new_email" placeholder="New Email"></b></span>
+                    </div>
+                    
+                    <span><b><h4>Password</h4>
+                    <div class="user-box">
+                    <input type="password" id="new_password" name="new_password" placeholder="New Password"></b></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePassword()">
+                        <label class="form-check-label" for="showPassword">Show Password</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="up-btn">Save Changes</button>
+            </div>
+            </form>
+        </div>
+
+  </main>
+
+<script src="cropperjs/cropper.js"></script>
+
+<script>
+
+//sidebar
+
+const menuItems = document.querySelectorAll('.menu-item');
+const searchBar = document.querySelector('#search-bar');
+
+//remove active class from all menu items
+const changeActiveItem = () => {
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    })
+}
+
+document.getElementById('profile-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const response = await fetch('/settings', {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (response.ok) {
+        const result = await response.json();
+        alert('Profile updated successfully!');
+        // Optionally, update the UI with the new data
+    } else {
+        alert('Failed to update profile.');
+    }
+});
+
+// show password
+
+function togglePassword() {
+            var passwordField = document.getElementById("new_password");
+            var showPasswordCheckbox = document.getElementById("showPassword");
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+
+</script>
+
+</body>
+</html>

@@ -14,10 +14,7 @@
             <h2 class="logo">RevêLuxe</h2>
             <div class="search-bar">
                 <i class='bx bx-search'></i>
-                <input
-                type="search"
-                placeholder="Search for creators, inspirations and projects"
-                />
+                <input type="search" id="searchQuery" name="searchQuery" placeholder="Search for creators, inspirations and projects">
             </div>
         </div>
     </nav>
@@ -42,6 +39,9 @@
                 </a>
                 <a class="menu-item" href="outfitgallery.html">
                     <span><i class='bx bx-photo-album'></i></span> <h3>Outfit Gallery</h3>
+                </a>
+                <a class="menu-item" href="settings.html">
+                    <span><i class='bx bx-cog'></i></span> <h3>Settings</h3>
                 </a>
                 <a class="menu-item" href="login.html">
                     <span><i class='bx bx-log-out'></i></span> <h3>Log Out</h3>
@@ -73,6 +73,11 @@
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
                      </div>
+
+                     <div class="caption">
+                        <p><b>Lana Rose</b> Lorem ipsum dolor storiesquiquam eius.
+                       <span class="hash-tag">#lifestyle</span></p>
+                    </div>
                 </div>
             
                 <div class="feed">
@@ -95,6 +100,11 @@
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
                      </div>
+
+                     <div class="caption">
+                        <p><b>Chirs Brown</b> Lorem ipsum dolor storiesquiquam eius.
+                       <span class="hash-tag">#lifestyle</span></p>
+                    </div>
                 </div>
             
                 <div class="feed">
@@ -117,6 +127,11 @@
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
                      </div>
+
+                     <div class="caption">
+                        <p><b>John Samron</b> Lorem ipsum dolor storiesquiquam eius.
+                       <span class="hash-tag">#lifestyle</span></p>
+                    </div>
                 </div>
             
                 <div class="feed">
@@ -139,6 +154,11 @@
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
                      </div>
+
+                     <div class="caption">
+                        <p><b>Kareena Joshua</b> Lorem ipsum dolor storiesquiquam eius.
+                       <span class="hash-tag">#lifestyle</span></p>
+                    </div>
                 </div>
             
                 <div class="feed">
@@ -161,6 +181,11 @@
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
                      </div>
+
+                     <div class="caption">
+                        <p><b>Dan Smith</b> Lorem ipsum dolor storiesquiquam eius.
+                       <span class="hash-tag">#lifestyle</span></p>
+                    </div>
                 </div>
             
                 <div class="feed">
@@ -183,6 +208,11 @@
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
                      </div>
+
+                     <div class="caption">
+                        <p><b>Karim Benzema</b> Lorem ipsum dolor storiesquiquam eius.
+                       <span class="hash-tag">#lifestyle</span></p>
+                    </div>
                 </div>
                 <div class="feed">
                     <div class="head">
@@ -204,6 +234,11 @@
                              <span><i class='bx bx-bookmark' ></i></span>
                          </div>
                      </div>
+
+                     <div class="caption">
+                        <p><b>Srishti Tirkey</b> Lorem ipsum dolor storiesquiquam eius.
+                       <span class="hash-tag">#lifestyle</span></p>
+                    </div>
                 </div>
             </div>
           </div>
@@ -221,41 +256,35 @@
 
 //sidebar
 const menuItems = document.querySelectorAll('.menu-item');
-const messages = document.querySelector('.messages');
-const message = messages.querySelectorAll('.message');
-const messageSearch = document.querySelector('#message-search');
 
-//remove active class from all menu items
-const changeActiveItem = () => {
-    menuItems.forEach(item => {
-        item.classList.remove('active');
-    })
-}
+ // Get the search input element
+ const searchBar = document.getElementById('searchQuery');
 
+// Add event listener to the search input element
+searchBar.addEventListener('input', function(event) {
+    // Get the search query
+    const query = event.target.value.toLowerCase();
 
-const searchMessage = () => {
-    const val = messageSearch.value.toLowerCase();
-    message.forEach(chat => {
-        let name=chat.querySelector('h5').textContent.toLowerCase();
-        if(name.indexOf(val) != -1){
-            chat.style.display = 'flex';
-        } else{
-            chat.style.display = 'none';
+    // Get all the feed items
+    const feeds = document.querySelectorAll('.feed');
+
+    // Loop through each feed item
+    feeds.forEach(feed => {
+        // Get the username inside the feed item
+        const username = feed.querySelector('.info h3').textContent.toLowerCase();
+
+        // Check if the username contains the search query
+        if (username.includes(query)) {
+            // If it does, display the feed item
+            feed.style.display = 'block';
+        } else {
+            // If it doesn't, hide the feed item
+            feed.style.display = 'none';
         }
-    })
-}
+    });
+});
 
-messageSearch.addEventListener('keyup', searchMessage);
-
-
-messagesNotification.addEventListener('click', () => {
-    messages.style.boxShadow = '0 0 1rem var(--color-primary)';
-    messagesNotification.querySelector('.notification-count').style.display = 'none';
-    setTimeout(() => {
-        messages.style.boxShadow = 'none';
-    }, 2000);
-})
-    </script>
+</script>
 
 </body>
 </html>
