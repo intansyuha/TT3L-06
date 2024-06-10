@@ -26,7 +26,7 @@ class User(db.Model, UserMixin):
 class Img(db.Model):
     __tablename__ = "Img"
     __table_args__ = {"extend_existing": True}
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(100), nullable=False)
     data = db.Column(db.LargeBinary, nullable=False)
     name = db.Column(db.Text, nullable=False)
