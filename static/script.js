@@ -385,6 +385,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+/// EDIT CLOTHES IN OUTFIT GALLERY ///
+function saveEditedOutfit() {
+    const editedOutfit = {
+        id: outfitId, // You need to populate this with the ID of the outfit being edited
+        name: document.getElementById('editedOutfitName').value,
+        top: document.getElementById('editedTopURL').value,
+        bottom: document.getElementById('editedBottomURL').value,
+        outerwear: document.getElementById('editedOuterwearURL').value,
+        shoes: document.getElementById('editedShoesURL').value,
+        bags: document.getElementById('editedBagsURL').value,
+        accessories: document.getElementById('editedAccessoriesURL').value
+    };
+
+    fetch('/update_outfit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editedOutfit)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Failed to update outfit');
+    })
+    .then(data => {
+        if (data.message) {
+            alert('Outfit updated successfully!');
+        } else {
+            alert('Failed to update outfit.');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating outfit:', error);
+        alert('Error updating outfit. Please try again.');
+    });
+}
+
+
+
+
+
+
+
 //LOGIN//
 
 document.addEventListener('DOMContentLoaded', () => {

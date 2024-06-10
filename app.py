@@ -39,6 +39,7 @@ class UploadClothesForm(FlaskForm):
             ("bottom", "Bottom"),
             ("outerwear", "Outerwear"),
             ("shoes", "Shoes"),
+            ("bags", "Bags"),
             ("accessories", "Accessories"),
         ],
         validators=[InputRequired()],
@@ -110,6 +111,16 @@ def save_outfit():
         for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
+
+        outfit = Outfit( #take data from outfit creator and save into database
+            name=data["name"],
+            top=data["top"],
+            bottom=data["bottom"],
+            outerwear=data["outerwear"],
+            shoes=data["shoes"],
+            bags=data["bags"],
+            accessories=data["accessories"]
+        )
 
         outfit = Outfit(**data)
         db.session.add(outfit)
@@ -198,6 +209,45 @@ def delete_outfit(outfit_id):
         return jsonify({"error": "Failed to delete outfit"}), 400
 
 
+@app.route("/update_outfit", methods=["POST"])
+def update_outfit():
+    try:
+        data = request.get_json()
+
+        # Validate required fields
+        required_fields = ["id", "name", "top", "bottom", "outerwear", "shoes", "bags", "accessories"]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+
+        # Retrieve the outfit to be updated from the database
+        email = session.get("email")
+        outfit_id = data.get('id')
+        outfit_name = data.get('name')
+        outfit = Outfit.query.filter_by(email=email, id=outfit_id, name=outfit_name).first()
+        if not outfit:
+            return jsonify({"error": "Outfit not found"}), 404
+
+        # Update the outfit with the new data
+        outfit.name = data["name"]
+        outfit.top = data["top"]
+        outfit.bottom = data["bottom"]
+        outfit.outerwear = data["outerwear"]
+        outfit.shoes = data["shoes"]
+        outfit.bags = data["bags"]
+        outfit.accessories = data["accessories"]
+
+        # Commit changes to the database
+        db.session.commit()
+
+        return jsonify({"message": "Outfit updated successfully"}), 200
+    except Exception as e:
+        app.logger.error(f"Error updating outfit: {str(e)}")
+        return jsonify({"error": "Failed to update outfit"}), 500
+
+
+
+
 @app.route("/outfitgallery")
 @app.route("/outfitgallery.html")
 def outfit_gallery():
@@ -239,6 +289,7 @@ def outfit_creator():
         "outfitcreator.html", image_urls=image_urls
     )
 
+
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/index.html", methods=["GET", "POST"])
 def index():
@@ -250,7 +301,6 @@ def index():
         if email:
             file = form.file.data  # grab file
             filename = secure_filename(file.filename)
-            file_url = url_for("get_file", filename=filename)
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)  # save file
             file.save(file_path)
 
@@ -280,10 +330,27 @@ def index():
             db.session.add(img)
             db.session.commit()
 
-            return redirect(url_for("imgwindow", filename=process_filename))
+            # Update session with new image URL
+            file_url = url_for("get_file", filename=filename, _external=True)
+            if "image_urls" not in session:
+                session["image_urls"] = {}
+
+            if category not in session["image_urls"]:
+                session["image_urls"][category] = []
+
+            session["image_urls"][category].append(file_url)
+            session.modified = True
+
+        return redirect(url_for("wardrobecategory"))
 
     images = Img.query.filter_by(email=email).all() if email else []
-    return render_template("index.html", form=form, file_url=file_url, images=images, username=session["username"])
+    return render_template(
+        "index.html",
+        form=form,
+        file_url=file_url,
+        images=images,
+        username=session["username"],
+    )
 
 
 @app.route("/uploads/<filename>")
@@ -300,22 +367,46 @@ def imgwindow(filename):
 @app.route("/wardrobecategory", methods=["GET", "POST"])
 @app.route("/wardrobecategory.html", methods=["GET", "POST"])
 def wardrobecategory():
-    if not session.get("email"):
-        return redirect("/login")
+    if "email" not in session:
+        return redirect(url_for("login"))
 
-    category = request.form.get('category')
-    file_url = request.form.get('file_url')
+    email = session.get("email")
+    images = Img.query.filter_by(email=email).all()
+    category = session.get("category")
 
-    if 'image_urls' not in session:
-        session['image_urls'] = {}
+    image_urls = {}
+    for img in images:
+        if img and img.category:  # Ensure img is not None and has a category
+            if img.category not in image_urls:
+                image_urls[img.category] = []
+            image_urls[img.category].append(url_for("get_file", filename=img.name))
 
-    if category not in session['image_urls']:
-        session['image_urls'][category] = []
-    
-    session['image_urls'][category].append(file_url)
-    session.modified = True
+    print("Image URLs:", image_urls)  # Add this print statement to check image URLs
 
-    return render_template('wardrobecategory.html', category=category, file_url=file_url, image_urls=session['image_urls'], username=session["username"])
+    file_url = None  # Initialize file_url here
+
+    if request.method == "POST":
+        category = request.form.get("category").lower()
+        file_url = request.form.get("file_url")
+
+        # Check if file_url is provided before accessing it
+        if file_url:
+            if "image_urls" not in session:
+                session["image_urls"] = {}
+
+            if category not in session["image_urls"]:
+                session["image_urls"][category] = []
+
+            session["image_urls"][category].append(file_url)
+            session.modified = True
+
+    return render_template(
+        "wardrobecategory.html",
+        category=category,
+        file_url=file_url,
+        image_urls=session.get("image_urls", {}),
+        username=session["username"],
+    )
 
 
 if __name__ == "__main__":
