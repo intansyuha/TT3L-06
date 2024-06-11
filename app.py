@@ -17,7 +17,8 @@ from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
 from db import db, init_db  # Import init_db to initialize the database
 from rembg import remove
-from models import User, Img, Outfit, Feed
+from models import db, User, Img, Outfit, Feed
+from datetime import datetime
 import os
 from PIL import Image
 
@@ -122,6 +123,15 @@ def save_outfit():
         db.session.add(outfit)
         db.session.commit()
 
+        print(f"Outfit ID: {outfit.id}")
+        merged_image_path = merge_images(outfit)
+        if merged_image_path:
+            print(f"Merged Image Path: {merged_image_path}")
+            outfit.merged_image = merged_image_path
+            db.session.commit()
+        else:
+            print("No images to merge")
+
         app.logger.debug(f"Outfit saved: {outfit}")
 
         return jsonify({"message": "Outfit saved successfully"})
@@ -190,6 +200,30 @@ def delete_image(filename):
     app.logger.error(f"Image not found in database: {filename}")
     return jsonify({"error": "Image not found"}), 404
 
+def merge_images(outfit):
+    image_paths = [getattr(outfit, part) for part in ['top', 'bottom', 'outerwear', 'shoes', 'bags', 'accessories']]
+    images = [Image.open(os.path.join('static/files', path)) for path in image_paths if path]
+
+    if not images:
+        return None
+
+    widths, heights = zip(*(i.size for i in images))
+
+    total_width = max(widths)
+    total_height = sum(heights)
+
+    merged_image = Image.new('RGB', (total_width, total_height))
+
+    y_offset = 0
+    for img in images:
+        merged_image.paste(img, (0, y_offset))
+        y_offset += img.height
+
+    merged_image_path = f"static/files/merged_{outfit.id}.png"
+    merged_image.save(merged_image_path)
+
+    return merged_image_path
+
 @app.route("/upload_outfit/<int:outfit_id>", methods=["POST"])
 def upload_outfit(outfit_id):
     if "username" not in session:
@@ -208,6 +242,31 @@ def upload_outfit(outfit_id):
     db.session.commit()
     
     return jsonify({"message": "Outfit published successfully"}), 200
+
+@app.route("/save-feed", methods=["POST"])
+def save_feed():
+    username = request.form.get("username")
+    outfit_id = request.form.get("outfit_id")
+    date = datetime.now()
+
+    # Check if the username already exists in the feed table
+    existing_feed = Feed.query.filter_by(username=username).first()
+    
+    if existing_feed:
+        # Update the existing record
+        existing_feed.outfit_id = outfit_id
+        existing_feed.date = date
+        db.session.commit()
+        flash("Feed updated successfully!", "success")
+    else:
+        # Insert a new record
+        new_feed = Feed(username=username, outfit_id=outfit_id, date=date)
+        db.session.add(new_feed)
+        db.session.commit()
+        flash("Feed saved successfully!", "success")
+
+    return redirect(url_for("community_page"))
+
 
 @app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
 def delete_outfit(outfit_id):
@@ -269,7 +328,22 @@ def community_page():
 
     username = session.get("username")
     print(f"Accessing community page. Username: {username}, Session: {session}")
-    return render_template("community-page.html", username=username)
+
+    feeds = Feed.query.all()
+    feed_data = []
+
+    for feed in feeds:
+        outfit = Outfit.query.get(feed.outfit_id)
+        if outfit and outfit.merged_image:
+            merged_image_url = url_for("static", filename=f"files/{outfit.merged_image}")
+            feed_data.append({
+                "username": feed.username,
+                "outfit_name": outfit.name,
+                "merged_image": merged_image_url,
+                "date": feed.date
+            })
+
+    return render_template("community-page.html", username=username, feeds=feed_data)
 
 @app.route("/outfitgallery")
 @app.route("/outfitgallery.html")

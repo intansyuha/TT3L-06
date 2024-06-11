@@ -54,30 +54,15 @@
           <div class="middle">
             <div class="feeds">
                 {% for feed in feeds %}
-                    <div class="feed">
-                        <div class="head"></div>
-                        <div class="user">
-                            <div class="info">
-                                <h3>{{ feed.username }}</h3>
-                            </div>
-                            <span class="edit"><i class="uil uil-ellipsis-h"></i></span>
-                        </div>
-                        <div class="photo">
-                            <img src="{{ url_for('static', filename='outfits/' ~ feed.image_filename) }}" alt="">
-                        </div>
-                        <div class="action-button">
-                            <div class="bookmark">
-                                <span><i class='bx bx-bookmark'></i></span>
-                            </div>
-                        </div>
-                        <div class="caption">
-                            <p><b>{{ feed.username }}</b> Lorem ipsum dolor sit amet.
-                            <span class="hash-tag">#lifestyle</span></p>
-                        </div>
-                    </div>
-                    {% endfor %}
+                <div class="feed">
+                    <h3>{{ feed.username }}</h3>
+                    <p>{{ feed.date }}</p>
+                    <h4>{{ feed.outfit_name }}</h4>
+                    <img src="{{ feed.merged_image }}" alt="Outfit Image">
                 </div>
-            </div>
+            {% endfor %}
+        </div>
+    </div>
           
         <div class="right">
     
