@@ -69,69 +69,57 @@
 
     <div id="imageContainer">
         <div id="tops" data-tab-content class="tab-content">
-            {% if 'top' in session.image_urls %}
-                {% for url in session.image_urls['top'] %}
-                    <div>
-                        <img src="{{ url }}" alt="Uploaded Image">
-                        <button class="deleteButton">Delete image</button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% for url in image_urls['top'] %}
+                <div>
+                    <img src="{{ url }}" alt="Uploaded Image">
+                    <button class="deleteButton">Delete image</button>
+                </div>
+            {% endfor %}
         </div>
 
         <div id="bottoms" data-tab-content class="tab-content">
-            {% if 'bottom' in session.image_urls %}
-                {% for url in session.image_urls['bottom'] %}
-                    <div>
-                        <img src="{{ url }}" alt="Uploaded Image">
-                        <button class="deleteButton">Delete image</button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% for url in image_urls['bottom'] %}
+                <div>
+                    <img src="{{ url }}" alt="Uploaded Image">
+                    <button class="deleteButton">Delete image</button>
+                </div>
+            {% endfor %}
         </div>
 
         <div id="shoes" data-tab-content class="tab-content">
-            {% if 'shoes' in session.image_urls %}
-                {% for url in session.image_urls['shoes'] %}
-                    <div>
-                        <img src="{{ url }}" alt="Uploaded Image">
-                        <button class="deleteButton">Delete image</button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% for url in image_urls['shoes'] %}
+                <div>
+                    <img src="{{ url }}" alt="Uploaded Image">
+                    <button class="deleteButton">Delete image</button>
+                </div>
+            {% endfor %}
         </div>
 
         <div id="accessories" data-tab-content class="tab-content">
-            {% if 'accessories' in session.image_urls %}
-                {% for url in session.image_urls['accessories'] %}
-                    <div>
-                        <img src="{{ url }}" alt="Uploaded Image">
-                        <button class="deleteButton">Delete image</button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% for url in image_urls['accessories'] %}
+                <div>
+                    <img src="{{ url }}" alt="Uploaded Image">
+                    <button class="deleteButton">Delete image</button>
+                </div>
+            {% endfor %}
         </div>
 
         <div id="bags" data-tab-content class="tab-content">
-            {% if 'bags' in session.image_urls %}
-                {% for url in session.image_urls['bags'] %}
-                    <div>
-                        <img src="{{ url }}" alt="Uploaded Image">
-                        <button class="deleteButton">Delete image</button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% for url in image_urls['bags'] %}
+                <div>
+                    <img src="{{ url }}" alt="Uploaded Image">
+                    <button class="deleteButton">Delete image</button>
+                </div>
+            {% endfor %}
         </div>
 
-        <div id="outerwear" data-tab-content class=" tab-content">
-            {% if 'outerwear' in session.image_urls %}
-                {% for url in session.image_urls['outerwear'] %}
-                    <div>
-                        <img src="{{ url }}" alt="Uploaded Image">
-                        <button class="deleteButton">Delete image</button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        <div id="outerwear" data-tab-content class="tab-content">
+            {% for url in image_urls['outerwear'] %}
+                <div>
+                    <img src="{{ url }}" alt="Uploaded Image">
+                    <button class="deleteButton">Delete image</button>
+                </div>
+            {% endfor %}
         </div>
     </div>
 

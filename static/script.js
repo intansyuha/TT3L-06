@@ -1,24 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Sidebar outfitcreator, outfitgallery, index, imgwindow functionality
-    const menuIcon = document.querySelectorAll('.menu-icon');
-    const sidebar = document.querySelector('.side-bar');
-    const overlaySidebar = document.querySelector('#overlay');
-    
-    menuIcon.forEach(icon => {
-        icon.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
-            overlaySidebar.classList.toggle('open');
+    // Sidebar functionality
+    const navBar = document.querySelector("nav");
+    const menuBtns = document.querySelectorAll(".menu-icon");
+    const overlay = document.querySelector(".overlay");
+
+    menuBtns.forEach(menuBtn => {
+        menuBtn.addEventListener("click", () => {
+            navBar.classList.toggle("nav");
+            navBar.classList.toggle("open");
         });
     });
 
-    overlaySidebar.addEventListener('click', function () {
-        sidebar.classList.remove('open');
-        overlaySidebar.classList.remove('open');
+    overlay.addEventListener("click", () => {
+        navBar.classList.remove("nav");
+        navBar.classList.remove("open");
     });
-});
 
-// Wardrobe Category //
-document.addEventListener('DOMContentLoaded', () => {
+    // Wardrobe Category
     const tabs = document.querySelectorAll('.tab');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -47,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.stopPropagation();
                 const imageDiv = event.target.parentNode;
                 const fileUrl = imageDiv.querySelector('img').src;
-                const filename = decodeURIComponent(fileUrl.split('/').pop()); // Ensure URL encoding is handled
+                const filename = decodeURIComponent(fileUrl.split('/').pop());
 
                 const confirmation = confirm('Are you sure you want to delete this image?');
                 if (confirmation) {
@@ -82,11 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error deleting the image. Please try again.');
         });
     }
-});
 
-//OUTFIT CREATOR//
-document.addEventListener('DOMContentLoaded', () => {
-    // Accordion functionality
+    // Outfit Creator
     const labels = document.querySelectorAll('.accordion-row label');
     labels.forEach(label => {
         const accordionContent = label.nextElementSibling;
@@ -100,179 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const navBar = document.querySelector("nav");
-    const menuBtns = document.querySelectorAll(".menu-icon");
-    const overlay = document.querySelector(".overlay");
-
-    menuBtns.forEach(menuBtn => {
-        menuBtn.addEventListener("click", () => {
-            navBar.classList.toggle("nav");
-            navBar.classList.toggle("open");
-        });
-    });
-
-    overlay.addEventListener("click", () => {
-        navBar.classList.remove("nav");
-        navBar.classList.remove("open");
-    });
-
-    // Outfit gallery functionality
-    const cardsContainer = document.getElementById('cardsContainer');
-
-    if (cardsContainer) {
-        function fetchOutfits() {
-            fetch('/get_outfit')
-                .then(response => response.json())
-                .then(outfits => {
-                    console.log('Fetched outfits:', outfits);  // Log fetched outfits
-                    outfits.forEach(outfit => {
-                        createOutfitCard(outfit);
-                    });
-                })
-                .catch(error => console.error('Error retrieving outfits:', error));
-        }
-
-        function createOutfitCard(outfit) {
-            if (!outfit.id) {
-                console.error('Outfit ID is missing:', outfit);
-                return;
-            }
-
-            const card = document.createElement('div');
-            card.className = 'Card';
-            card.id = `outfit-${outfit.id}`;
-
-            const img = document.createElement('img');
-            img.src = outfit.top;
-            img.alt = outfit.name;
-
-            const cardBody = document.createElement('div');
-            cardBody.className = 'Card_body';
-
-            const cardTitle = document.createElement('h6');
-            cardTitle.className = 'Card_title';
-            cardTitle.textContent = outfit.name;
-
-            const cardOptions = document.createElement('div');
-            cardOptions.className = 'Card_options';
-
-            // upload
-            const uploadDiv = document.createElement('div');
-            uploadDiv.className = 'upload';
-            uploadDiv.setAttribute('data-id', outfit.id);
-            const uploadIcon = document.createElement('i');
-            uploadIcon.className = 'bx bx-cloud-upload';
-            uploadDiv.appendChild(uploadIcon);
-
-            uploadDiv.addEventListener('click', function (event) {
-                event.stopPropagation(); // Prevents the card click event from firing
-                const outfitId = this.getAttribute('data-id');
-                console.log(`Publishing outfit with ID: ${outfitId}`);  // Logging the outfit ID
-                const cardElement = this.closest('.Card');
-                const confirmation = confirm(`Are you sure you want to publish the outfit "${outfit.name}"?`);
-
-                if (confirmation) {
-                    uploadOutfit(outfitId, cardElement);
-                }
-            });
-
-            //delete
-
-            const deleteDiv = document.createElement('div');
-            deleteDiv.className = 'delete';
-            deleteDiv.setAttribute('data-id', outfit.id);
-            const deleteIcon = document.createElement('i');
-            deleteIcon.className = 'bx bx-trash bx-sm';
-            deleteDiv.appendChild(deleteIcon);
-
-            deleteDiv.addEventListener('click', function (event) {
-                event.stopPropagation(); // Prevents the card click event from firing
-                const outfitId = this.getAttribute('data-id');
-                console.log(`Deleting outfit with ID: ${outfitId}`);  // Logging the outfit ID
-                const cardElement = this.closest('.Card');
-                const confirmation = confirm(`Are you sure you want to delete the outfit "${outfit.name}"?`);
-
-                if (confirmation) {
-                    deleteOutfit(outfitId, cardElement);
-                }
-            });
-
-            cardOptions.appendChild(uploadDiv);
-            cardOptions.appendChild(deleteDiv);
-            cardBody.appendChild(cardTitle);
-            cardBody.appendChild(cardOptions);
-            card.appendChild(img);
-            card.appendChild(cardBody);
-
-            card.addEventListener('click', () => {
-                const queryParams = new URLSearchParams({
-                    top: outfit.top,
-                    bottom: outfit.bottom,
-                    outerwear: outfit.outerwear,
-                    shoes: outfit.shoes,
-                    bags: outfit.bags,
-                    accessories: outfit.accessories,
-                }).toString();
-                window.location.href = `/outfitcreator.html?${queryParams}`;
-            });
-
-            cardsContainer.appendChild(card);
-        }
-
-        //upload func 
-
-        function uploadOutfit(outfitId, cardElement) {
-            fetch(`/upload_outfit/${outfitId}`, {
-                method: 'POST'  // Changed to 'POST' to conform with standard HTTP methods
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Outfit published successfully!');
-                } else {
-                    return response.json().then(data => {
-                        console.error('Failed to publish the outfit:', data.message);
-                        alert('Failed to publish the outfit.');
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error publishing outfit:', error);
-                alert('Error publishing the outfit. Please try again.');
-            });
-        }
-
-        //delete func
-
-        function deleteOutfit(outfitId, cardElement) {
-            fetch(`/delete_outfit/${outfitId}`, {
-                method: 'DELETE'
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Outfit deleted successfully!');
-                    cardElement.remove();
-                } else {
-                    return response.json().then(data => {
-                        console.error('Failed to delete the outfit:', data.message);
-                        alert('Failed to delete the outfit.');
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting outfit:', error);
-                alert('Error deleting the outfit. Please try again.');
-            });
-        }
-
-        fetchOutfits();
-    } else {
-        console.error('Cards container not found');
-    }
-});
-
-//OUTFIT GALLERY//
-document.addEventListener('DOMContentLoaded', () => {
-    // Outfit selection and display functionality
     const topSmallBoxes = document.querySelectorAll('#tops-accordion .sb-1 .sb');
     const topContainer = document.querySelector('.top-container');
     const topContainerImg = document.querySelector('.top-container img');
@@ -382,9 +204,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Save outfit button
-    const saveButton = document.getElementById('saveButton');
+    const saveButton = document.querySelector('#saveButton .button-save');
     if (saveButton) {
-        saveButton.addEventListener('click', () => {
+        saveButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent the default link behavior
+
             let outfitName = prompt('Enter the name of your outfit:');
 
             // Keep prompting until a valid name is entered
@@ -404,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     accessories: document.querySelector('.accessories-container img')?.src || ''
                 };
 
-                console.log('Saving outfit:', selectedOutfit); // Debugging log
+                console.log('Saving outfit:', selectedOutfit);
 
                 fetch('/save_outfit', {
                     method: 'POST',
@@ -415,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     if (data.message) {
                         alert(`Outfit "${outfitName}" saved!`);
+                        window.location.href = '/outfitgallery.html'; // Redirect to outfit gallery
                     } else {
                         alert('Failed to save outfit.');
                     }
@@ -424,6 +249,168 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+//OUTFIT GALLERY
+document.addEventListener('DOMContentLoaded', () => {
+    const cardsContainer = document.getElementById('cardsContainer');
+
+    if (cardsContainer) {
+        function fetchOutfits() {
+            fetch('/get_outfit')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(outfits => {
+                    console.log('Fetched outfits:', outfits);
+                    if (Array.isArray(outfits)) {
+                        outfits.forEach(outfit => {
+                            createOutfitCard(outfit);
+                        });
+                    } else {
+                        console.error('Outfits is not an array');
+                    }
+                })
+                .catch(error => console.error('Error retrieving outfits:', error));
+        }
+
+
+        function createOutfitCard(outfit) {
+            if (!outfit.id) {
+                console.error('Outfit ID is missing:', outfit);
+                return;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'Card';
+            card.id = `outfit-${outfit.id}`;
+
+            const img = document.createElement('img');
+            img.src = outfit.top;
+            img.alt = outfit.name;
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'Card_body';
+
+            const cardTitle = document.createElement('h6');
+            cardTitle.className = 'Card_title';
+            cardTitle.textContent = outfit.name;
+
+            const cardOptions = document.createElement('div');
+            cardOptions.className = 'Card_options';
+
+            //upload
+            const uploadDiv = document.createElement('div');
+            uploadDiv.className = 'upload';
+            uploadDiv.setAttribute('data-id', outfit.id);
+            const uploadIcon = document.createElement('i');
+            uploadIcon.className = 'bx bx-cloud-upload';
+            uploadDiv.appendChild(uploadIcon);
+
+            uploadDiv.addEventListener('click', function (event) {
+                event.stopPropagation();
+                const outfitId = this.getAttribute('data-id');
+                const confirmation = confirm(`Are you sure you want to publish the outfit "${outfit.name}"?`);
+
+                if (confirmation) {
+                    uploadOutfit(outfitId, cardElement);
+                }
+            });
+
+            //delete
+
+            const deleteDiv = document.createElement('div');
+            deleteDiv.className = 'delete';
+            deleteDiv.setAttribute('data-id', outfit.id);
+            const deleteIcon = document.createElement('i');
+            deleteIcon.className = 'bx bx-trash bx-sm';
+            deleteDiv.appendChild(deleteIcon);
+
+            deleteDiv.addEventListener('click', function (event) {
+                event.stopPropagation();
+                const outfitId = this.getAttribute('data-id');
+                const confirmation = confirm(`Are you sure you want to delete the outfit "${outfit.name}"?`);
+
+                if (confirmation) {
+                    deleteOutfit(outfitId, cardElement);
+                }
+            });
+
+            cardOptions.appendChild(uploadDiv);
+            cardOptions.appendChild(deleteDiv);
+            cardBody.appendChild(cardTitle);
+            cardBody.appendChild(cardOptions);
+            card.appendChild(img);
+            card.appendChild(cardBody);
+
+            card.addEventListener('click', () => {
+                const queryParams = new URLSearchParams({
+                    top: outfit.top,
+                    bottom: outfit.bottom,
+                    outerwear: outfit.outerwear,
+                    shoes: outfit.shoes,
+                    bags: outfit.bags,
+                    accessories: outfit.accessories,
+                }).toString();
+                window.location.href = `/outfitcreator.html?${queryParams}`;
+            });
+
+            cardsContainer.appendChild(card);
+        }
+
+        //upload func 
+
+        function uploadOutfit(outfitId, cardElement) {
+            fetch(`/upload_outfit/${outfitId}`, {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Outfit published successfully!');
+                } else {
+                    return response.json().then(data => {
+                        console.error('Failed to publish the outfit:', data.message);
+                        alert('Failed to publish the outfit.');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error publishing outfit:', error);
+                alert('Error publishing the outfit. Please try again.');
+            });
+        }
+
+        //delete func
+
+        function deleteOutfit(outfitId, cardElement) {
+            fetch(`/delete_outfit/${outfitId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Outfit deleted successfully!');
+                    cardElement.remove();
+                } else {
+                    return response.json().then(data => {
+                        console.error('Failed to delete the outfit:', data.message);
+                        alert('Failed to delete the outfit.');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting outfit:', error);
+                alert('Error deleting the outfit. Please try again.');
+            });
+        }
+
+        fetchOutfits();
+    } else {
+        console.error('Cards container not found');
+    }
+});
+
 
 
 /// EDIT CLOTHES IN OUTFIT GALLERY ///
