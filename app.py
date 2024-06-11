@@ -123,15 +123,6 @@ def save_outfit():
         db.session.add(outfit)
         db.session.commit()
 
-        print(f"Outfit ID: {outfit.id}")
-        merged_image_path = merge_images(outfit)
-        if merged_image_path:
-            print(f"Merged Image Path: {merged_image_path}")
-            outfit.merged_image = merged_image_path
-            db.session.commit()
-        else:
-            print("No images to merge")
-
         app.logger.debug(f"Outfit saved: {outfit}")
 
         return jsonify({"message": "Outfit saved successfully"})
@@ -168,6 +159,34 @@ def get_outfit():
     return jsonify(outfits_list)
 
 
+@app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
+def delete_outfit(outfit_id):
+    try:
+        outfit = Outfit.query.get(outfit_id)
+        if outfit:
+            # Delete associated images
+            image_paths = [outfit.top, outfit.bottom, outfit.outerwear, outfit.shoes, outfit.bags, outfit.accessories]
+            for image_path in image_paths:
+                if image_path:
+                    file_path = os.path.join(app.config["UPLOAD_FOLDER"], image_path)
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                        print(f"Deleted file: {file_path}")
+                    else:
+                        print(f"File not found: {file_path}")
+
+            # Delete outfit record from the database
+            db.session.delete(outfit)
+            db.session.commit()
+            print(f"Outfit ID {outfit_id} deleted successfully.")
+            return jsonify({"message": "Outfit deleted successfully"}), 200
+        else:
+            print(f"Outfit ID {outfit_id} not found.")
+            return jsonify({"message": "Outfit not found"}), 404
+    except Exception as e:
+        app.logger.error(f"Error deleting outfit: {str(e)}")
+        return jsonify({"error": "Failed to delete outfit"}), 400
+    
 @app.route("/delete_image/<filename>", methods=["DELETE"])
 def delete_image(filename):
     user_id = session.get("user_id")
@@ -199,30 +218,6 @@ def delete_image(filename):
 
     app.logger.error(f"Image not found in database: {filename}")
     return jsonify({"error": "Image not found"}), 404
-
-def merge_images(outfit):
-    image_paths = [getattr(outfit, part) for part in ['top', 'bottom', 'outerwear', 'shoes', 'bags', 'accessories']]
-    images = [Image.open(os.path.join('static/files', path)) for path in image_paths if path]
-
-    if not images:
-        return None
-
-    widths, heights = zip(*(i.size for i in images))
-
-    total_width = max(widths)
-    total_height = sum(heights)
-
-    merged_image = Image.new('RGB', (total_width, total_height))
-
-    y_offset = 0
-    for img in images:
-        merged_image.paste(img, (0, y_offset))
-        y_offset += img.height
-
-    merged_image_path = f"static/files/merged_{outfit.id}.png"
-    merged_image.save(merged_image_path)
-
-    return merged_image_path
 
 @app.route("/upload_outfit/<int:outfit_id>", methods=["POST"])
 def upload_outfit(outfit_id):
@@ -266,22 +261,6 @@ def save_feed():
         flash("Feed saved successfully!", "success")
 
     return redirect(url_for("community_page"))
-
-
-@app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
-def delete_outfit(outfit_id):
-    try:
-        outfit = Outfit.query.get(outfit_id)
-        if outfit:
-            db.session.delete(outfit)
-            db.session.commit()
-            return jsonify({"message": "Outfit deleted successfully"}), 200
-        else:
-            return jsonify({"message": "Outfit not found"}), 404
-    except Exception as e:
-        app.logger.error(f"Error deleting outfit: {str(e)}")
-        return jsonify({"error": "Failed to delete outfit"}), 400
-
 
 @app.route("/update_outfit", methods=["POST"])
 def update_outfit():
@@ -334,16 +313,37 @@ def community_page():
 
     for feed in feeds:
         outfit = Outfit.query.get(feed.outfit_id)
-        if outfit and outfit.merged_image:
-            merged_image_url = url_for("static", filename=f"files/{outfit.merged_image}")
+        if outfit:
             feed_data.append({
                 "username": feed.username,
-                "outfit_name": outfit.name,
-                "merged_image": merged_image_url,
+                "image": outfit.top,  # Use the URL stored in the database
+                "outfit_id": outfit.id,
                 "date": feed.date
             })
 
     return render_template("community-page.html", username=username, feeds=feed_data)
+
+@app.route("/outfit/<int:outfit_id>")
+def outfit_detail(outfit_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    
+    outfit = Outfit.query.get(outfit_id)
+    if not outfit:
+        flash("Outfit not found", "error")
+        return redirect(url_for("community_page"))
+
+    outfit_data = {
+        "name": outfit.name,
+        "top": outfit.top,  # Use the URL stored in the database
+        "bottom": outfit.bottom,  # Adjust as necessary
+        "outerwear": outfit.outerwear,
+        "shoes": outfit.shoes,
+        "bags": outfit.bags,
+        "accessories": outfit.accessories,
+    }
+
+    return render_template("outfit_detail.html", username=session["username"], outfit=outfit_data)
 
 @app.route("/outfitgallery")
 @app.route("/outfitgallery.html")
