@@ -53,32 +53,27 @@
 
           <div class="middle">
             <div class="feeds">
-                <div class="feed">
-                    <div class="head">
-                        
+                {% for outfit in outfits %}
+                    <div class="feed">
+                        <div class="head"></div>
+                        <div class="user">
+                            <div class="info">
+                                <h3>{{ outfit.user.username }}</h3>
+                            </div>
+                            <span class="edit"><i class="uil uil-ellipsis-h"></i></span>
+                        </div>
+                        <div class="photo">
+                            <img src="{{ url_for('static', filename=outfit.image_path) }}" alt="">
+                        </div>
+                        <div class="action-button">
+                            <div class="bookmark">
+                                <span><i class='bx bx-bookmark'></i></span>
+                            </div>
+                        </div>
                     </div>
-                     <div class="user">
-                         <div class="info">
-                             <h3>Lana Rose</h3>
-                         </div >
-                         <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
-                     </div>
-
-                     <div class="photo">
-                         <img src="static/feed-1.jpg" alt="">
-                     </div>
-
-                     <div class="action-button">
-                         <div class="bookmark">
-                             <span><i class='bx bx-bookmark' ></i></span>
-                         </div>
-                     </div>
-
-                     <div class="caption">
-                        <p><b>Lana Rose</b> Lorem ipsum dolor storiesquiquam eius.
-                       <span class="hash-tag">#lifestyle</span></p>
-                    </div>
+                    {% endfor %}
                 </div>
+            </div>
             
                 <div class="feed">
                     <div class="head">

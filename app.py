@@ -9,9 +9,8 @@ from flask import (
     url_for,
     send_from_directory,
 )
-
 from flask_wtf import FlaskForm
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import FileField, SubmitField, SelectField
 from werkzeug.utils import secure_filename
@@ -58,7 +57,7 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if user and user.check_password(password):
-            session["email"] = email
+            session["user_id"] = user.id
             session["username"] = user.username
             return redirect(url_for("community_page", username=user.username))
 
@@ -96,7 +95,7 @@ def signup():
 def save_outfit():
     try:
         data = request.get_json()
-        data["email"] = session.get("email")
+        data["user_id"] = session.get("user_id")
 
         # Ensure data integrity before saving
         required_fields = [
@@ -112,16 +111,6 @@ def save_outfit():
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
-        outfit = Outfit( #take data from outfit creator and save into database
-            name=data["name"],
-            top=data["top"],
-            bottom=data["bottom"],
-            outerwear=data["outerwear"],
-            shoes=data["shoes"],
-            bags=data["bags"],
-            accessories=data["accessories"]
-        )
-
         outfit = Outfit(**data)
         db.session.add(outfit)
         db.session.commit()
@@ -136,11 +125,11 @@ def save_outfit():
 
 @app.route("/get_outfit", methods=["GET"])
 def get_outfit():
-    email = session.get("email")
-    if not email:
+    user_id = session.get("user_id")
+    if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
 
-    outfits = Outfit.query.filter_by(email=email).all()
+    outfits = Outfit.query.filter_by(user_id=user_id).all()
 
     if not outfits:
         return jsonify({"message": "No outfits found for the specified email"}), 404
@@ -163,13 +152,13 @@ def get_outfit():
 
 @app.route("/delete_image/<filename>", methods=["DELETE"])
 def delete_image(filename):
-    email = session.get("email")
-    if not email:
+    user_id = session.get("user_id")
+    if not user_id:
         app.logger.error("Unauthorized access attempt.")
         return jsonify({"error": "Unauthorized"}), 401
 
-    app.logger.info(f"Attempting to delete image: {filename} for user: {email}")
-    img = Img.query.filter_by(email=email, name=filename).first()
+    app.logger.info(f"Attempting to delete image: {filename} for user: {user_id}")
+    img = Img.query.filter_by(user_id=user_id, name=filename).first()
     if img:
         app.logger.info(f"Image found in database: {img.name}")
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], img.name)
@@ -195,23 +184,19 @@ def delete_image(filename):
 
 @app.route("/upload_outfit/<int:outfit_id>", methods=["POST"])
 def upload_outfit(outfit_id):
-    try:
-        # Retrieve the outfit from the database based on the outfit_id
-        outfit = Outfit.query.get(outfit_id)
-        
-        if outfit:
-            # Implement logic to publish the outfit to the community page
-            # For example, you can update a field in the outfit indicating it's published
-            
-            # Commit changes to the database
-            db.session.commit()
-            
-            return jsonify({"message": "Outfit published successfully"}), 200
-        else:
-            return jsonify({"error": "Outfit not found"}), 404
-    except Exception as e:
-        app.logger.error(f"Error publishing outfit: {str(e)}")
-        return jsonify({"error": "Failed to publish outfit"}), 500
+    if "username" not in session:
+        return jsonify({"message": "User not logged in"}), 401
+    
+    outfit = Outfit.query.get(outfit_id)
+    if not outfit:
+        return jsonify({"message": "Outfit not found"}), 404
+    
+    if outfit.user_id != session["user_id"]:
+        return jsonify({"message": "Unauthorized action"}), 403
+    
+    outfit.published = True
+    db.session.commit()
+    return jsonify({"message": "Outfit published successfully"}), 200
 
 @app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
 def delete_outfit(outfit_id):
@@ -240,10 +225,10 @@ def update_outfit():
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
         # Retrieve the outfit to be updated from the database
-        email = session.get("email")
+        user_id = session.get("user_id")
         outfit_id = data.get('id')
         outfit_name = data.get('name')
-        outfit = Outfit.query.filter_by(email=email, id=outfit_id, name=outfit_name).first()
+        outfit = Outfit.query.filter_by(user_id=user_id, id=outfit_id, name=outfit_name).first()
         if not outfit:
             return jsonify({"error": "Outfit not found"}), 404
 
@@ -265,16 +250,14 @@ def update_outfit():
         return jsonify({"error": "Failed to update outfit"}), 500
 
 
-
-
 @app.route("/outfitgallery")
 @app.route("/outfitgallery.html")
 def outfit_gallery():
     if "email" not in session:
         return redirect(url_for("login"))
 
-    email = session.get("email")
-    outfits = Outfit.query.filter_by(email=email).all()
+    user_id = session.get("user_id")
+    outfits = Outfit.query.filter_by(user_id=user_id).all()
     return render_template(
         "outfitgallery.html", username=session["username"], outfits=outfits
     )
@@ -292,11 +275,11 @@ def community_page():
 @app.route("/outfitcreator", methods=["GET", "POST"])
 @app.route("/outfitcreator.html", methods=["GET", "POST"])
 def outfit_creator():
-    email = session.get("email")
-    if not email:
+    user_id = session.get("user_id")
+    if not user_id:
         return redirect(url_for("login"))
 
-    images = Img.query.filter_by(email=email).all()
+    images = Img.query.filter_by(user_id=user_id).all()
 
     image_urls = {category: [] for category, _ in UploadClothesForm().category.choices}
     for img in images:
@@ -312,10 +295,10 @@ def outfit_creator():
 def index():
     form = UploadClothesForm()
     file_url = None
-    email = session.get("email")
+    user_id = session.get("user_id")
 
     if request.method == "POST" and form.validate_on_submit():
-        if email:
+        if user_id:
             file = form.file.data  # grab file
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)  # save file
@@ -342,7 +325,7 @@ def index():
                 mimetype=mimetype,
                 name=filename,
                 category=category,
-                email=email,
+                user_id=user_id,
             )
             db.session.add(img)
             db.session.commit()
@@ -360,7 +343,7 @@ def index():
 
         return redirect(url_for("wardrobecategory"))
 
-    images = Img.query.filter_by(email=email).all() if email else []
+    images = Img.query.filter_by(user_id=user_id).all() if user_id else []
     return render_template(
         "index.html",
         form=form,
@@ -380,20 +363,34 @@ def imgwindow(filename):
     file_url = url_for("get_file", filename=filename)
     return render_template("imgwindow.html", file_url=file_url)
 
-
 @app.route("/wardrobecategory", methods=["GET", "POST"])
 @app.route("/wardrobecategory.html", methods=["GET", "POST"])
 def wardrobecategory():
     email = session.get("email")
     if not email:
+        app.logger.debug("No email in session. Redirecting to login.")
         return redirect(url_for("login"))
 
-    images = Img.query.filter_by(email=email).all()
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        app.logger.debug(f"No user found with email: {email}. Redirecting to login.")
+        return redirect(url_for("login"))
 
+    user_id = user.id
+    app.logger.debug(f"Current user ID: {user_id}")
+    
+    # Fetch images associated with the logged-in user's user_id
+    images = Img.query.filter_by(user_id=user_id).all()
+    app.logger.debug(f"Retrieved images: {[img.name for img in images]}")
+    
+    # Construct image URLs for each category
     image_urls = {category: [] for category, _ in UploadClothesForm().category.choices}
     for img in images:
-        image_urls[img.category].append(url_for("get_file", filename=img.name))
-
+        file_url = url_for("get_file", filename=img.name)
+        image_urls[img.category].append(file_url)
+        app.logger.debug(f"Added image URL: {file_url} for category: {img.category}")
+    
+    # Render the template with the image URLs
     return render_template(
         "wardrobecategory.html", image_urls=image_urls, username=session["username"]
     )

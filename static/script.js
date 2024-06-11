@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function uploadOutfit(outfitId, cardElement) {
             fetch(`/upload_outfit/${outfitId}`, {
-                method: 'UPLOAD'
+                method: 'POST'  // Changed to 'POST' to conform with standard HTTP methods
             })
             .then(response => {
                 if (response.ok) {
