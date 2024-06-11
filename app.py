@@ -283,18 +283,6 @@ def outfit_gallery():
         "outfitgallery.html", username=session["username"], outfits=outfits
     )
 
-
-@app.route("/community-page")
-@app.route("/community-page.html")
-def community_page():
-    if "username" not in session:
-        return redirect(url_for('login'))
-    
-    feeds = Feed.query.order_by(Feed.date.desc()).all()
-    return render_template('community-page.html', feeds=feeds)
-
-
-
 @app.route("/outfitcreator", methods=["GET", "POST"])
 @app.route("/outfitcreator.html", methods=["GET", "POST"])
 def outfit_creator():
