@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
 
 
 class Img(db.Model):
-    __tablename__ = "Img"
+    __tablename__ = "img"
     __table_args__ = {"extend_existing": True}
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
@@ -36,7 +36,7 @@ class Img(db.Model):
 
 
 class Outfit(db.Model):
-    __tablename__ = "Outfit"
+    __tablename__ = "outfit"
     __table_args__ = {"extend_existing": True}
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
@@ -49,7 +49,7 @@ class Outfit(db.Model):
     accessories = db.Column(db.String(200), nullable=False)
 
 class Feed(db.Model):
-    __tablename__ = 'Feed'  
+    __tablename__ = 'feed'  
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)

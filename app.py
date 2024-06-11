@@ -17,7 +17,7 @@ from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
 from db import db, init_db  # Import init_db to initialize the database
 from rembg import remove
-from models import User, Img, Outfit
+from models import User, Img, Outfit, Feed
 import os
 from PIL import Image
 
@@ -194,8 +194,11 @@ def upload_outfit(outfit_id):
     if outfit.user_id != session["user_id"]:
         return jsonify({"message": "Unauthorized action"}), 403
     
-    outfit.published = True
+    # Create a new feed entry for the community page
+    feed_entry = Feed(username=session["username"], outfit_id=outfit_id)
+    db.session.add(feed_entry)
     db.session.commit()
+    
     return jsonify({"message": "Outfit published successfully"}), 200
 
 @app.route("/delete_outfit/<int:outfit_id>", methods=["DELETE"])
@@ -266,10 +269,12 @@ def outfit_gallery():
 @app.route("/community-page")
 @app.route("/community-page.html")
 def community_page():
-    if "email" not in session or "username" not in session:
-        return redirect(url_for("login"))
-    username = session.get("username")
-    return render_template("community-page.html", username=username)
+    if "username" not in session:
+        return redirect(url_for('login'))
+    
+    feeds = Feed.query.order_by(Feed.date.desc()).all()
+    return render_template('community-page.html', feeds=feeds)
+
 
 
 @app.route("/outfitcreator", methods=["GET", "POST"])

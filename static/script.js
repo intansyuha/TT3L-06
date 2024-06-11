@@ -160,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const uploadDiv = document.createElement('div');
             uploadDiv.className = 'upload';
             uploadDiv.setAttribute('data-id', outfit.id);
+
             const uploadIcon = document.createElement('i');
             uploadIcon.className = 'bx bx-cloud-upload';
             uploadDiv.appendChild(uploadIcon);
@@ -167,12 +168,29 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadDiv.addEventListener('click', function (event) {
                 event.stopPropagation(); // Prevents the card click event from firing
                 const outfitId = this.getAttribute('data-id');
-                console.log(`Publishing outfit with ID: ${outfitId}`);  // Logging the outfit ID
-                const cardElement = this.closest('.Card');
-                const confirmation = confirm(`Are you sure you want to publish the outfit "${outfit.name}"?`);
+                const outfitName = outfit.name;
+                const confirmation = confirm(`Are you sure you want to publish the outfit "${outfitName}"?`);
 
                 if (confirmation) {
-                    uploadOutfit(outfitId, cardElement);
+                    fetch(`/upload_outfit/${outfitId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Outfit published successfully!');
+                        } else {
+                            console.error('Failed to publish the outfit:', data.message);
+                            alert('Failed to publish the outfit.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error publishing outfit:', error);
+                        alert('Error publishing the outfit. Please try again.');
+                    });
                 }
             });
 
@@ -217,28 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             cardsContainer.appendChild(card);
-        }
-
-        //upload func 
-
-        function uploadOutfit(outfitId, cardElement) {
-            fetch(`/upload_outfit/${outfitId}`, {
-                method: 'POST'  // Changed to 'POST' to conform with standard HTTP methods
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Outfit published successfully!');
-                } else {
-                    return response.json().then(data => {
-                        console.error('Failed to publish the outfit:', data.message);
-                        alert('Failed to publish the outfit.');
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error publishing outfit:', error);
-                alert('Error publishing the outfit. Please try again.');
-            });
         }
 
         //delete func
@@ -487,55 +483,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Profile picture upload
-    const profileForm = document.getElementById('profile-form');
-    if (profileForm) {
-        profileForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(event.target);
-            const response = await fetch('/update_profile', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                alert('Profile updated successfully!');
-                // Optionally, update the UI with the new data
-            } else {
-                alert('Failed to update profile.');
-            }
-        });
-    }
-
     const menuItems = document.querySelectorAll('.menu-item');
-    const messagesNotification = document.querySelector('#messages-notifications');
-    const messages = document.querySelector('.messages');
-    const message = messages.querySelectorAll('.message');
-    const messageSearch = document.querySelector('#message-search');
 
     // Remove active class from all menu items
     const changeActiveItem = () => {
         menuItems.forEach(item => {
             item.classList.remove('active');
         });
-    }
-
-    // Image upload preview
-    function loadImage(event) {
-        const output = document.getElementById('profile-picture-preview');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function () {
-            URL.revokeObjectURL(output.src) // free memory
-        }
-    }
-
-
-    if (messages) {
-        const messageElements = messages.querySelectorAll('.message');
-        // Add functionality for handling messages
-    } else {
-        console.error('Messages container not found');
     }
 });

@@ -53,190 +53,31 @@
 
           <div class="middle">
             <div class="feeds">
-                {% for outfit in outfits %}
+                {% for feed in feeds %}
                     <div class="feed">
                         <div class="head"></div>
                         <div class="user">
                             <div class="info">
-                                <h3>{{ outfit.user.username }}</h3>
+                                <h3>{{ feed.username }}</h3>
                             </div>
                             <span class="edit"><i class="uil uil-ellipsis-h"></i></span>
                         </div>
                         <div class="photo">
-                            <img src="{{ url_for('static', filename=outfit.image_path) }}" alt="">
+                            <img src="{{ url_for('static', filename='outfits/' ~ feed.image_filename) }}" alt="">
                         </div>
                         <div class="action-button">
                             <div class="bookmark">
                                 <span><i class='bx bx-bookmark'></i></span>
                             </div>
                         </div>
+                        <div class="caption">
+                            <p><b>{{ feed.username }}</b> Lorem ipsum dolor sit amet.
+                            <span class="hash-tag">#lifestyle</span></p>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
             </div>
-            
-                <div class="feed">
-                    <div class="head">
-                        
-                    </div>
-                     <div class="user">
-                         <div class="info">
-                             <h3>Chris Brown</h3>
-                         </div >
-                         <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
-                     </div>
-
-                     <div class="photo">
-                         <img src="static/feed-2.jpg" alt="">
-                     </div>
-
-                     <div class="action-button">
-                         <div class="bookmark">
-                             <span><i class='bx bx-bookmark' ></i></span>
-                         </div>
-                     </div>
-
-                     <div class="caption">
-                        <p><b>Chirs Brown</b> Lorem ipsum dolor storiesquiquam eius.
-                       <span class="hash-tag">#lifestyle</span></p>
-                    </div>
-                </div>
-            
-                <div class="feed">
-                    <div class="head">
-                        
-                    </div>
-                     <div class="user">
-                         <div class="info">
-                             <h3>John Samron</h3>
-                         </div >
-                         <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
-                     </div>
-
-                     <div class="photo">
-                         <img src="static/feed-3.jpg" alt="">
-                     </div>
-
-                     <div class="action-button">
-                         <div class="bookmark">
-                             <span><i class='bx bx-bookmark' ></i></span>
-                         </div>
-                     </div>
-
-                     <div class="caption">
-                        <p><b>John Samron</b> Lorem ipsum dolor storiesquiquam eius.
-                       <span class="hash-tag">#lifestyle</span></p>
-                    </div>
-                </div>
-            
-                <div class="feed">
-                    <div class="head">
-                        
-                    </div>
-                     <div class="user">
-                         <div class="info">
-                             <h3>Kareena Joshua</h3>
-                         </div >
-                         <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
-                     </div>
-
-                     <div class="photo">
-                         <img src="static/feed-4.jpg" alt="">
-                     </div>
-
-                     <div class="action-button">
-                         <div class="bookmark">
-                             <span><i class='bx bx-bookmark' ></i></span>
-                         </div>
-                     </div>
-
-                     <div class="caption">
-                        <p><b>Kareena Joshua</b> Lorem ipsum dolor storiesquiquam eius.
-                       <span class="hash-tag">#lifestyle</span></p>
-                    </div>
-                </div>
-            
-                <div class="feed">
-                    <div class="head">
-                        
-                    </div>
-                     <div class="user">
-                         <div class="info">
-                             <h3>Dan Smith</h3>
-                         </div >
-                         <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
-                     </div>
-
-                     <div class="photo">
-                         <img src="static/feed-5.jpg" alt="">
-                     </div>
-
-                     <div class="action-button">
-                         <div class="bookmark">
-                             <span><i class='bx bx-bookmark' ></i></span>
-                         </div>
-                     </div>
-
-                     <div class="caption">
-                        <p><b>Dan Smith</b> Lorem ipsum dolor storiesquiquam eius.
-                       <span class="hash-tag">#lifestyle</span></p>
-                    </div>
-                </div>
-            
-                <div class="feed">
-                    <div class="head">
-                        
-                    </div>
-                     <div class="user">
-                         <div class="info">
-                             <h3>Karim Benzema</h3>
-                         </div >
-                         <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
-                     </div>
-
-                     <div class="photo">
-                         <img src="static/feed-6.jpg" alt="">
-                     </div>
-
-                     <div class="action-button">
-                         <div class="bookmark">
-                             <span><i class='bx bx-bookmark' ></i></span>
-                         </div>
-                     </div>
-
-                     <div class="caption">
-                        <p><b>Karim Benzema</b> Lorem ipsum dolor storiesquiquam eius.
-                       <span class="hash-tag">#lifestyle</span></p>
-                    </div>
-                </div>
-                <div class="feed">
-                    <div class="head">
-                        
-                    </div>
-                     <div class="user">
-                         <div class="info">
-                             <h3>Srishti Tirkey</h3>
-                         </div >
-                         <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
-                     </div>
-
-                     <div class="photo">
-                         <img src="static/feed-7.jpg" alt="">
-                     </div>
-
-                     <div class="action-button">
-                         <div class="bookmark">
-                             <span><i class='bx bx-bookmark' ></i></span>
-                         </div>
-                     </div>
-
-                     <div class="caption">
-                        <p><b>Srishti Tirkey</b> Lorem ipsum dolor storiesquiquam eius.
-                       <span class="hash-tag">#lifestyle</span></p>
-                    </div>
-                </div>
-            </div>
-          </div>
           
         <div class="right">
     
