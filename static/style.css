@@ -525,6 +525,7 @@ ul.button li {
     
     .sb img, .sb-1 img{
         position: absolute;
+        object-fit: contain;
         max-width: 85px; 
         max-height: 85px; 
         border-radius: 8px; 
