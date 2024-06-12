@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from datetime import datetime
 import bcrypt
+from werkzeug.security import generate_password_hash
+
 
 db = SQLAlchemy()
 
@@ -10,10 +12,22 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(50))
-
+    password = db.Column(db.String(60))  # Bcrypt hash length
+   
+    def __init__(self, email, password, username):
+        self.username = username
+        self.email = email
+        self.password = bcrypt.hashpw(
+            password.encode("utf-8"), bcrypt.gensalt()
+        ).decode("utf-8")
+        
     def check_password(self, password):
-        return bcrypt.checkpw(password.encode("utf-8"), self.password.encode("utf-8"))
+        try:
+            return bcrypt.checkpw(password.encode("utf-8"), self.password.encode("utf-8"))
+        except ValueError:
+            print(f"Invalid salt for user {self.email}")
+            return False
+
 
 class Img(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

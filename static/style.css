@@ -264,6 +264,7 @@ ul.button li {
     position: fixed;  
     top: 150px;  
     z-index: 10;  
+    border-top-width: 50;
 }
 
 .tab {
