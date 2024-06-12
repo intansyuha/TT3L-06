@@ -246,6 +246,10 @@ ul.button li {
 
 /*--------------- WARDROBE CATEGORY -------------------*/
 
+.wardcat {
+    display: fixed;
+}
+
 .imagegall h2 {
     font-size: 24px;        
     font-weight: 600;
@@ -262,7 +266,7 @@ ul.button li {
     border-bottom: 1px solid #d9a7a4;
     background-color: #F8EDEB;
     position: fixed;  
-    top: 150px;  
+    top: 100px;  
     z-index: 10;  
 }
 
@@ -280,8 +284,8 @@ ul.button li {
 
 .tab-content {
     display: none;
-    margin-top: 230px; 
-    max-height: 700px;
+    margin-top: 100px; 
+    max-height: 1000px;
     overflow-y: scroll;
 }
 
@@ -294,7 +298,7 @@ ul.button li {
 .tab-content img {
     display: flex;
     width: 400px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .deleteButton {
