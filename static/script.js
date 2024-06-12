@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadDiv.setAttribute('data-id', outfit.id);
 
             const uploadIcon = document.createElement('i');
-            uploadIcon.className = 'bx bx-cloud-upload';
+            uploadIcon.className = 'bx bx-cloud-upload bx-sm';
             uploadDiv.appendChild(uploadIcon);
 
             uploadDiv.addEventListener('click', function (event) {
