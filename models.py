@@ -40,7 +40,7 @@ class Outfit(db.Model):
     shoes = db.Column(db.String(200), nullable=False)
     bags = db.Column(db.String(200), nullable=False)
     accessories = db.Column(db.String(200), nullable=False)
-    merged_image = db.Column(db.String(200), nullable=True)
+    published = db.Column(db.Boolean, default=False)
 
 class Feed(db.Model):
     id = db.Column(db.Integer, primary_key=True)
