@@ -46,7 +46,6 @@ class UploadClothesForm(FlaskForm):
     )
     submit = SubmitField("Upload File")
 
-
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 @app.route("/login.html", methods=["GET", "POST"])
@@ -67,7 +66,6 @@ def login():
             print(f"Failed login attempt. Email: {email}")
 
     return render_template("login.html")
-
 
 @app.route("/signup", methods=["GET", "POST"])
 @app.route("/signup.html", methods=["GET", "POST"])
@@ -91,7 +89,7 @@ def signup():
             db.session.add(current_user)
             db.session.commit()
             flash("Registration successful!", "success")
-            return redirect("/login")  # Redirect to login after successful registration
+  # Redirect to login after successful registration
 
     return render_template("signup.html")
 
