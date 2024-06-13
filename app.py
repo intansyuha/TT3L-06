@@ -60,7 +60,7 @@ def login():
             session["user_id"] = user.id
             session["username"] = user.username
             print(f"User {user.username} logged in successfully. Session: {session}")
-            return redirect(url_for("community_page", username=user.username))
+            return redirect(url_for('community_page', username=user.username))
         else:
             flash("Invalid email or password", "error")
             print(f"Failed login attempt. Email: {email}")
@@ -310,16 +310,19 @@ def community_page():
     feed_data = []
 
     for feed in feeds:
-        outfit = Outfit.query.get(feed.outfit_id)
+        outfit = db.session.get(Outfit, feed.outfit_id)
         if outfit:
-            feed_data.append({
-                "username": feed.username,
-                "image": outfit.top,  # Use the URL stored in the database
-                "outfit_id": outfit.id,
-                "date": feed.date
-            })
+            feed_data.append(
+                {
+                    "username": feed.username,
+                    "image": outfit.top,  # Use the URL stored in the database
+                    "outfit_id": outfit.id,
+                    "date": feed.date,
+                }
+            )
 
     return render_template("community-page.html", username=username, feeds=feed_data)
+
 
 @app.route("/outfit/<int:outfit_id>")
 def outfit_detail(outfit_id):
