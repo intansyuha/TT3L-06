@@ -46,6 +46,9 @@
                 <a class="menu-item" href="login.html">
                     <span><i class='bx bx-log-out'></i></span> <h3>Log Out</h3>
                 </a>
+
+                <label class="btn btn-primary" for="create-post" onclick="window.location.href='/postwindow'">Create Post</label>
+
             </div>
           </div>
           
@@ -55,10 +58,25 @@
             <div class="feeds">
                 {% for feed in feeds %}
                         <div class="feed" onclick="window.location.href='/outfit/{{ feed.outfit_id }}'">
-                            <h3>{{ feed.username }}</h3>
-                            <img src="{{ feed.image }}" alt="Outfit Image">
+                            <h2>{{ feed.username }}</h2>
+                            <div class="photo"><img src="{{ feed.image }}" alt="Outfit Image"></div>
+                            <div class="caption"> {{ feed.caption }}</div>
                             <p>Posted on {{ feed.date }}</p>
                         </div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            <div>
+                                {{ form.photo.label }}<br>
+                                {{ form.photo }}
+                            </div>
+                            <div>
+                                {{ form.caption.label }}<br>
+                                {{ form.caption }}
+                            </div>
+                            <div>
+                                {{ form.submit }}
+                            </div>
+                        </form>
                     {% endfor %}
                 </div>
             </div>

@@ -924,17 +924,15 @@ body {
     }
     
     .middle .feed .photo{
+        border: 2px solid #b0a9a9;
         border-radius: var(--card-border-radius);
         overflow: hidden;
         margin: 0.7rem 0;
     }
-    .middle .feed .action-button{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 1.4rem;
-        margin: 0.6rem;
-    }   
+
+    .middle .feed .caption{
+        font-size: 1.2rem;
+    }
     
     .main .container .right{
         height: max-content;

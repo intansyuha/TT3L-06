@@ -222,6 +222,9 @@ def upload_outfit(outfit_id):
     if "username" not in session:
         return jsonify({"message": "User not logged in"}), 401
     
+    data = request.get_json()
+    caption = data.get('caption')
+    
     outfit = Outfit.query.get(outfit_id)
     if not outfit:
         return jsonify({"message": "Outfit not found"}), 404
@@ -230,7 +233,7 @@ def upload_outfit(outfit_id):
         return jsonify({"message": "Unauthorized action"}), 403
     
     # Create a new feed entry for the community page
-    feed_entry = Feed(username=session["username"], outfit_id=outfit_id)
+    feed_entry = Feed(username=session["username"], outfit_id=outfit_id, caption=caption)
     db.session.add(feed_entry)
     db.session.commit()
     
@@ -317,6 +320,7 @@ def community_page():
                     "username": feed.username,
                     "image": outfit.top,  # Use the URL stored in the database
                     "outfit_id": outfit.id,
+                    "caption": feed.caption,
                     "date": feed.date,
                 }
             )

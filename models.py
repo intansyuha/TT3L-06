@@ -54,3 +54,4 @@ class Feed(db.Model):
     outfit_id = db.Column(db.Integer, db.ForeignKey('outfit.id'), nullable=False)
     date = db.Column(db.DateTime, default=datetime.now())
     outfit = db.relationship('Outfit', backref='feeds')
+    caption = db.Column(db.String(100))
