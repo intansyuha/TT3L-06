@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, inital-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <nav>
@@ -19,110 +17,72 @@
         </div>
     </nav>
 
-  <main>
-      <div class="container">
-          <div class="left">
-              <a class="profile">
-                  <div class="handle">
-                      <h4>@{{ username }}</h4>
-                  </div>
-              </a>
-              <div class="sidebar">
-                <a href="{{ url_for('community_page', username=username) }}" class="menu-item active">
-                    <span><i class='bx bx-home-heart icon'></i></span> <h3>Home</h3>
+    <main>
+        <div class="container">
+            <div class="left">
+                <a class="profile">
+                    <div class="handle">
+                        <h4>@{{ username }}</h4>
+                    </div>
                 </a>
-                <a class="menu-item" href="{{ url_for('wardrobecategory', username=username) }}">
-                    <span><i class='bx bx-store'></i></span> <h3>Wardrobe</h3>
-                </a>
-                <a class="menu-item" href="{{ url_for('index', username=username) }}">
-                    <span><i class='bx bx-closet icon'></i></span> <h3>Upload Clothes</h3>
-                </a>
-                <a class="menu-item" href="{{ url_for('outfit_creator', username=username) }}">
-                    <span><i class='bx bx-edit icon'></i></span> <h3>Outfit Creator</h3>
-                </a>
-                <a class="menu-item" href="{{ url_for('outfit_gallery', username=username) }}">
-                    <span><i class='bx bx-star icon'></i></span> <h3>Outfit Gallery</h3>
-                </a>
-                <a class="menu-item" href="login.html">
-                    <span><i class='bx bx-log-out'></i></span> <h3>Log Out</h3>
-                </a>
-
-                <label class="btn btn-primary" for="create-post" onclick="window.location.href='/postwindow'">Create Post</label>
-
+                <div class="sidebar">
+                    <a href="{{ url_for('community_page', username=username) }}" class="menu-item active">
+                        <span><i class='bx bx-home-heart icon'></i></span> <h3>Home</h3>
+                    </a>
+                    <a class="menu-item" href="{{ url_for('wardrobecategory', username=username) }}">
+                        <span><i class='bx bx-store'></i></span> <h3>Wardrobe</h3>
+                    </a>
+                    <a class="menu-item" href="{{ url_for('index', username=username) }}">
+                        <span><i class='bx bx-closet icon'></i></span> <h3>Upload Clothes</h3>
+                    </a>
+                    <a class="menu-item" href="{{ url_for('outfit_creator', username=username) }}">
+                        <span><i class='bx bx-edit icon'></i></span> <h3>Outfit Creator</h3>
+                    </a>
+                    <a class="menu-item" href="{{ url_for('outfit_gallery', username=username) }}">
+                        <span><i class='bx bx-star icon'></i></span> <h3>Outfit Gallery</h3>
+                    </a>
+                    <a class="menu-item" href="{{ url_for('login') }}">
+                        <span><i class='bx bx-log-out'></i></span> <h3>Log Out</h3>
+                    </a>
+                    <label class="btn btn-primary" for="create-post" onclick="window.location.href='/postwindow'">Create Post</label>
+                </div>
             </div>
-          </div>
-          
 
-
-          <div class="middle">
-            <div class="feeds">
-                {% for feed in feeds %}
-                        <div class="feed" onclick="window.location.href='/outfit/{{ feed.outfit_id }}'">
-                            <h2>{{ feed.username }}</h2>
-                            <div class="photo"><img src="{{ feed.image }}" alt="Outfit Image"></div>
-                            <div class="caption"> {{ feed.caption }}</div>
-                            <p>Posted on {{ feed.date }}</p>
+            <div class="middle">
+                <div class="feeds">
+                    {% for feed in feeds %}
+                    <div class="feed" onclick="window.location.href='/outfit/{{ feed.outfit_id }}'">
+                        <h2>{{ feed.username }}</h2>
+                        <div class="photo">
+                            <img src="{{ feed.image }}" alt="Outfit Image">
                         </div>
-                        <form method="POST" enctype="multipart/form-data">
-                            {{ form.hidden_tag() }}
-                            <div>
-                                {{ form.photo.label }}<br>
-                                {{ form.photo }}
-                            </div>
-                            <div>
-                                {{ form.caption.label }}<br>
-                                {{ form.caption }}
-                            </div>
-                            <div>
-                                {{ form.submit }}
-                            </div>
-                        </form>
+                        <div class="caption">{{ feed.caption }}</div>
+                        <p>Posted on {{ feed.date }}</p>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
-          
-        <div class="right">
-    
-        
-
-        </div>     
         </div>
-    </div>
-</main>
+    </main>
 
-<script>
+    <script>
+        // Sidebar
+        const menuItems = document.querySelectorAll('.menu-item');
 
-//sidebar
-const menuItems = document.querySelectorAll('.menu-item');
-
- // Get the search input element
- const searchBar = document.getElementById('searchQuery');
-
-// Add event listener to the search input element
-searchBar.addEventListener('input', function(event) {
-    // Get the search query
-    const query = event.target.value.toLowerCase();
-
-    // Get all the feed items
-    const feeds = document.querySelectorAll('.feed');
-
-    // Loop through each feed item
-    feeds.forEach(feed => {
-        // Get the username inside the feed item
-        const username = feed.querySelector('.feed h3').textContent.toLowerCase();
-
-        // Check if the username contains the search query
-        if (username.includes(query)) {
-            // If it does, display the feed item
-            feed.style.display = 'block';
-        } else {
-            // If it doesn't, hide the feed item
-            feed.style.display = 'none';
-        }
-    });
-});
-
-</script>
-
+        // Search functionality
+        const searchBar = document.getElementById('searchQuery');
+        searchBar.addEventListener('input', function(event) {
+            const query = event.target.value.toLowerCase();
+            const feeds = document.querySelectorAll('.feed');
+            feeds.forEach(feed => {
+                const username = feed.querySelector('h2').textContent.toLowerCase();
+                if (username.includes(query)) {
+                    feed.style.display = 'block';
+                } else {
+                    feed.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -184,7 +184,7 @@ def delete_outfit(outfit_id):
     except Exception as e:
         app.logger.error(f"Error deleting outfit: {str(e)}")
         return jsonify({"error": "Failed to delete outfit"}), 400
-    
+
 @app.route("/delete_image/<filename>", methods=["DELETE"])
 def delete_image(filename):
     user_id = session.get("user_id")
@@ -299,6 +299,7 @@ def update_outfit():
         app.logger.error(f"Error updating outfit: {str(e)}")
         return jsonify({"error": "Failed to update outfit"}), 500
 
+
 @app.route("/community-page")
 @app.route("/community-page.html")
 def community_page():
@@ -307,25 +308,35 @@ def community_page():
         return redirect(url_for("login"))
 
     username = session.get("username")
-    print(f"Accessing community page. Username: {username}, Session: {session}")
+    app.logger.debug(
+        f"Accessing community page. Username: {username}, Session: {session}"
+    )
 
-    feeds = Feed.query.all()
-    feed_data = []
+    try:
+        feeds = Feed.query.all()
+        feed_data = []
 
-    for feed in feeds:
-        outfit = db.session.get(Outfit, feed.outfit_id)
-        if outfit:
-            feed_data.append(
-                {
-                    "username": feed.username,
-                    "image": outfit.top,  # Use the URL stored in the database
-                    "outfit_id": outfit.id,
-                    "caption": feed.caption,
-                    "date": feed.date,
-                }
-            )
+        for feed in feeds:
+            outfit = db.session.get(Outfit, feed.outfit_id)
+            if outfit:
+                feed_data.append(
+                    {
+                        "username": feed.username,
+                        "image": outfit.top,  # Use the URL stored in the database
+                        "outfit_id": outfit.id,
+                        "caption": feed.caption,
+                        "date": feed.date,
+                    }
+                )
 
-    return render_template("community-page.html", username=username, feeds=feed_data)
+        app.logger.debug(f"Feed data prepared: {feed_data}")
+        return render_template(
+            "community-page.html", username=username, feeds=feed_data
+        )
+    except Exception as e:
+        app.logger.error(f"Error rendering community page: {str(e)}")
+        flash("An error occurred while loading the community page.", "error")
+        return redirect(url_for("index"))
 
 
 @app.route("/outfit/<int:outfit_id>")
