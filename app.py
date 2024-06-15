@@ -498,7 +498,7 @@ def wardrobecategory():
     )
 
 
-@app.route("/postwindow/<username>/<filename>", methods=['GET', 'POST'])
+@app.route("/postwindow/<filename>", methods=['GET', 'POST'])
 @app.route("/postwindow.html", methods=['GET', 'POST'])
 def postwindow(username, filename):
     user_id = session.get("user_id")
