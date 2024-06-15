@@ -460,10 +460,27 @@ def get_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
-@app.route("/imgwindow/<filename>", methods=["GET", "POST"])
+@app.route('/imgwindow', defaults={'filename': None}, methods=['GET', 'POST'])
+@app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
 def imgwindow(filename):
-    file_url = url_for("get_file", filename=filename)
-    return render_template("imgwindow.html", file_url=file_url)
+    form = UploadClothesForm()
+    file_url = None
+    username = username  # replace with actual username logic
+
+    if form.validate_on_submit():
+        # Handle file upload logic
+        file = form.file.data
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        file_url = url_for('get_file', filename=filename)
+        return redirect(url_for('imgwindow', filename=filename))
+
+    if filename:
+        file_url = url_for('get_file', filename=filename)
+    
+    return render_template('imgwindow.html', form=form, file_url=file_url, filename=filename, username=username)
+
 
 
 @app.route("/wardrobecategory", methods=["GET", "POST"])
@@ -496,20 +513,6 @@ def wardrobecategory():
     return render_template(
         "wardrobecategory.html", image_urls=image_urls, username=session["username"]
     )
-
-
-@app.route("/postwindow/<filename>", methods=['GET', 'POST'])
-@app.route("/postwindow.html", methods=['GET', 'POST'])
-def postwindow(username, filename):
-    user_id = session.get("user_id")
-    if not user_id:
-        app.logger.debug("No user ID in session. Redirecting to login.")
-        return redirect(url_for("login"))
-
-    file_url = url_for("get_file", filename=filename)
-    return render_template("postwindow.html", file_url=file_url, username=username)
-
-
 
 
 if __name__ == "__main__":
