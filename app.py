@@ -368,8 +368,9 @@ def outfit_creator():
     for img in images:
         image_urls[img.category].append(url_for("get_file", filename=img.name))
 
+        
     return render_template(
-        "outfitcreator.html", image_urls=image_urls, username=session["username"]
+        "outfitcreator.html", image_urls=image_urls, username=session["username"], 
     )
 
 

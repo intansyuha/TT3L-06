@@ -246,6 +246,10 @@ ul.button li {
 
 /*--------------- WARDROBE CATEGORY -------------------*/
 
+.warcat {
+    display: fixed;
+}
+
 .imagegall h2 {
     font-size: 24px;        
     font-weight: 600;
