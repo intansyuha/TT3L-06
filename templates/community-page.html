@@ -76,7 +76,7 @@
             const query = event.target.value.toLowerCase();
             const feeds = document.querySelectorAll('.feed');
             feeds.forEach(feed => {
-                const username = feed.querySelector('h2').textContent.toLowerCase();
+                const username = feed.querySelector('h3').textContent.toLowerCase();
                 if (username.includes(query)) {
                     feed.style.display = 'block';
                 } else {
