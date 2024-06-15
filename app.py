@@ -220,22 +220,26 @@ def delete_image(filename):
 @app.route("/upload_outfit/<int:outfit_id>", methods=["POST"])
 def upload_outfit(outfit_id):
     if "username" not in session:
-        return jsonify({"message": "User not logged in"}), 401
+        return jsonify({"error": "User not logged in"}), 401
     
     data = request.get_json()
     caption = data.get('caption')
-    
+
     outfit = Outfit.query.get(outfit_id)
     if not outfit:
-        return jsonify({"message": "Outfit not found"}), 404
+        return jsonify({"error": "Outfit not found"}), 404
     
-    if outfit.user_id != session["user_id"]:
-        return jsonify({"message": "Unauthorized action"}), 403
+    if outfit.user_id != session.get("user_id"):
+        return jsonify({"error": "Unauthorized action"}), 403
     
-    # Create a new feed entry for the community page
-    feed_entry = Feed(username=session["username"], outfit_id=outfit_id, caption=caption)
-    db.session.add(feed_entry)
-    db.session.commit()
+    try:
+        # Create a new feed entry for the community page
+        feed_entry = Feed(username=session["username"], outfit_id=outfit_id, caption=caption)
+        db.session.add(feed_entry)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()  # Rollback transaction in case of error
+        return jsonify({"error": "Failed to publish the outfit", "message": str(e)}), 500
     
     return jsonify({"message": "Outfit published successfully"}), 200
 
@@ -457,6 +461,30 @@ def index():
 def get_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
+
+@app.route('/imgwindow', defaults={'filename': None}, methods=['GET', 'POST'])
+@app.route('/imgwindow/<filename>', methods=['GET', 'POST'])
+def imgwindow(filename):
+    form = UploadClothesForm()
+    file_url = None
+    username = username  # replace with actual username logic
+
+    if form.validate_on_submit():
+        # Handle file upload logic
+        file = form.file.data
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        file_url = url_for('get_file', filename=filename)
+        return redirect(url_for('imgwindow', filename=filename))
+
+    if filename:
+        file_url = url_for('get_file', filename=filename)
+    
+    return render_template('imgwindow.html', form=form, file_url=file_url, filename=filename, username=username)
+
+
+
 @app.route("/wardrobecategory", methods=["GET", "POST"])
 @app.route("/wardrobecategory.html", methods=["GET", "POST"])
 def wardrobecategory():
@@ -488,6 +516,6 @@ def wardrobecategory():
         "wardrobecategory.html", image_urls=image_urls, username=session["username"]
     )
 
-if __name__ == "__main__":
+if __name__ == "_main_":
     init_db()
     app.run(debug=True)

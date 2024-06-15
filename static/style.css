@@ -929,7 +929,11 @@ body {
     }
 
     .middle .feed .caption{
-        font-size: 0.8rem;
+        font-size: 1.2rem;
+    }
+
+    .middle .feed .date{
+        font-size: 0.7rem;
     }
     
     .main .container .right{

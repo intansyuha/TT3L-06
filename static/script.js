@@ -165,8 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadIcon.className = 'bx bx-cloud-upload bx-sm';
             uploadDiv.appendChild(uploadIcon);
 
-            uploadDiv.addEventListener('click', function (event) {
+            uploadDiv.addEventListener('click', async function(event) {
                 event.stopPropagation(); // Prevents the card click event from firing
+
                 const outfitId = this.getAttribute('data-id');
                 const outfitName = outfit.name;
                 const confirmation = confirm(`Are you sure you want to publish the outfit "${outfitName}"?`);
@@ -180,28 +181,32 @@ document.addEventListener('DOMContentLoaded', () => {
                         caption = prompt("Enter a caption for your outfit (not more than 100 words):");
                     }
 
-                    fetch(`/upload_outfit/${outfitId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ caption: caption })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
+                    try {
+                        const response = await fetch(`/upload_outfit/${outfitId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ caption })
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Failed to publish the outfit.');
+                        }
+
+                        const data = await response.json();
                         if (data.success) {
                             alert('Outfit published successfully!');
                         } else {
-                            console.error('Failed to publish the outfit:', data.message);
-                            alert('Failed to publish the outfit.');
+                            throw new Error(`Failed to publish the outfit: ${data.message}`);
                         }
-                    })
-                    .catch(error => {
+                    } catch (error) {
                         console.error('Error publishing outfit:', error);
                         alert('Error publishing the outfit. Please try again.');
-                    });
+                    }
                 }
             });
+
 
             //delete
 
