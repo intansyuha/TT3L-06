@@ -516,6 +516,6 @@ def wardrobecategory():
         "wardrobecategory.html", image_urls=image_urls, username=session["username"]
     )
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     init_db()
     app.run(debug=True)
