@@ -46,7 +46,7 @@ class Outfit(db.Model):
     shoes = db.Column(db.String(200), nullable=False)
     bags = db.Column(db.String(200), nullable=False)
     accessories = db.Column(db.String(200), nullable=False)
-    merged_image = db.Column(db.String(200), nullable=True)
+    published = db.Column(db.Boolean, default=False)
 
 class Feed(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,3 +54,10 @@ class Feed(db.Model):
     outfit_id = db.Column(db.Integer, db.ForeignKey('outfit.id'), nullable=False)
     date = db.Column(db.DateTime, default=datetime.now())
     outfit = db.relationship('Outfit', backref='feeds')
+    caption = db.Column(db.String(100))
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    imagepath = db.Column(db.String(255), nullable=False)
+    caption = db.Column(db.String(255), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

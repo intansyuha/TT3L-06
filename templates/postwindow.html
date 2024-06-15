@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <title>Upload Image</title>
+    <title>Create a Post</title>
 </head>
 <body>
      <nav>
@@ -42,11 +42,6 @@
                                 <i class='bx bx-star icon'></i>
                                 <span class="link">Outfit Gallery</span>
                             </a>
-                            <a href="{{ url_for('postwindow', username=username, filename=filename) }}" class="nav-link">
-                                <i class='bx bx-star icon'></i>
-                                <span class="link">Create a Post</span>
-                            </a>
-                            
                             <a href="login.html" class="nav-link">
                                 <i class='bx bx-log-out'></i>
                                 <span class="link">Log Out</span>
@@ -57,21 +52,17 @@
             </div>
         
         <div class="ClothesUpload">
-            <h2> Clothes Upload</h2>
+            <h2> Create a Post</h2>
         </div>
     </section>
    </nav>
     
     <div class="wrapper-id">
-        <form action="/index" method="post" enctype="multipart/form-data">
+        <form action="/postwindow" method="post" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="input-box-id">
                 <label for="file">Choose File:</label><br>
                 {{ form.file }}
-            </div>
-            <div class="input-box-id">
-                <label for="category">Category:</label><br>
-                {{ form.category }}
             </div>
             <div class="input-box-id">
                 {{ form.submit }}
@@ -80,6 +71,10 @@
         {% if file_url %}
         <p>File uploaded successfully: <a href="{{ file_url }}">{{ file_url }}</a></p>
         {% endif %}
+        <p><label for="postwindow">Add a caption:</label></p>
+        <textarea id="postwindow" name="postwindow" rows="4" cols="50">
+        <input type="submit" value="Submit">
+      </form>
     </div>
     <section class="overlay" id="overlay"></section>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

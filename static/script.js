@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadDiv.setAttribute('data-id', outfit.id);
 
             const uploadIcon = document.createElement('i');
-            uploadIcon.className = 'bx bx-cloud-upload';
+            uploadIcon.className = 'bx bx-cloud-upload bx-sm';
             uploadDiv.appendChild(uploadIcon);
 
             uploadDiv.addEventListener('click', function (event) {
@@ -172,11 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const confirmation = confirm(`Are you sure you want to publish the outfit "${outfitName}"?`);
 
                 if (confirmation) {
+                    let caption = prompt("Enter a caption for your outfit (not more than 100 words):");
+
+                    // Ensure the caption does not exceed 100 words
+                    while (caption && caption.split(/\s+/).length > 100) {
+                        alert('Caption exceeds 100 words. Please enter a shorter caption.');
+                        caption = prompt("Enter a caption for your outfit (not more than 100 words):");
+                    }
+
                     fetch(`/upload_outfit/${outfitId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
-                        }
+                        },
+                        body: JSON.stringify({ caption: caption })
                     })
                     .then(response => response.json())
                     .then(data => {
