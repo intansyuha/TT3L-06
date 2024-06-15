@@ -341,7 +341,7 @@ ul.button li {
         text-decoration: none;
         color: white;
         padding: 5px 10px;
-        background-color: #E4C1C1;
+        background-color: #d9a7a4;
         border-radius: 5px;
     }
     
@@ -373,42 +373,42 @@ ul.button li {
         height: 138px;
         width: 160px;
         margin-left: -80px;
-        margin-bottom: 500px;
+        margin-bottom: 400px;
     }
     
     .bottom-container{
         height: 190px;
         width: 160px;
         margin-left: -80px;
-        margin-bottom: 170px;
+        margin-bottom: 70px;
     }
     
     .shoes-container{
         height: 90px;
         width: 160px;
         margin-left: -80px;
-        margin-bottom: -115px;
+        margin-top: 213px;
     }
     
     .outerwear-container{
         height: 158px;
         width: 160px;
         margin-left: 85px;
-        margin-bottom: 300px;
+        margin-bottom: 200px;
     }
     
     .accessories-container{
         height: 80px;
         width: 160px;
         margin-left: 85px;
-        margin-bottom: 50px;
+        margin-top: 60px;
     }
     
     .bags-container{
         height: 120px;
         width: 160px;
         margin-left: -245px;
-        margin-bottom: 100px;
+        margin-bottom: 60px;
     }
     
     
@@ -421,7 +421,7 @@ ul.button li {
         bottom: 0;
         left: 0;
         padding: 20px 15px;
-        height: 250px; 
+        height: 205px; 
         width: 100%;
         position: absolute;
         display: flex;
@@ -929,7 +929,7 @@ body {
     }
 
     .middle .feed .caption{
-        font-size: 1.2rem;
+        font-size: 0.8rem;
     }
     
     .main .container .right{
@@ -938,55 +938,6 @@ body {
         top: var(--sticky-top-right);
         bottom: 0;
     }   
-    
-    /* Media queries for responsive website */
-    /* for laptop and big tablets */
-    @media screen and (max-width:1200px) {
-        .container{
-            width: 96%;
-        }
-        main .container{
-            grid-template-columns: 5rem auto 30vw;
-            gap: 1rem;
-        }
-        .left{
-            width: 5rem;
-            z-index: 5;
-        }
-        .main .container .left .profile{
-           display: none; 
-        }
-        .sidebar h3{
-            display: none;
-        }
-        .left .btn{
-            display: none;
-        }
-    }
-    
-    
-    /*  For small tablets and mobile phones */
-    @media screen and (max-width: 992px){
-        nav .search-bar{
-            display: none;
-        }
-        main .container{
-            grid-template-columns: 0 auto 5rem;
-            gap: 0;
-        }
-        main .container .left{
-            grid-column: 3/4;
-            position: fixed;
-            bottom: 0;
-            right: 0;
-        }
-        main .container .middle{
-            grid-column: 1/3;   
-        }
-        main .container .right{
-            display: none;
-        }
-    }
 
     .ui-w-80 {
         width : 80px !important;
@@ -1024,4 +975,123 @@ body {
     
     .row-bordered {
         overflow: hidden;
+    }
+
+    /* Media queries for responsive website */
+    /* for laptop and big tablets */
+    @media screen and (max-width:1200px) {
+        .container{
+            width: 96%;
+        }
+        main .container{
+            grid-template-columns: 5rem auto 30vw;
+            gap: 1rem;
+        }
+        .left{
+            width: 5rem;
+            z-index: 5;
+        }
+        .main .container .left .profile{
+           display: none; 
+        }
+        .sidebar h3{
+            display: none;
+        }
+        .left .btn{
+            display: none;
+        }
+        .header {
+        height: 80px; /* Adjust header height */
+        }
+
+        .wrapper {
+            width: 50%; /* Adjust login/signup form width */
+            max-width: 600px; /* Set maximum width for better readability */
+            padding: 40px; /* Increase padding for better spacing */
+        }
+
+        .input-box-id input,
+        .input-box-id select,
+        .form input[type="file"],
+        form input[type="submit"] {
+            height: 50px; /* Reduce input heights for better proportion */
+            font-size: 16px; /* Adjust font size for better readability */
+        }
+
+        .Card {
+            width: 180px; /* Reduce card width for better layout */
+        }
+
+        .Cards {
+            margin-top: 50px; /* Increase margin for better spacing */
+            margin-bottom: 50px; /* Increase margin for better spacing */
+        }
+
+        .imagewindow h2,
+        .ClothesUpload h2,
+        .Gallery h2,
+        .imagegall h2 {
+            margin-right: 100px; /* Adjust right margin for better centering */
+        }
+    }
+    
+    
+    /*  For small tablets and mobile phones */
+    @media screen and (max-width: 992px){
+        nav .search-bar{
+            display: none;
+        }
+        main .container{
+            grid-template-columns: 0 auto 5rem;
+            gap: 0;
+        }
+        main .container .left{
+            grid-column: 3/4;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+        }
+        main .container .middle{
+            grid-column: 1/3;   
+        }
+        main .container .right{
+            display: none;
+        }
+        .header {
+        height: 60px; /* Adjust header height for smaller screens */
+        }
+
+        .wrapper {
+            width: 80%; /* Adjust login/signup form width */
+            padding: 30px; /* Adjust padding for better spacing */
+        }
+
+        .input-box-id input,
+        .input-box-id select,
+        .form input[type="file"],
+        form input[type="submit"] {
+            height: 40px; /* Reduce input heights for smaller screens */
+            font-size: 14px; /* Adjust font size for smaller screens */
+        }
+
+        .Card {
+            width: 150px; /* Reduce card width for smaller screens */
+        }
+
+        .Cards {
+            margin-top: 30px; /* Adjust margin for better spacing */
+            margin-bottom: 30px; /* Adjust margin for better spacing */
+        }
+
+        .imagewindow h2,
+        .ClothesUpload h2,
+        .Gallery h2,
+        .imagegall h2 {
+            margin-right: 20px; /* Adjust right margin for better centering */
+        }
+
+        .accordion-content {
+            margin-top: 20px; /* Adjust margin for better spacing */
+        }
+
     }

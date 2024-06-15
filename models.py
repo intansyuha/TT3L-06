@@ -55,10 +55,3 @@ class Feed(db.Model):
     date = db.Column(db.DateTime, default=datetime.now())
     outfit = db.relationship('Outfit', backref='feeds')
     caption = db.Column(db.String(100))
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    name = db.Column(db.String(150), nullable=False)
-    mimetype = db.Column(db.String(50), nullable=False)
-    caption = db.Column(db.String(100), nullable=False)
