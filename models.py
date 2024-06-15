@@ -58,6 +58,7 @@ class Feed(db.Model):
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    imagepath = db.Column(db.String(255), nullable=False)
-    caption = db.Column(db.String(255), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(150), nullable=False)
+    mimetype = db.Column(db.String(50), nullable=False)
+    caption = db.Column(db.String(100), nullable=False)

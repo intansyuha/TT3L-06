@@ -12,12 +12,12 @@ from flask import (
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from wtforms import FileField, SubmitField, SelectField
+from wtforms import FileField, SubmitField, SelectField, StringField
 from werkzeug.utils import secure_filename
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, Length
 from db import db, init_db  # Import init_db to initialize the database
 from rembg import remove
-from models import db, User, Img, Outfit, Feed
+from models import db, User, Img, Outfit, Feed, Post
 from datetime import datetime
 import os
 from PIL import Image
@@ -44,6 +44,11 @@ class UploadClothesForm(FlaskForm):
         ],
         validators=[InputRequired()],
     )
+    submit = SubmitField("Upload File")
+
+class CreatePostForm(FlaskForm):
+    file = FileField("File", validators=[InputRequired()])
+    caption = StringField("Caption", validators=[InputRequired(), Length(max=100)])
     submit = SubmitField("Upload File")
 
 @app.route("/", methods=["GET", "POST"])
@@ -336,8 +341,6 @@ def community_page():
     except Exception as e:
         app.logger.error(f"Error rendering community page: {str(e)}")
         flash("An error occurred while loading the community page.", "error")
-        return redirect(url_for("index"))
-
 
 @app.route("/outfit/<int:outfit_id>")
 def outfit_detail(outfit_id):
@@ -514,6 +517,56 @@ def wardrobecategory():
         "wardrobecategory.html", image_urls=image_urls, username=session["username"]
     )
 
+@app.route("/createpost", methods=["GET", "POST"])
+@app.route("/createpost.html", methods=["GET", "POST"])
+def createpost():
+    form = UploadClothesForm()
+    file_url = None
+    user_id = session.get("user_id")
+
+    if request.method == "POST" and form.validate_on_submit():
+        if user_id:
+            file = form.file.data
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(file_path)
+
+            mimetype = file.mimetype
+            caption = form.caption.data
+
+            post = Post(
+                user_id=user_id,
+                name=filename,
+                mimetype=mimetype,
+                caption=caption
+            )
+            db.session.add(post)
+            db.session.commit()
+
+            file_url = url_for("get_file", filename=filename, _external=True)
+            return redirect(url_for("community_page"))
+
+    return render_template("createpost.html", form=form, file_url=file_url, username=session.get("username"))
+
+@app.route('/postwindow', defaults={'filename': None}, methods=['GET', 'POST'])
+@app.route('/postwindow/<filename>', methods=['GET', 'POST'])
+def postwindow(filename):
+    form = CreatePostForm()
+    file_url = None
+
+    if form.validate_on_submit():
+        # Handle file upload logic
+        file = form.file.data
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        file_url = url_for('get_file', filename=filename)
+        return redirect(url_for('postwindow', filename=filename))
+
+    if filename:
+        file_url = url_for('get_file', filename=filename)
+    
+    return render_template('postwindow.html', form=form, file_url=file_url, filename=filename, username=session["username"])
 
 if __name__ == "__main__":
     init_db()
