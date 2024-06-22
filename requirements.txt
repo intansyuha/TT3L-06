@@ -1,0 +1,9 @@
+Flask==2.0.1
+Flask-WTF==0.15.1
+Flask-Login==0.5.0
+Flask-SQLAlchemy==2.5.1
+Werkzeug==2.0.1
+WTForms==2.3.3
+rembg==2.0.25
+pillow==8.2.0
+bcrypt==3.2.0
