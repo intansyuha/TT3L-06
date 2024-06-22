@@ -175,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (confirmation) {
                     let caption = prompt("Enter a caption for your outfit (not more than 100 words):");
 
-                    // Ensure the caption does not exceed 100 words
                     while (caption && caption.split(/\s+/).length > 100) {
                         alert('Caption exceeds 100 words. Please enter a shorter caption.');
                         caption = prompt("Enter a caption for your outfit (not more than 100 words):");
@@ -190,12 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             body: JSON.stringify({ caption })
                         });
 
-                        if (!response.ok) {
-                            throw new Error('Failed to publish the outfit.');
-                        }
+                        const data = await response.json(); // Parsing the JSON response
+                        console.log(data); // Log the response to see what's actually returned
 
-                        const data = await response.json();
-                        if (data.success) {
+                        if (response.ok && data.message === "Outfit published successfully") {
                             alert('Outfit published successfully!');
                         } else {
                             throw new Error(`Failed to publish the outfit: ${data.message}`);
